@@ -1,0 +1,24 @@
+name: .NET Core
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+  
+      - name: Build (Release)
+        run: dotnet build --configuration Release
+  
+      - name: Test (Release)
+        run: dotnet test --configuration Release

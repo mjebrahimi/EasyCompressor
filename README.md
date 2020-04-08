@@ -1,0 +1,86 @@
+[![NuGet](https://img.shields.io/nuget/v/EasyCompressor.svg)](https://www.nuget.org/packages/EasyCompressor)
+[![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://github.com/mjebrahimi/EasyCompressor/workflows/.NET%20Core/badge.svg)](https://github.com/mjebrahimi/EasyCompressor)
+
+# EasyCompressor
+
+**EasyCompressor** is an open-source compression abstraction library that supports and implements many compression algorithms such as **Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate**.
+
+## Nuget Packages
+
+| Package Name |  Version  |  Description
+| ------------ |  -------  |  -----------
+| EasyCompressor | ![](https://img.shields.io/nuget/v/EasyCompressor.svg) | Contains GZip, Deflate and (*Brotli available only in .NETCore2.1, .NETStandard2.1 and above*)
+| EasyCompressor.BrotliNET | ![](https://img.shields.io/nuget/v/EasyCompressor.BrotliNET.svg) | Contains Brotli using [Brotli.NET](https://www.nuget.org/packages/Brotli.NET/) (*for erlier than .NETCore2.1, .NETStandard2.1*)
+| EasyCompressor.LZ4 | ![](https://img.shields.io/nuget/v/EasyCompressor.LZ4.svg) | Contains LZ4 using [K4os.Compression.LZ4](https://www.nuget.org/packages/K4os.Compression.LZ4/)
+| EasyCompressor.LZMA | ![](https://img.shields.io/nuget/v/EasyCompressor.LZMA.svg) | Contains LZMA using [LZMA-SDK](https://www.nuget.org/packages/LZMA-SDK/)
+| EasyCompressor.Snappy | ![](https://img.shields.io/nuget/v/EasyCompressor.Snappy.svg) | Contains Snappy using [Snappy.Standard](https://www.nuget.org/packages/Snappy.Standard/)
+| EasyCompressor.Zstd | ![](https://img.shields.io/nuget/v/EasyCompressor.Zstd.svg) | Contains Zstd (ZStandard) using [ZstdNet](https://www.nuget.org/packages/ZstdNet/)
+
+## Features
+
+- Supports and Implements **many compression algorithms**.
+- Supports **async/await and CancellationToken**.
+- Supports **adding multiple compressor with specified name**
+- Compress/Decompress between **byte[], Stream, StreamReader and StreamWriter**.
+
+## Get Started
+
+### 1. Install Package
+
+```ini
+PM> Install-Package EasyCompressor.Zstd
+```
+
+### 2. Add Services
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    //...
+    services.AddZstdCompressor();
+
+    //or services.AddGZipCompressor();      package : EasyCompressor
+    //or services.AddDeflateCompressor();   package : EasyCompressor
+    //or services.AddBrotliCompressor();    package : EasyCompressor
+    //or services.AddBrotliNetCompressor(); package : EasyCompressor.BrotliNET
+    //or services.AddLZ4Compressor();       package : EasyCompressor.LZ4
+    //or services.AddLZMACompressor();      package : EasyCompressor.LZMA
+    //or services.AddSnappyCompressor();    package : EasyCompressor.Snappy
+}
+```
+
+### 3. Use it
+
+```csharp
+using EasyCompressor;
+
+//Inject ICompressor
+
+//Compress
+var compressedBytes = _compressor.Compress(inputBytes);
+
+//Decompress
+var uncompressedBytes = _compressor.Decompress(compressedBytes);
+```
+## Contributing
+
+Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you find a BUG or have a Suggestion or Question. If you want to develop this project :
+
+1. Fork it!
+2. Create your feature branch: `git checkout -b my-new-feature`
+3. Commit your changes: `git commit -am 'Add some feature'`
+4. Push to the branch: `git push origin my-new-feature`
+5. Submit a pull request
+
+## Benchmark
+
+![](Benchmark.png)
+
+## Give a Star! ⭐️
+If you find this repository useful, please give it a star. Thanks!
+
+
+## License
+
+EasyCompressor is Copyright © 2020 [Mohammd Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).

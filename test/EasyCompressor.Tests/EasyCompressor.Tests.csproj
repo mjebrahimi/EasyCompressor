@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.3" />
+    <PackageReference Include="nunit" Version="3.12.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyCompressor.BrotliNET\EasyCompressor.BrotliNET.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.LZ4\EasyCompressor.LZ4.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.LZMA\EasyCompressor.LZMA.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.Snappy\EasyCompressor.Snappy.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.Zstandard\EasyCompressor.Zstandard.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.Zstd\EasyCompressor.Zstd.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor\EasyCompressor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\SpotifyAlbum.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

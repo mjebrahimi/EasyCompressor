@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.6;netstandard2.0;net45;net461;</TargetFrameworks>
+    <AssemblyName>EasyCompressor.LZ4</AssemblyName>
+    <PackageId>EasyCompressor.LZ4</PackageId>
+    <Title>EasyCompressor.LZ4</Title>
+    <Product>EasyCompressor.LZ4</Product>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <Authors>Mohammad Javad Ebrahimi</Authors>
+    <Company>Mohammad Javad Ebrahimi</Company>
+    <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
+    <Description>EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.</Description>
+    <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/mjebrahimi/EasyCompressor</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+    <GeneratePackageOnBuild Condition="'$(Configuration)'=='Release'">true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageIcon>EasyCompressor.png</PackageIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <DebugSymbols>true</DebugSymbols>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyCompressor\EasyCompressor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.1.11" />
+    <PackageReference Include="K4os.Compression.LZ4" Version="1.1.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\EasyCompressor.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+  
+</Project>
