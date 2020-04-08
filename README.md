@@ -10,12 +10,12 @@
 
 | Package Name |  Version  |  Description
 | ------------ |  -------  |  -----------
-| EasyCompressor | ![](https://img.shields.io/nuget/v/EasyCompressor.svg) | Contains GZip, Deflate and (*Brotli available only in .NETCore2.1, .NETStandard2.1 and above*)
-| EasyCompressor.BrotliNET | ![](https://img.shields.io/nuget/v/EasyCompressor.BrotliNET.svg) | Contains Brotli using [Brotli.NET](https://www.nuget.org/packages/Brotli.NET/) (*for erlier than .NETCore2.1, .NETStandard2.1*)
-| EasyCompressor.LZ4 | ![](https://img.shields.io/nuget/v/EasyCompressor.LZ4.svg) | Contains LZ4 using [K4os.Compression.LZ4](https://www.nuget.org/packages/K4os.Compression.LZ4/)
-| EasyCompressor.LZMA | ![](https://img.shields.io/nuget/v/EasyCompressor.LZMA.svg) | Contains LZMA using [LZMA-SDK](https://www.nuget.org/packages/LZMA-SDK/)
-| EasyCompressor.Snappy | ![](https://img.shields.io/nuget/v/EasyCompressor.Snappy.svg) | Contains Snappy using [Snappy.Standard](https://www.nuget.org/packages/Snappy.Standard/)
-| EasyCompressor.Zstd | ![](https://img.shields.io/nuget/v/EasyCompressor.Zstd.svg) | Contains Zstd (ZStandard) using [ZstdNet](https://www.nuget.org/packages/ZstdNet/)
+| [EasyCompressor](https://www.nuget.org/packages/EasyCompressor/) | ![](https://img.shields.io/nuget/v/EasyCompressor.svg) | Contains GZip, Deflate and (*Brotli available only in .NETCore2.1, .NETStandard2.1 and above*)
+| [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) | ![](https://img.shields.io/nuget/v/EasyCompressor.BrotliNET.svg) | Contains Brotli using [Brotli.NET](https://www.nuget.org/packages/Brotli.NET/) (*for erlier than .NETCore2.1, .NETStandard2.1*)
+| [EasyCompressor.LZ4](https://www.nuget.org/packages/EasyCompressor.LZ4/) | ![](https://img.shields.io/nuget/v/EasyCompressor.LZ4.svg) | Contains LZ4 using [K4os.Compression.LZ4](https://www.nuget.org/packages/K4os.Compression.LZ4/)
+| [EasyCompressor.LZMA](https://www.nuget.org/packages/EasyCompressor.LZMA/) | ![](https://img.shields.io/nuget/v/EasyCompressor.LZMA.svg) | Contains LZMA using [LZMA-SDK](https://www.nuget.org/packages/LZMA-SDK/)
+| [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Snappy.svg) | Contains Snappy using [Snappy.Standard](https://www.nuget.org/packages/Snappy.Standard/)
+| [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Zstd.svg) | Contains Zstd (ZStandard) using [ZstdNet](https://www.nuget.org/packages/ZstdNet/)
 
 ## Features
 
