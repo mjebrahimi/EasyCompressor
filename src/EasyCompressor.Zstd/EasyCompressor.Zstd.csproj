@@ -35,6 +35,7 @@
   
   <ItemGroup>
     <PackageReference Include="ZstdNet" Version="1.3.3" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <PackageReference Include="Brotli.NET" Version="2.0.4.2" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>

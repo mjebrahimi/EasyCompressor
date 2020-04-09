@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <PackageReference Include="Zstandard.Net" Version="1.1.7" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
