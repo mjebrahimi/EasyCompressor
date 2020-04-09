@@ -21,7 +21,8 @@
 
 - Supports and Implements **many compression algorithms**.
 - Supports **async/await and CancellationToken**.
-- Supports **adding multiple compressor with specified name**
+- Supports woking with **multiple compressor with specified name**
+- Supports **Stream** as most as possible (*depending on the underlying* library)
 - Compress/Decompress between **byte[], Stream, StreamReader and StreamWriter**.
 
 ## Get Started
@@ -55,14 +56,15 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
 using EasyCompressor;
 
-//Inject ICompressor
+//Inject (ICompressor compressor)
 
 //Compress
-var compressedBytes = _compressor.Compress(inputBytes);
+var compressedBytes = compressor.Compress(inputBytes);
 
 //Decompress
-var uncompressedBytes = _compressor.Decompress(compressedBytes);
+var uncompressedBytes = compressor.Decompress(compressedBytes);
 ```
+
 ## Contributing
 
 Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you find a BUG or have a Suggestion or Question. If you want to develop this project :
@@ -75,11 +77,19 @@ Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if yo
 
 ## Benchmark
 
-![](Benchmark.png)
+**Result:**
+
+- Snapyy: **Fastest Speed - Lowest Compression**
+- Zstd: **Best Moderate**
+- LZ4, Deflate, **GZip: Moderate**
+- Brotli, LZMA: **Lowest Speed**
+- Brotli, LZMA, Zstd: **Maximum Compression Rate**
+
+![Benchmark](Benchmark.png)
 
 ## Give a Star! ⭐️
-If you find this repository useful, please give it a star. Thanks!
 
+If you find this repository useful, please give it a star. Thanks!
 
 ## License
 

@@ -73,10 +73,10 @@ namespace EasyCompressor
         {
             using (var lz4Stream = LZ4Stream.Encode(outputStream, Level))
             {
-                await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken);
+                await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await inputStream.FlushAsync(cancellationToken);
-                await lz4Stream.FlushAsync(cancellationToken);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -85,10 +85,10 @@ namespace EasyCompressor
         {
             using (var lz4Stream = LZ4Stream.Decode(inputStream))
             {
-                await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken);
+                await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await inputStream.FlushAsync(cancellationToken);
-                await lz4Stream.FlushAsync(cancellationToken);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

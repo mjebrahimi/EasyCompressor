@@ -86,14 +86,14 @@ namespace EasyCompressor
         {
             using (var inputMemory = new MemoryStream())
             {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken);
-                await inputStream.FlushAsync(cancellationToken);
-                await inputMemory.FlushAsync(cancellationToken);
+                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
 
                 var compressedBytes = BaseCompress(inputMemory.ToArray());
 
-                await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken);
-                await outputStream.FlushAsync();
+                await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
+                await outputStream.FlushAsync().ConfigureAwait(false);
             }
         }
 
@@ -102,14 +102,14 @@ namespace EasyCompressor
         {
             using (var inputMemory = new MemoryStream())
             {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken);
-                await inputStream.FlushAsync(cancellationToken);
-                await inputMemory.FlushAsync(cancellationToken);
+                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
 
                 var compressedBytes = BaseDecompress(inputMemory.ToArray());
 
-                await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken);
-                await outputStream.FlushAsync();
+                await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
+                await outputStream.FlushAsync().ConfigureAwait(false);
             }
         }
     }

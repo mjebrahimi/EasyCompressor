@@ -214,9 +214,9 @@ namespace EasyCompressor
         {
             using (MemoryStream inputMemory = new MemoryStream())
             {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken);
-                await inputStream.FlushAsync(cancellationToken);
-                await inputMemory.FlushAsync(cancellationToken);
+                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
                 inputMemory.Position = 0;
 
                 var encoder = new Encoder();
@@ -225,11 +225,11 @@ namespace EasyCompressor
                 encoder.WriteCoderProperties(outputStream);
 
                 // Write the decompressed file size.
-                await outputStream.WriteAsync(BitConverter.GetBytes(inputMemory.Length), 0, 8, cancellationToken);
+                await outputStream.WriteAsync(BitConverter.GetBytes(inputMemory.Length), 0, 8, cancellationToken).ConfigureAwait(false);
 
                 // Encode
                 encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
-                await outputStream.FlushAsync(cancellationToken);
+                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -238,26 +238,26 @@ namespace EasyCompressor
         {
             using (MemoryStream inputMemory = new MemoryStream())
             {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken);
-                await inputStream.FlushAsync(cancellationToken);
-                await inputMemory.FlushAsync(cancellationToken);
+                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
                 inputMemory.Position = 0;
 
                 var decoder = new Decoder();
 
                 // Read the decoder properties
                 var properties = new byte[5];
-                await inputMemory.ReadAsync(properties, 0, 5, cancellationToken);
+                await inputMemory.ReadAsync(properties, 0, 5, cancellationToken).ConfigureAwait(false);
                 decoder.SetDecoderProperties(properties);
 
                 // Read in the decompress file size.
                 var fileLengthBytes = new byte[8];
-                await inputMemory.ReadAsync(fileLengthBytes, 0, 8, cancellationToken);
+                await inputMemory.ReadAsync(fileLengthBytes, 0, 8, cancellationToken).ConfigureAwait(false);
                 var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 
                 // Decode
                 decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
-                await outputStream.FlushAsync(cancellationToken);
+                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

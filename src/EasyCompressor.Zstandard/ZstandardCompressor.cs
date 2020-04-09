@@ -102,10 +102,10 @@ namespace EasyCompressor
         {
             using (var gZipStream = new ZstandardStream(outputStream, Level))
             {
-                await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken);
+                await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await inputStream.FlushAsync(cancellationToken);
-                await gZipStream.FlushAsync(cancellationToken);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -114,10 +114,10 @@ namespace EasyCompressor
         {
             using (var gZipStream = new ZstandardStream(inputStream, CompressionMode.Decompress))
             {
-                await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken);
+                await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await outputStream.FlushAsync(cancellationToken);
-                await gZipStream.FlushAsync(cancellationToken);
+                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

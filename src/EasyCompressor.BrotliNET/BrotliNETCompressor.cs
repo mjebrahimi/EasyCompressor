@@ -104,10 +104,10 @@ namespace EasyCompressor
             {
                 brotliStream.SetQuality(Quality);
                 brotliStream.SetWindow(Window);
-                await inputStream.CopyToAsync(brotliStream, DefaultBufferSize, cancellationToken);
+                await inputStream.CopyToAsync(brotliStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await inputStream.FlushAsync(cancellationToken);
-                await brotliStream.FlushAsync(cancellationToken);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -116,10 +116,10 @@ namespace EasyCompressor
         {
             using (var brotliStream = new Brotli.BrotliStream(inputStream, CompressionMode.Decompress))
             {
-                await brotliStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken);
+                await brotliStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await outputStream.FlushAsync(cancellationToken);
-                await brotliStream.FlushAsync(cancellationToken);
+                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }

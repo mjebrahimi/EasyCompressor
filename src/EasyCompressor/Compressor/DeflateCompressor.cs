@@ -91,10 +91,10 @@ namespace EasyCompressor
         {
             using (var deflateStream = new DeflateStream(outputStream, Level))
             {
-                await inputStream.CopyToAsync(deflateStream, DefaultBufferSize, cancellationToken);
+                await inputStream.CopyToAsync(deflateStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await inputStream.FlushAsync(cancellationToken);
-                await deflateStream.FlushAsync(cancellationToken);
+                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -103,10 +103,10 @@ namespace EasyCompressor
         {
             using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress))
             {
-                await deflateStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken);
+                await deflateStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
-                await outputStream.FlushAsync(cancellationToken);
-                await deflateStream.FlushAsync(cancellationToken);
+                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+                await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
             }
         }
     }
