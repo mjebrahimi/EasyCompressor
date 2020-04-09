@@ -4,7 +4,7 @@
 
 # EasyCompressor
 
-**EasyCompressor** is an open-source compression abstraction library that supports and implements many compression algorithms such as **Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate**. It is very useful for using along with **Distributed Caching** or **storing files in database**.
+**EasyCompressor** is an open-source compression abstraction library that supports and implements many compression algorithms such as **Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate**. It is very useful for using along with **distributed caching** or **storing files in database**.
 
 ## Nuget Packages
 
