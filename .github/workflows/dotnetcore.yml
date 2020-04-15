@@ -22,3 +22,28 @@ jobs:
   
       - name: Test (Release)
         run: dotnet test --configuration Release
+
+      - name: Pack (Release)
+        run: |
+            dotnet pack src\EasyCompressor --configuration Release
+            dotnet pack src\EasyCompressor.BrotliNET --configuration Release
+            dotnet pack src\EasyCompressor.LZ4 --configuration Release
+            dotnet pack src\EasyCompressor.LZMA --configuration Release
+            dotnet pack src\EasyCompressor.Snappy --configuration Release
+            dotnet pack src\EasyCompressor.Zstd --configuration Release
+            dotnet pack src\EasyCaching.Extensions.EasyCompressor --configuration Release
+            
+      - name: Publish
+        if: github.event_name == 'push'
+        run: |      
+            if ( "${{github.ref}}" -match "^refs/tags/[0-9]+\.[0-9]+\.[0-9]+$" ) {
+                dotnet nuget push src\EasyCompressor\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+                dotnet nuget push src\EasyCompressor.BrotliNET\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+                dotnet nuget push src\EasyCompressor.LZ4\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+                dotnet nuget push src\EasyCompressor.LZMA\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+                dotnet nuget push src\EasyCompressor.Snappy\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+                dotnet nuget push src\EasyCompressor.Zstd\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+                dotnet nuget push src\EasyCaching.Extensions.EasyCompressor\bin\Release\*.nupkg -s nuget.org -k ${{secrets.NUGET_TOKEN}} --no-symbols true
+            } else {
+                echo "publish is only enabled by tagging with a release tag"
+            }

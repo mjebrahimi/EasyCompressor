@@ -16,7 +16,7 @@
 | [EasyCompressor.LZMA](https://www.nuget.org/packages/EasyCompressor.LZMA/) | ![](https://img.shields.io/nuget/v/EasyCompressor.LZMA.svg) | Contains LZMA using [LZMA-SDK](https://www.nuget.org/packages/LZMA-SDK/)
 | [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Snappy.svg) | Contains Snappy using [Snappy.Standard](https://www.nuget.org/packages/Snappy.Standard/)
 | [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Zstd.svg) | Contains Zstd (ZStandard) using [ZstdNet](https://www.nuget.org/packages/ZstdNet/)
-| [EasyCaching.Extensions.EasyCompressor](https://www.nuget.org/packages/EasyCaching.Extensions.EasyCompressor/) | ![](https://img.shields.io/nuget/v/EasyCaching.Extensions.EasyCompressor.svg) | Integrate [EasyCaching](https://github.com/dotnetcore/EasyCaching) with EasyCompressor. ([How to use](https://github.com/mjebrahimi/EasyCompressor/tree/master/src/EasyCaching.Extensions.EasyCompressor/README.md))
+| [EasyCaching.Extensions.EasyCompressor](https://www.nuget.org/packages/EasyCaching.Extensions.EasyCompressor/) | ![](https://img.shields.io/nuget/v/EasyCaching.Extensions.EasyCompressor.svg) | This integrates [EasyCaching](https://github.com/dotnetcore/EasyCaching) with EasyCompressor. ([How to use](https://github.com/mjebrahimi/EasyCompressor/tree/master/src/EasyCaching.Extensions.EasyCompressor/README.md))
 
 ## Features
 
