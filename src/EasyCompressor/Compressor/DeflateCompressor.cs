@@ -20,7 +20,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">Compression level</param>
-        public DeflateCompressor(string name = "default", CompressionLevel level = CompressionLevel.Optimal)
+        public DeflateCompressor(string name = null, CompressionLevel level = CompressionLevel.Optimal)
         {
             Name = name;
             Level = level;

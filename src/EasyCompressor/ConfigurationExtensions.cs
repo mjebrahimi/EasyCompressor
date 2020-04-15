@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddGZipCompressor(this IServiceCollection services, CompressionLevel level = CompressionLevel.Optimal)
         {
-            return services.AddGZipCompressor("default", level);
+            return services.AddGZipCompressor(null, level);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddDeflateCompressor(this IServiceCollection services, CompressionLevel level = CompressionLevel.Optimal)
         {
-            return services.AddDeflateCompressor("default", level);
+            return services.AddDeflateCompressor(null, level);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddBrotliCompressor(this IServiceCollection services, CompressionLevel level = CompressionLevel.Optimal)
         {
-            return services.AddBrotliCompressor("default", level);
+            return services.AddBrotliCompressor(null, level);
         }
 
         /// <summary>

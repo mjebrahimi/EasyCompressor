@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddLZMACompressor(this IServiceCollection services)
         {
-            return services.AddLZMACompressor("default");
+            return services.AddLZMACompressor(null);
         }
 
         /// <summary>

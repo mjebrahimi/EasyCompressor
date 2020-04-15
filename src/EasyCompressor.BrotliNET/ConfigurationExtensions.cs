@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddBrotliNETCompressor(this IServiceCollection services, uint quality = 11, uint window = 22)
         {
-            return services.AddBrotliNETCompressor("default", quality, window);
+            return services.AddBrotliNETCompressor(null, quality, window);
         }
 
         /// <summary>

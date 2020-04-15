@@ -14,7 +14,7 @@ namespace EasyCompressor
         /// Initializes a new instance
         /// </summary>
         /// <param name="name">Name</param>
-        public SnappyCompressor(string name = "default")
+        public SnappyCompressor(string name = null)
         {
             Name = name;
         }

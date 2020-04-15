@@ -17,7 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddLZ4Compressor(this IServiceCollection services, LZ4Level level = LZ4Level.L12_MAX)
         {
-            return services.AddLZ4Compressor("default", level);
+            return services.AddLZ4Compressor(null, level);
         }
 
         /// <summary>

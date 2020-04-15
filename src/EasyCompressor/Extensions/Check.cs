@@ -1,8 +1,11 @@
 ﻿using System;
 
-namespace EasyCompressor
+namespace EasyCompressor.Internal
 {
-    internal static class Check
+    /// <summary>
+    /// Check argument
+    /// </summary>
+    public static class Check
     {
         /// <summary>
         /// Validates that obj is not null , otherwise throws ArgumentNullException exception.

@@ -21,7 +21,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">Compression level</param>
-        public BrotliCompressor(string name = "default", CompressionLevel level = CompressionLevel.Optimal)
+        public BrotliCompressor(string name = null, CompressionLevel level = CompressionLevel.Optimal)
         {
             Name = name;
             Level = level;

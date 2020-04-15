@@ -15,7 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddSnappyCompressor(this IServiceCollection services)
         {
-            return services.AddSnappyCompressor("default");
+            return services.AddSnappyCompressor(null);
         }
 
         /// <summary>

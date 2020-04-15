@@ -17,6 +17,8 @@ namespace EasyCompressor.Tests.DependencyInjectionTests
         {
             ServiceCollection = new ServiceCollection();
 
+            //TODO: add compressor with null as name and test ICompressorProvider
+            //TODO: write test for EasyCaching.Extensions.EasyCompressor
             addService(ServiceCollection, "duplicate-name");
             addService(ServiceCollection, "duplicate-name");
             addService(ServiceCollection, "my-compressor");

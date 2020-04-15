@@ -104,7 +104,7 @@ namespace EasyCompressor
         /// Initializes a new instance
         /// </summary>
         /// <param name="name">Name</param>
-        public LZMACompressor(string name = "default")
+        public LZMACompressor(string name = null)
         {
             Name = name;
         }

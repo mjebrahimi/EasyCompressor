@@ -21,7 +21,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">Level</param>
-        public ZstandardCompressor(string name = "default", int level = 3)
+        public ZstandardCompressor(string name = null, int level = 3)
         {
             Name = name;
             Level = level;

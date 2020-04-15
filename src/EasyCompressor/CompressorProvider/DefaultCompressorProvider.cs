@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EasyCompressor.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,15 +24,13 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public ICompressor GetCompressor(string name)
         {
-            Check.NotNullOrWhiteSpace(name, nameof(name));
-
-            var count = _compressors.Count(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var count = _compressors.Count(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
             if (count > 1)
-                throw new ArgumentException($"There is more than one compressor with this name : '{name}'", name);
+                throw new ArgumentException($"There is more than one compressor with this name : {name ?? "null"}.", nameof(name));
 
-            var compressor = _compressors.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            var compressor = _compressors.FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
             if (compressor == null)
-                throw new ArgumentException($"Can not find a match compressor with name : '{name}'", name);
+                throw new ArgumentException($"Can not find a match compressor with name : {name ?? "null"}.", nameof(name));
 
             return compressor;
         }

@@ -22,7 +22,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">LZ4Level</param>
-        public LZ4Compressor(string name = "default", LZ4Level level = LZ4Level.L12_MAX)
+        public LZ4Compressor(string name = null, LZ4Level level = LZ4Level.L12_MAX)
         {
             Name = name;
             Level = level;

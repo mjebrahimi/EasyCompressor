@@ -23,7 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCompressor.Zstandard", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCompressor.Zstd", "src\EasyCompressor.Zstd\EasyCompressor.Zstd.csproj", "{C44FB3C0-6AC5-4E52-BACE-6369E3C10C88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyCompressor.Benchmark", "test\EasyCompressor.Benchmark\EasyCompressor.Benchmark.csproj", "{CAEA7388-DABE-45D1-B764-0E528575FEC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCompressor.Benchmark", "test\EasyCompressor.Benchmark\EasyCompressor.Benchmark.csproj", "{CAEA7388-DABE-45D1-B764-0E528575FEC0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCaching.Extensions.EasyCompressor", "src\EasyCaching.Extensions.EasyCompressor\EasyCaching.Extensions.EasyCompressor.csproj", "{7567F616-62BE-45CE-9D10-97FF29337808}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "extensions", "extensions", "{67227E01-0834-4421-A018-A32EB477108C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +71,10 @@ Global
 		{CAEA7388-DABE-45D1-B764-0E528575FEC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAEA7388-DABE-45D1-B764-0E528575FEC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAEA7388-DABE-45D1-B764-0E528575FEC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7567F616-62BE-45CE-9D10-97FF29337808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7567F616-62BE-45CE-9D10-97FF29337808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7567F616-62BE-45CE-9D10-97FF29337808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7567F616-62BE-45CE-9D10-97FF29337808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +89,8 @@ Global
 		{4AD12B43-DDC7-4C22-A6B2-EFDFA6DB87D9} = {B64A2D28-C0FD-4800-908E-2792E4A3700E}
 		{C44FB3C0-6AC5-4E52-BACE-6369E3C10C88} = {B64A2D28-C0FD-4800-908E-2792E4A3700E}
 		{CAEA7388-DABE-45D1-B764-0E528575FEC0} = {FD294266-05F3-4FA6-8625-35597145DC15}
+		{7567F616-62BE-45CE-9D10-97FF29337808} = {67227E01-0834-4421-A018-A32EB477108C}
+		{67227E01-0834-4421-A018-A32EB477108C} = {B64A2D28-C0FD-4800-908E-2792E4A3700E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D2F9FD4-DF11-43CE-8656-91081562FACD}

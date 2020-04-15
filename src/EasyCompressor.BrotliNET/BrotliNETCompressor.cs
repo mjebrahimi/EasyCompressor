@@ -26,7 +26,7 @@ namespace EasyCompressor
         /// <param name="name">Name</param>
         /// <param name="quality">Quality</param>
         /// <param name="window">Window</param>
-        public BrotliNETCompressor(string name = "default", uint quality = 11, uint window = 22)
+        public BrotliNETCompressor(string name = null, uint quality = 11, uint window = 22)
         {
             Name = name;
             Quality = quality;

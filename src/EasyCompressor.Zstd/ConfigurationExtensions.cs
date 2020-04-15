@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>IServiceCollection</returns>
         public static IServiceCollection AddZstdCompressor(this IServiceCollection services, int level = 3)
         {
-            return services.AddZstdCompressor("default", level);
+            return services.AddZstdCompressor(null, level);
         }
 
         /// <summary>

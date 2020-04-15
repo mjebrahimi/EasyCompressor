@@ -6,9 +6,9 @@
     <PackageId>EasyCompressor.Zstd</PackageId>
     <Title>EasyCompressor.Zstd</Title>
     <Product>EasyCompressor.Zstd</Product>
-    <Version>1.0.1</Version>
-    <PackageVersion>1.0.1</PackageVersion>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <Version>1.2.0</Version>
+    <PackageVersion>1.2.0</PackageVersion>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
     <Authors>Mohammad Javad Ebrahimi</Authors>
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
@@ -24,10 +24,16 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageIcon>EasyCompressor.png</PackageIcon>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <!--<DebugType>embedded</DebugType>-->
     <DebugSymbols>true</DebugSymbols>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="zstd-v1.4.4\x64\libzstd.dll" />
+    <None Remove="zstd-v1.4.4\x86\libzstd.dll" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EasyCompressor\EasyCompressor.csproj" />
@@ -40,6 +46,15 @@
 
   <ItemGroup>
     <None Include="..\EasyCompressor.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="zstd-v1.4.4\x64\libzstd.dll">
+      <LogicalName>libzstd.x64.dll</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="zstd-v1.4.4\x86\libzstd.dll">
+      <LogicalName>libzstd.x86.dll</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
   
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using EasyCompressor.Internal;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -54,7 +54,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">Compression level</param>
-        public GZipCompressor(string name = "default", CompressionLevel level = CompressionLevel.Optimal)
+        public GZipCompressor(string name = null, CompressionLevel level = CompressionLevel.Optimal)
         {
             Name = name;
             Level = level;

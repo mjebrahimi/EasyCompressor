@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using ZstdNet;
@@ -10,6 +13,30 @@ namespace EasyCompressor
     /// </summary>
     public class ZstdCompressor : BaseCompressor
     {
+        static ZstdCompressor()
+        {
+            //Workaround to fix "System.DllNotFoundException: Unable to load DLL 'libzstd' or one of its dependencies: The specified module could not be found."
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) == false)
+                return;
+            
+            var bit = Environment.Is64BitProcess ? "x64" : "x86";
+            var folder = Path.Combine(Path.GetTempPath(), "zstd-v1.4.4", bit);
+            Directory.CreateDirectory(folder);
+
+            var fileName = Path.Combine(folder, "libzstd.dll");
+            if (!File.Exists(fileName))
+            {
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"libzstd.{bit}.dll"))
+                using (var file = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+                    stream.CopyTo(file);
+            }
+
+            var type = typeof(Compressor).Assembly.GetType("ZstdNet.ExternMethods");
+            var method = type.GetMethod("SetDllDirectory", BindingFlags.NonPublic | BindingFlags.Static);
+            method.Invoke(null, new[] { folder });
+        }
+
         /// <summary>
         /// Level
         /// </summary>
@@ -20,7 +47,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">Level</param>
-        public ZstdCompressor(string name = "default", int level = 3)
+        public ZstdCompressor(string name = null, int level = 3)
         {
             Name = name;
             Level = level;
