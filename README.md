@@ -66,6 +66,18 @@ var compressedBytes = compressor.Compress(inputBytes);
 var uncompressedBytes = compressor.Decompress(compressedBytes);
 ```
 
+## Benchmark
+
+**Result:**
+
+- Snapyy: **Fastest Speed - Lowest Compression**
+- Zstd: **Best Moderate**
+- LZ4, Deflate, GZip: **Moderate**
+- Brotli, LZMA: **Lowest Speed**
+- Brotli, LZMA, Zstd: **Maximum Compression Rate**
+
+![Benchmark](Benchmark.png)
+
 ## Contributing
 
 Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you find a BUG or have a Suggestion or Question. If you want to develop this project :
@@ -75,18 +87,6 @@ Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if yo
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request
-
-## Benchmark
-
-**Result:**
-
-- Snapyy: **Fastest Speed - Lowest Compression**
-- Zstd: **Best Moderate**
-- LZ4, Deflate, **GZip: Moderate**
-- Brotli, LZMA: **Lowest Speed**
-- Brotli, LZMA, Zstd: **Maximum Compression Rate**
-
-![Benchmark](Benchmark.png)
 
 ## Give a Star! ⭐️
 
