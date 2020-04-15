@@ -6,7 +6,7 @@
 
 This library integrates [EasyCaching](https://github.com/dotnetcore/EasyCaching) with [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor) that is **very useful for compressing cache data especially for distributed cache such as Redis to reduce network traffic**.
 
-**EasyCaching** is the best caching abstraction library which supports many providers and serializers.
+**EasyCaching** is the best caching abstraction library that supports many providers and serializers.
 
 **EasyCompressor** is an open-source compression abstraction library that supports and implements many compression algorithms such as **Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate**. It is very useful for using along with **distributed caching** or **storing files in database**.
 
