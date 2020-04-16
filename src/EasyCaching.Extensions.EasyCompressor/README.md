@@ -15,7 +15,7 @@ This library integrates [EasyCaching](https://github.com/dotnetcore/EasyCaching)
 ### 1. Install Package
 
 ```ini
-PM> EasyCaching.Extensions.EasyCompressor
+PM> Install-Package EasyCaching.Extensions.EasyCompressor
 PM> Install-Package EasyCompressor.Zstd
 ```
 
