@@ -9,7 +9,7 @@ namespace EasyCompressor
 {
     internal class EasyCompressorEasyCachingOptionsExtension : IEasyCachingOptionsExtension
     {
-        private static Dictionary<string, string> _dictonary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, string> _dictonary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "binary", null } };
 
         public EasyCompressorEasyCachingOptionsExtension()
         {
@@ -17,8 +17,9 @@ namespace EasyCompressor
 
         public EasyCompressorEasyCachingOptionsExtension(string serializerName, string compressorName)
         {
-            //serializerName.NotNullOrWhiteSpace(nameof(serializerName));
-            _dictonary.Add(serializerName, compressorName);
+            //Workaround for default BinaryFormatter serializer
+            _dictonary["binary"] = compressorName;
+            _dictonary[serializerName] = compressorName;
         }
 
         public void AddServices(IServiceCollection services)
@@ -32,22 +33,46 @@ namespace EasyCompressor
 
             foreach (var descriptor in descriptors)
             {
+                //descriptor.ImplementationType == typeof(DefaultBinaryFormatterSerializer)
+
                 services.Remove(descriptor);
 
-                services.AddSingleton<IEasyCachingSerializer>(serviceProvider =>
+                switch (descriptor.Lifetime)
                 {
-                    var serializer = (IEasyCachingSerializer)descriptor.ImplementationFactory(serviceProvider);
-
-                    if (_dictonary.TryGetValue(serializer.Name, out var compressorName) == false)
-                    {
-                        //return serializer;
-                    }
-
-                    var compressor = serviceProvider.GetRequiredService<ICompressorProvider>().GetCompressor(compressorName);
-
-                    return new EasyCachingSerializerDecorator(compressor, serializer);
-                });
+                    case ServiceLifetime.Singleton:
+                        services.AddSingleton(provider => DecoratorFactory(descriptor, provider));
+                        break;
+                    case ServiceLifetime.Scoped:
+                        services.AddScoped(provider => DecoratorFactory(descriptor, provider));
+                        break;
+                    case ServiceLifetime.Transient:
+                        services.AddTransient(provider => DecoratorFactory(descriptor, provider));
+                        break;
+                }
             }
+        }
+
+        private IEasyCachingSerializer DecoratorFactory(ServiceDescriptor descriptor, IServiceProvider provider)
+        {
+            IEasyCachingSerializer serializer;
+
+            if (descriptor.ImplementationInstance != null)
+            {
+                serializer = (IEasyCachingSerializer)descriptor.ImplementationInstance;
+            }
+            else if (descriptor.ImplementationType != null)
+            {
+                serializer = (IEasyCachingSerializer)ActivatorUtilities.GetServiceOrCreateInstance(provider, descriptor.ImplementationType);
+            }
+            else //has Factory
+            {
+                serializer = (IEasyCachingSerializer)descriptor.ImplementationFactory(provider);
+            }
+
+            _dictonary.TryGetValue(serializer.Name, out var compressorName);
+            var compressor = provider.GetRequiredService<ICompressorProvider>().GetCompressor(compressorName);
+
+            return new EasyCachingSerializerDecorator(compressor, serializer);
         }
     }
 }

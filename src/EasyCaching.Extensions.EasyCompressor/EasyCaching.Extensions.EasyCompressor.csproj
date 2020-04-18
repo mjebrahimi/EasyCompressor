@@ -6,15 +6,19 @@
     <PackageId>EasyCaching.Extensions.EasyCompressor</PackageId>
     <Title>EasyCaching.Extensions.EasyCompressor</Title>
     <Product>EasyCaching.Extensions.EasyCompressor</Product>
-    <Version>1.2.0</Version>
-    <PackageVersion>1.2.0</PackageVersion>
-    <AssemblyVersion>1.2.0</AssemblyVersion>
+    <Version>1.2.1</Version>
+    <PackageVersion>1.2.1</PackageVersion>
+    <AssemblyVersion>1.2.1</AssemblyVersion>
     <Authors>Mohammad Javad Ebrahimi</Authors>
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
     <Description>
-This integrates EasyCaching with EasyCompressor.
+A compressor upon EasyCaching serializers using EasyCompressor.
+
+This library is very useful for compressing cache data especially for distributed cache (such as Redis) to reduce network traffic and subsequently increase performance.
+
 EasyCaching is the best caching abstraction library which supports many providers and serializers.
+
 EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate. It is very useful for using along with distributed caching or storing files in database. 
     </Description>
     <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate EasyCaching Cache Caching Memory In-Memory Distributed DistributedCache Serialization MessagePack Json</PackageTags>
@@ -28,6 +32,7 @@ EasyCompressor is an open-source compression abstraction library that supports a
     <PackageIcon>EasyCompressor.png</PackageIcon>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <DebugType>embedded</DebugType>
+    <Optimize>false</Optimize>
   </PropertyGroup>
 
   <ItemGroup>

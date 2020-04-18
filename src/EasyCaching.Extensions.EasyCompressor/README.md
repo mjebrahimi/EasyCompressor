@@ -4,7 +4,9 @@
 
 # EasyCaching.Extensions.EasyCompressor
 
-This library integrates [EasyCaching](https://github.com/dotnetcore/EasyCaching) with [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor) that is **very useful for compressing cache data especially for distributed cache such as Redis to reduce network traffic**.
+A compressor upon [EasyCaching](https://github.com/dotnetcore/EasyCaching) serializers using [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
+
+This library is very useful for compressing cache data especially for distributed cache (such as Redis) **to reduce network traffic and subsequently increase performance**.
 
 **EasyCaching** is the best caching abstraction library that supports many providers and serializers.
 
@@ -22,36 +24,64 @@ PM> Install-Package EasyCompressor.Zstd
 ### 2. Add Services
 
 Just add your desired compressor and use `WithCompressor()` *after* serializer.
+
 ```cs
+// Using Redis + BinaryFormatter serializer (default) + Zstd compressor
+
 services.AddZstdCompressor();
 
 services.AddEasyCaching(options =>
 {
-	options
-		.UseInMemory()
-		.WithMessagePack()
-		.WithCompressor();
+	options.UseRedis(config =>
+	{
+		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+	})
+	.WithCompressor();
 });
-
 ```
 
-Also you can use naming for serializer and compressor.
+Also, you can use multiple serializers and compressors with specifying names.
 
 ```cs
+// Using Redis provider + MessagePack serializer + Zstd compressor.
+
+services.AddZstdCompressor("zstd");
+
+services.AddEasyCaching(options =>
+{
+	options.UseRedis(config =>
+	{
+		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+		config.SerializerName = "msgpack";
+	})
+	.WithMessagePack("msgpack")
+	.WithCompressor("msgpack", "zstd");
+});
+
+
+
+// Using multiple Serializers with each related Compressor.
+
 services.AddZstdCompressor("zstd");
 services.AddLZ4Compressor("lz4");
 
 services.AddEasyCaching(options =>
 {
-	options
-		.UseInMemory("memory1")
-		.WithMessagePack("msgpack")
-		.WithCompressor("msgpack", "zstd");
+	options.UseRedis(config =>
+	{
+		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+		config.SerializerName = "msgpack";
+	}, "redis1")
+	.WithMessagePack("msgpack")
+	.WithCompressor("msgpack", "zstd");
 
-	options
-		.UseInMemory("memory2")
-		.WithJson("json")
-		.WithCompressor("json", "lz4");
+	options.UseRedis(config =>
+	{
+		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+		config.SerializerName = "json";
+	}, "redis2")
+	.WithJson("json")
+	.WithCompressor("json", "lz4");
 });
 ```
 
