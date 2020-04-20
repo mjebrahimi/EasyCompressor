@@ -36,7 +36,7 @@ EasyCompressor is an open-source compression abstraction library that supports a
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyCaching.Core" Version="0.8.7" />
+    <PackageReference Include="EasyCaching.Core" Version="0.8.8" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
