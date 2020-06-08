@@ -36,7 +36,7 @@ It is very useful for using along with distributed caching or storing files in d
   </ItemGroup>
   
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.1' OR '$(TargetFramework)'=='net45'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1"/>
   </ItemGroup>
   
   <ItemGroup>
