@@ -6,9 +6,9 @@
     <PackageId>EasyCaching.Extensions.EasyCompressor</PackageId>
     <Title>EasyCaching.Extensions.EasyCompressor</Title>
     <Product>EasyCaching.Extensions.EasyCompressor</Product>
-    <Version>1.2.2</Version>
-    <PackageVersion>1.2.2</PackageVersion>
-    <AssemblyVersion>1.2.2</AssemblyVersion>
+    <Version>1.2.3</Version>
+    <PackageVersion>1.2.3</PackageVersion>
+    <AssemblyVersion>1.2.3</AssemblyVersion>
     <Authors>Mohammad Javad Ebrahimi</Authors>
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
@@ -36,7 +36,7 @@ EasyCompressor is an open-source compression abstraction library that supports a
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyCaching.Core" Version="0.8.9" />
+    <PackageReference Include="EasyCaching.Core" Version="0.8.10" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
