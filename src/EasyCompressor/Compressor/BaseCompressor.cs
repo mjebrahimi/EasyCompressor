@@ -67,7 +67,7 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public byte[] Compress(byte[] bytes)
         {
-            Check.NotNullOrEmpty(bytes, nameof(bytes));
+            bytes.NotNullOrEmpty(nameof(bytes));
 
             return BaseCompress(bytes);
         }
@@ -75,7 +75,7 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public byte[] Decompress(byte[] compressedBytes)
         {
-            Check.NotNullOrEmpty(compressedBytes, nameof(compressedBytes));
+            compressedBytes.NotNullOrEmpty(nameof(compressedBytes));
 
             return BaseDecompress(compressedBytes);
         }
@@ -83,8 +83,8 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public void Compress(Stream inputStream, Stream outputStream)
         {
-            Check.NotNull(inputStream, nameof(inputStream));
-            Check.NotNull(outputStream, nameof(outputStream));
+            inputStream.NotNull(nameof(inputStream));
+            outputStream.NotNull(nameof(outputStream));
 
             BaseCompress(inputStream, outputStream);
         }
@@ -92,8 +92,8 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public void Decompress(Stream inputStream, Stream outputStream)
         {
-            Check.NotNull(inputStream, nameof(inputStream));
-            Check.NotNull(outputStream, nameof(outputStream));
+            inputStream.NotNull(nameof(inputStream));
+            outputStream.NotNull(nameof(outputStream));
 
             BaseDecompress(inputStream, outputStream);
         }
@@ -101,8 +101,8 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public Task CompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            Check.NotNull(inputStream, nameof(inputStream));
-            Check.NotNull(outputStream, nameof(outputStream));
+            inputStream.NotNull(nameof(inputStream));
+            outputStream.NotNull(nameof(outputStream));
 
             return BaseCompressAsync(inputStream, outputStream, cancellationToken);
         }
@@ -110,8 +110,8 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public Task DecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            Check.NotNull(inputStream, nameof(inputStream));
-            Check.NotNull(outputStream, nameof(outputStream));
+            inputStream.NotNull(nameof(inputStream));
+            outputStream.NotNull(nameof(outputStream));
 
             return BaseDecompressAsync(inputStream, outputStream, cancellationToken);
         }

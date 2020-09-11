@@ -29,10 +29,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddZstandardCompressor(this IServiceCollection services, string name, int level = 3)
         {
             services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-            services.AddSingleton<ICompressor, ZstandardCompressor>(x =>
-            {
-                return new ZstandardCompressor(name, level);
-            });
+            services.AddSingleton<ICompressor, ZstandardCompressor>(_ => new ZstandardCompressor(name, level));
             return services;
         }
     }

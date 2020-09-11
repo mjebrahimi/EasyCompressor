@@ -51,7 +51,7 @@ namespace EasyCompressor
         {
             using (var inputStream = new MemoryStream(bytes))
             {
-                await compressor.CompressAsync(inputStream, outputStream, cancellationToken);
+                await compressor.CompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -67,7 +67,7 @@ namespace EasyCompressor
         {
             using (var inputStream = new MemoryStream(compressedBytes))
             {
-                await compressor.DecompressAsync(inputStream, outputStream, cancellationToken);
+                await compressor.DecompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
             }
         }
 

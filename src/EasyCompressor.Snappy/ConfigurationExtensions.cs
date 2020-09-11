@@ -27,10 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddSnappyCompressor(this IServiceCollection services, string name)
         {
             services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-            services.AddSingleton<ICompressor, SnappyCompressor>(x =>
-            {
-                return new SnappyCompressor(name);
-            });
+            services.AddSingleton<ICompressor, SnappyCompressor>(_ => new SnappyCompressor(name));
             return services;
         }
     }

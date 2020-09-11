@@ -27,10 +27,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddLZMACompressor(this IServiceCollection services, string name)
         {
             services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-            services.AddSingleton<ICompressor, LZMACompressor>(x =>
-            {
-                return new LZMACompressor(name);
-            });
+            services.AddSingleton<ICompressor, LZMACompressor>(_ => new LZMACompressor(name));
             return services;
         }
     }

@@ -30,10 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddLZ4Compressor(this IServiceCollection services, string name, LZ4Level level = LZ4Level.L12_MAX)
         {
             services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-            services.AddSingleton<ICompressor, LZ4Compressor>(x =>
-            {
-                return new LZ4Compressor(name, level);
-            });
+            services.AddSingleton<ICompressor, LZ4Compressor>(_ => new LZ4Compressor(name, level));
             return services;
         }
     }

@@ -31,7 +31,7 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseCompress(byte[] bytes)
         {
-            var target = new Span<byte>(new byte[LZ4Codec.MaximumOutputSize(bytes.Length)]);
+            var target = new byte[LZ4Codec.MaximumOutputSize(bytes.Length)].AsSpan();
             int compressedBytesSize = LZ4Codec.Encode(bytes, target, Level);
             return target.Slice(0, compressedBytesSize).ToArray();
         }
@@ -39,7 +39,7 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseDecompress(byte[] compressedBytes)
         {
-            var target = new Span<byte>(new byte[compressedBytes.Length * 255]);
+            var target = new byte[compressedBytes.Length * 255].AsSpan();
             int decoded = LZ4Codec.Decode(compressedBytes, target);
             return target.Slice(0, decoded).ToArray();
         }
@@ -73,7 +73,8 @@ namespace EasyCompressor
         {
             using (var lz4Stream = LZ4Stream.Encode(outputStream, Level))
             {
-                await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                inputStream.CopyTo(lz4Stream);
+                //await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
                 await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
                 await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
@@ -85,7 +86,8 @@ namespace EasyCompressor
         {
             using (var lz4Stream = LZ4Stream.Decode(inputStream))
             {
-                await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                lz4Stream.CopyTo(outputStream);
+                //await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
                 await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
                 await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);

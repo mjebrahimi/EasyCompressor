@@ -59,7 +59,7 @@ namespace EasySerializer.Benchmark
 
         public class CompressorArg
         {
-            public readonly ICompressor Compressor;
+            public ICompressor Compressor { get; }
             public CompressorArg(ICompressor compressor)
             {
                 Compressor = compressor;
@@ -69,7 +69,7 @@ namespace EasySerializer.Benchmark
 
         public class CompressedBytesArg
         {
-            public readonly byte[] CompressedBytes;
+            public byte[] CompressedBytes { get; }
             public CompressedBytesArg(ICompressor compressor, byte[] bytes)
             {
                 CompressedBytes = compressor.Compress(bytes);

@@ -2,7 +2,7 @@
 
 namespace EasySerializer.Benchmark
 {
-    internal static class Program
+    class Program
     {
         static void Main(string[] args)
         {
