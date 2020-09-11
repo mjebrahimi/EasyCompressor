@@ -13,9 +13,9 @@
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
     <Description>
-EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.
+      EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.
 
-It is very useful for using along with distributed caching or storing files in database.
+      It is very useful for using along with distributed caching or storing files in database.
     </Description>
     <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -32,13 +32,13 @@ It is very useful for using along with distributed caching or storing files in d
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' OR '$(TargetFramework)'=='netstandard2.1' OR '$(TargetFramework)'=='net461' OR '$(TargetFramework)'=='netcoreapp2.1'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.7"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.8"/>
   </ItemGroup>
-  
+
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.1' OR '$(TargetFramework)'=='net45'">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1"/>
   </ItemGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>

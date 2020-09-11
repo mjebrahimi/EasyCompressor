@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿#pragma warning disable S1128 // Unused "using" should be removed
+using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning restore S1128 // Unused "using" should be removed
 
+#pragma warning disable S3261 // Namespaces should not be empty
 namespace EasyCompressor
 {
 #if NETCOREAPP2_1 || NETSTANDARD2_1
@@ -113,3 +116,4 @@ namespace EasyCompressor
     }
 #endif
 }
+#pragma warning restore S3261 // Namespaces should not be empty

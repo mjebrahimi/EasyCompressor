@@ -39,7 +39,7 @@ namespace EasyCompressor.Tests.StreamTests
         [Test]
         public void Decompress_NullValue2_Should_Throws_ArgumentNullException()
         {
-            TestDelegate action = () => Compressor.Compress(new MemoryStream(), null);
+            TestDelegate action = () => Compressor.Decompress(new MemoryStream(), null);
 
             Assert.Throws<ArgumentNullException>(action);
         }

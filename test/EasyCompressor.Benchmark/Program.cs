@@ -2,7 +2,7 @@
 
 namespace EasySerializer.Benchmark
 {
-    class Program
+    internal static class Program
     {
         static void Main(string[] args)
         {
@@ -11,7 +11,9 @@ namespace EasySerializer.Benchmark
             System.Console.WriteLine("*****To achieve accurate results, set project configuration to Release mode.*****");
             return;
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
             BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();
+#pragma warning restore CS0162 // Unreachable code detected
         }
     }
 }

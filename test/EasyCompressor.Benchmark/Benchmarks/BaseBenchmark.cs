@@ -1,6 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Engines;
 using BenchmarkDotNet.Order;
 using EasyCompressor;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace EasySerializer.Benchmark
             ObjectBytes = Serializer.SerializeMessagePack(spotifyAlbums);
         }
 
-        public byte[] ObjectBytes;
+        protected byte[] ObjectBytes;
 
         public IEnumerable<CompressorArg> GetCompressors
         {

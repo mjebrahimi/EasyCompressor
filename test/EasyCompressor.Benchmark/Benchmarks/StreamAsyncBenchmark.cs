@@ -8,22 +8,22 @@ namespace EasySerializer.Benchmark
     {
         [Benchmark]
         [ArgumentsSource(nameof(GetCompressors))]
-        public async Task Compress(CompressorArg Compressor)
+        public Task Compress(CompressorArg Compressor)
         {
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
 
-            await Compressor.Compressor.CompressAsync(inputStream, outputStream);
+            return Compressor.Compressor.CompressAsync(inputStream, outputStream);
         }
 
         [Benchmark]
         [ArgumentsSource(nameof(GetDeompressors))]
-        public async Task Decompress(CompressorArg Compressor, CompressedBytesArg CompressedSize)
+        public Task Decompress(CompressorArg Compressor, CompressedBytesArg CompressedSize)
         {
             using var inputStream = new MemoryStream(CompressedSize.CompressedBytes);
             using var outputStream = new MemoryStream();
 
-            await Compressor.Compressor.DecompressAsync(inputStream, outputStream);
+            return Compressor.Compressor.DecompressAsync(inputStream, outputStream);
         }
 
         [Benchmark]

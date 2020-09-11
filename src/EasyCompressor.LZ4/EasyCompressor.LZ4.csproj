@@ -13,9 +13,9 @@
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
     <Description>
-EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.
+      EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.
 
-It is very useful for using along with distributed caching or storing files in database.
+      It is very useful for using along with distributed caching or storing files in database.
     </Description>
     <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -36,13 +36,13 @@ It is very useful for using along with distributed caching or storing files in d
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.1.11" />
-    <PackageReference Include="K4os.Compression.LZ4" Version="1.1.11" />
+    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.5" />
+    <PackageReference Include="K4os.Compression.LZ4" Version="1.2.5" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\EasyCompressor.png" Pack="true" PackagePath="" />
   </ItemGroup>
-  
+
 </Project>

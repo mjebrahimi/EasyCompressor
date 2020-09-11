@@ -47,11 +47,11 @@ namespace EasyCompressor
         /// <param name="outputStream">outputStream</param>
         /// <param name="cancellationToken">cancellationToken</param>
         /// <returns>Task</returns>
-        public static Task CompressAsync(this ICompressor compressor, byte[] bytes, Stream outputStream, CancellationToken cancellationToken = default)
+        public static async Task CompressAsync(this ICompressor compressor, byte[] bytes, Stream outputStream, CancellationToken cancellationToken = default)
         {
             using (var inputStream = new MemoryStream(bytes))
             {
-                return compressor.CompressAsync(inputStream, outputStream, cancellationToken);
+                await compressor.CompressAsync(inputStream, outputStream, cancellationToken);
             }
         }
 
@@ -63,11 +63,11 @@ namespace EasyCompressor
         /// <param name="outputStream">outputStream</param>
         /// <param name="cancellationToken">cancellationToken</param>
         /// <returns>Task</returns>
-        public static Task DecompressAsync(this ICompressor compressor, byte[] compressedBytes, Stream outputStream, CancellationToken cancellationToken = default)
+        public static async Task DecompressAsync(this ICompressor compressor, byte[] compressedBytes, Stream outputStream, CancellationToken cancellationToken = default)
         {
             using (var inputStream = new MemoryStream(compressedBytes))
             {
-                return compressor.DecompressAsync(inputStream, outputStream, cancellationToken);
+                await compressor.DecompressAsync(inputStream, outputStream, cancellationToken);
             }
         }
 
