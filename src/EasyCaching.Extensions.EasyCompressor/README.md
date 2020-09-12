@@ -18,7 +18,7 @@ This library is very useful for compressing cache data especially for distribute
 
 ```ini
 PM> Install-Package EasyCaching.Extensions.EasyCompressor
-PM> Install-Package EasyCompressor.Zstd
+PM> Install-Package EasyCompressor.LZ4
 ```
 
 ### 2. Add Services
@@ -26,9 +26,9 @@ PM> Install-Package EasyCompressor.Zstd
 Just add your desired compressor and use `WithCompressor()` *after* serializer.
 
 ```cs
-// Using Redis + BinaryFormatter serializer (default) + Zstd compressor
+// Using Redis + BinaryFormatter serializer (default) + LZ4 compressor
 
-services.AddZstdCompressor();
+services.AddLZ4Compressor();
 
 services.AddEasyCaching(options =>
 {
@@ -43,9 +43,9 @@ services.AddEasyCaching(options =>
 Also, you can use multiple serializers and compressors with specifying names.
 
 ```cs
-// Using Redis provider + MessagePack serializer + Zstd compressor.
+// Using Redis provider + MessagePack serializer + LZ4 compressor.
 
-services.AddZstdCompressor("zstd");
+services.AddLZ4Compressor("lz4");
 
 services.AddEasyCaching(options =>
 {
@@ -55,15 +55,15 @@ services.AddEasyCaching(options =>
 		config.SerializerName = "msgpack";
 	})
 	.WithMessagePack("msgpack")
-	.WithCompressor("msgpack", "zstd");
+	.WithCompressor("msgpack", "lz4");
 });
 
 
 
 // Using multiple Serializers with each related Compressor.
 
-services.AddZstdCompressor("zstd");
 services.AddLZ4Compressor("lz4");
+services.AddZstdCompressor("zstd");
 
 services.AddEasyCaching(options =>
 {
@@ -73,7 +73,7 @@ services.AddEasyCaching(options =>
 		config.SerializerName = "msgpack";
 	}, "redis1")
 	.WithMessagePack("msgpack")
-	.WithCompressor("msgpack", "zstd");
+	.WithCompressor("msgpack", "lz4");
 
 	options.UseRedis(config =>
 	{
@@ -81,11 +81,11 @@ services.AddEasyCaching(options =>
 		config.SerializerName = "json";
 	}, "redis2")
 	.WithJson("json")
-	.WithCompressor("json", "lz4");
+	.WithCompressor("json", "zstd");
 });
 ```
 
-This will use `zstd` compressor for `msgpack` serializer and `lz4` compressor for `json` serializer.
+This will use `lz4` compressor for `msgpack` serializer and `zstd` compressor for `json` serializer.
 
 ## Benchmark
 

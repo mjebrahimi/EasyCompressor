@@ -1,4 +1,5 @@
-﻿using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Running;
 
 namespace EasySerializer.Benchmark
 {
@@ -12,7 +13,8 @@ namespace EasySerializer.Benchmark
             return;
 #endif
 #pragma warning disable CS0162 // Unreachable code detected
-            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();
+            var config = ManualConfig.Create(DefaultConfig.Instance).WithOptions(ConfigOptions.DisableOptimizationsValidator);
+            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(null, config);
 #pragma warning restore CS0162 // Unreachable code detected
         }
     }

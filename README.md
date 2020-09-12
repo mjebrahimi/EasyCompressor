@@ -18,6 +18,12 @@
 | [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Zstd.svg) | Contains Zstd (ZStandard) using [ZstdNet](https://www.nuget.org/packages/ZstdNet/)
 | [EasyCaching.Extensions.EasyCompressor](https://www.nuget.org/packages/EasyCaching.Extensions.EasyCompressor/) | ![](https://img.shields.io/nuget/v/EasyCaching.Extensions.EasyCompressor.svg) | This integrates [EasyCaching](https://github.com/dotnetcore/EasyCaching) with EasyCompressor. ([How to use](https://github.com/mjebrahimi/EasyCompressor/tree/master/src/EasyCaching.Extensions.EasyCompressor/README.md))
 
+**Note :**
+
+`LZ4`, `GZip`, `Deflate`, `Brotli`, and `LZMA` are **cross-platform** because these are complete implementations with C#.  (also `BrotliNet` too because this is a wrapper of *brotli* native library for win/linux/osx)
+
+But `Zstd` and `Snappy` are **not cross-platform**, because they are just a wrapper of the native library for windows.
+
 ## Features
 
 - Supports and Implements **many compression algorithms**.
@@ -31,7 +37,7 @@
 ### 1. Install Package
 
 ```ini
-PM> Install-Package EasyCompressor.Zstd
+PM> Install-Package EasyCompressor.LZ4
 ```
 
 ### 2. Add Services
@@ -40,13 +46,13 @@ PM> Install-Package EasyCompressor.Zstd
 public void ConfigureServices(IServiceCollection services)
 {
     //...
-    services.AddZstdCompressor();
+    services.AddLZ4Compressor();
 
     //or services.AddGZipCompressor();      package : EasyCompressor
     //or services.AddDeflateCompressor();   package : EasyCompressor
     //or services.AddBrotliCompressor();    package : EasyCompressor
     //or services.AddBrotliNetCompressor(); package : EasyCompressor.BrotliNET
-    //or services.AddLZ4Compressor();       package : EasyCompressor.LZ4
+    //or services.AddZstdCompressor();      package : EasyCompressor.Zstd
     //or services.AddLZMACompressor();      package : EasyCompressor.LZMA
     //or services.AddSnappyCompressor();    package : EasyCompressor.Snappy
 }
@@ -67,14 +73,6 @@ var uncompressedBytes = compressor.Decompress(compressedBytes);
 ```
 
 ## Benchmark
-
-**Result:**
-
-- Snapyy: **Fastest Speed - Lowest Compression**
-- Zstd: **Best Moderate**
-- LZ4, Deflate, GZip: **Moderate**
-- Brotli, LZMA: **Lowest Speed**
-- Brotli, LZMA, Zstd: **Maximum Compression Rate**
 
 ![Benchmark](Benchmark.png)
 
