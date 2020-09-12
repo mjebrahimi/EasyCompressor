@@ -6,16 +6,16 @@
     <PackageId>EasyCompressor.Zstandard</PackageId>
     <Title>EasyCompressor.Zstandard</Title>
     <Product>EasyCompressor.Zstandard</Product>
-    <Version>1.2.3</Version>
-    <PackageVersion>1.2.3</PackageVersion>
-    <AssemblyVersion>1.2.3</AssemblyVersion>
+    <Version>1.2.4</Version>
+    <PackageVersion>1.2.4</PackageVersion>
+    <AssemblyVersion>1.2.4</AssemblyVersion>
     <Authors>Mohammad Javad Ebrahimi</Authors>
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
     <Description>
-EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.
+      EasyCompressor is an open-source compression abstraction library that supports and implements many compression algorithms such as Zstd, LZMA, LZ4, Snappy, Brotli, GZip and Deflate.
 
-It is very useful for using along with distributed caching or storing files in database.
+      It is very useful for using along with distributed caching or storing files in database.
     </Description>
     <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
