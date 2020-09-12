@@ -22,7 +22,7 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="name">Name</param>
         /// <param name="level">LZ4Level</param>
-        public LZ4Compressor(string name = null, LZ4Level level = LZ4Level.L12_MAX)
+        public LZ4Compressor(string name = null, LZ4Level level = LZ4Level.L00_FAST)
         {
             Name = name;
             Level = level;
@@ -73,8 +73,7 @@ namespace EasyCompressor
         {
             using (var lz4Stream = LZ4Stream.Encode(outputStream, Level))
             {
-                inputStream.CopyTo(lz4Stream);
-                //await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
                 await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
                 await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
@@ -86,8 +85,7 @@ namespace EasyCompressor
         {
             using (var lz4Stream = LZ4Stream.Decode(inputStream))
             {
-                lz4Stream.CopyTo(outputStream);
-                //await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+                await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
                 await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
                 await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
