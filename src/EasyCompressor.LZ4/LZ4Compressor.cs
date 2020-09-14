@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using K4os.Compression.LZ4;
@@ -31,16 +32,22 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseCompress(byte[] bytes)
         {
-            var target = new byte[LZ4Codec.MaximumOutputSize(bytes.Length)].AsSpan();
-            int compressedBytesSize = LZ4Codec.Encode(bytes, target, Level);
-            return target.Slice(0, compressedBytesSize).ToArray();
+            var source = bytes.AsSpan();
+            var target = new byte[LZ4Codec.MaximumOutputSize(source.Length) + 4].AsSpan();
+            var size = BitConverter.GetBytes(source.Length).AsSpan();
+            size.CopyTo(target);
+            int compressedBytesSize = LZ4Codec.Encode(source, target.Slice(4), Level);
+            return target.Slice(0, compressedBytesSize + 4).ToArray();
         }
 
         /// <inheritdoc/>
         protected override byte[] BaseDecompress(byte[] compressedBytes)
         {
-            var target = new byte[compressedBytes.Length * 255].AsSpan();
-            int decoded = LZ4Codec.Decode(compressedBytes, target);
+            var source = compressedBytes.AsSpan();
+            var size = source.Slice(0, 4).ToArray();
+            var length = BitConverter.ToInt32(size, 0);
+            var target = new byte[length].AsSpan();
+            int decoded = LZ4Codec.Decode(source.Slice(4), target);
             return target.Slice(0, decoded).ToArray();
         }
 

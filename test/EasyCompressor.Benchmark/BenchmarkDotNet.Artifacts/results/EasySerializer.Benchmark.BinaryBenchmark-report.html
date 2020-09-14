@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>EasySerializer.Benchmark.BinaryBenchmark-20200915-010350</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19041.508 (2004/?/20H1)
+Intel Core i7-6700HQ CPU 2.60GHz (Skylake), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=5.0.100-preview.7.20366.6
+  [Host]   : .NET Core 5.0.0 (CoreCLR 5.0.20.36411, CoreFX 5.0.20.36411), X64 RyuJIT
+  ShortRun : .NET Core 5.0.0 (CoreCLR 5.0.20.36411, CoreFX 5.0.20.36411), X64 RyuJIT
+</code></pre>
+<pre><code>Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  
+</code></pre>
+
+<table>
+<thead><tr><th>         Method</th><th>   Compressor</th><th>CompressedSize</th><th>  Mean</th><th> Error</th><th>StdDev</th><th>Gen 0</th><th>Gen 1</th><th>Gen 2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Decompress</td><td>SnappyCompressor</td><td>5811 bytes</td><td>38.40 &mu;s</td><td>13.820 &mu;s</td><td>0.758 &mu;s</td><td>27.7710</td><td>27.7710</td><td>27.7710</td><td>87.47 KB</td>
+</tr><tr><td>Decompress</td><td>ZstdCompressor</td><td>775 bytes</td><td>42.04 &mu;s</td><td>29.933 &mu;s</td><td>1.641 &mu;s</td><td>27.7710</td><td>27.7710</td><td>27.7710</td><td>87.66 KB</td>
+</tr><tr><td>Decompress</td><td>LZ4Compressor</td><td>1234 bytes</td><td>61.83 &mu;s</td><td>4.063 &mu;s</td><td>0.223 &mu;s</td><td>55.5420</td><td>55.5420</td><td>55.5420</td><td>174.97 KB</td>
+</tr><tr><td>Decompress</td><td>DeflateCompressor</td><td>1683 bytes</td><td>223.91 &mu;s</td><td>62.264 &mu;s</td><td>3.413 &mu;s</td><td>68.8477</td><td>68.8477</td><td>68.8477</td><td>342.03 KB</td>
+</tr><tr><td>Decompress</td><td>GZipCompressor</td><td>1701 bytes</td><td>228.27 &mu;s</td><td>24.495 &mu;s</td><td>1.343 &mu;s</td><td>68.8477</td><td>68.8477</td><td>68.8477</td><td>342.06 KB</td>
+</tr><tr><td>Decompress</td><td>ZstandardCompressor</td><td>775 bytes</td><td>238.88 &mu;s</td><td>42.793 &mu;s</td><td>2.346 &mu;s</td><td>68.8477</td><td>68.8477</td><td>68.8477</td><td>342.98 KB</td>
+</tr><tr><td>Decompress</td><td>BrotliCompressor</td><td>659 bytes</td><td>258.83 &mu;s</td><td>18.021 &mu;s</td><td>0.988 &mu;s</td><td>68.8477</td><td>68.8477</td><td>68.8477</td><td>342.92 KB</td>
+</tr><tr><td>Decompress</td><td>BrotliNETCompressor</td><td>659 bytes</td><td>350.41 &mu;s</td><td>93.837 &mu;s</td><td>5.144 &mu;s</td><td>137.6953</td><td>68.8477</td><td>68.8477</td><td>471.01 KB</td>
+</tr><tr><td>Decompress</td><td>LZMACompressor</td><td>789 bytes</td><td>641.93 &mu;s</td><td>106.228 &mu;s</td><td>5.823 &mu;s</td><td>219.7266</td><td>208.9844</td><td>208.0078</td><td>4304.71 KB</td>
+</tr><tr><td>Compress</td><td>SnappyCompressor</td><td>?</td><td>45.86 &mu;s</td><td>7.755 &mu;s</td><td>0.425 &mu;s</td><td>32.2266</td><td>32.2266</td><td>32.2266</td><td>107.77 KB</td>
+</tr><tr><td>Compress</td><td>LZ4Compressor</td><td>?</td><td>51.32 &mu;s</td><td>4.870 &mu;s</td><td>0.267 &mu;s</td><td>28.5645</td><td>28.5645</td><td>28.5645</td><td>89.09 KB</td>
+</tr><tr><td>Compress</td><td>ZstdCompressor</td><td>?</td><td>65.97 &mu;s</td><td>30.565 &mu;s</td><td>1.675 &mu;s</td><td>28.5645</td><td>28.5645</td><td>28.5645</td><td>88.76 KB</td>
+</tr><tr><td>Compress</td><td>DeflateCompressor</td><td>?</td><td>168.16 &mu;s</td><td>68.002 &mu;s</td><td>3.727 &mu;s</td><td>2.1973</td><td>-</td><td>-</td><td>6.98 KB</td>
+</tr><tr><td>Compress</td><td>GZipCompressor</td><td>?</td><td>169.56 &mu;s</td><td>54.810 &mu;s</td><td>3.004 &mu;s</td><td>2.1973</td><td>-</td><td>-</td><td>7.33 KB</td>
+</tr><tr><td>Compress</td><td>ZstandardCompressor</td><td>?</td><td>403.50 &mu;s</td><td>68.359 &mu;s</td><td>3.747 &mu;s</td><td>0.9766</td><td>-</td><td>-</td><td>3.42 KB</td>
+</tr><tr><td>Compress</td><td>BrotliNETCompressor</td><td>?</td><td>11,681.38 &mu;s</td><td>1,739.442 &mu;s</td><td>95.345 &mu;s</td><td>15.6250</td><td>-</td><td>-</td><td>66.98 KB</td>
+</tr><tr><td>Compress</td><td>BrotliCompressor</td><td>?</td><td>11,862.39 &mu;s</td><td>2,527.424 &mu;s</td><td>138.537 &mu;s</td><td>-</td><td>-</td><td>-</td><td>2.91 KB</td>
+</tr><tr><td>Compress</td><td>LZMACompressor</td><td>?</td><td>15,143.42 &mu;s</td><td>5,036.823 &mu;s</td><td>276.085 &mu;s</td><td>1031.2500</td><td>1000.0000</td><td>937.5000</td><td>47736.97 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>SnappyCompressor</td><td>?</td><td>132.37 &mu;s</td><td>42.518 &mu;s</td><td>2.331 &mu;s</td><td>60.5469</td><td>60.5469</td><td>60.5469</td><td>195.23 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>ZstdCompressor</td><td>?</td><td>168.91 &mu;s</td><td>142.817 &mu;s</td><td>7.828 &mu;s</td><td>55.1758</td><td>55.1758</td><td>55.1758</td><td>176.41 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>LZ4Compressor</td><td>?</td><td>213.78 &mu;s</td><td>93.448 &mu;s</td><td>5.122 &mu;s</td><td>83.2520</td><td>83.2520</td><td>83.2520</td><td>264.05 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>DeflateCompressor</td><td>?</td><td>491.20 &mu;s</td><td>402.593 &mu;s</td><td>22.067 &mu;s</td><td>68.3594</td><td>68.3594</td><td>68.3594</td><td>349.01 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>GZipCompressor</td><td>?</td><td>508.54 &mu;s</td><td>503.868 &mu;s</td><td>27.619 &mu;s</td><td>68.8477</td><td>68.8477</td><td>68.8477</td><td>349.39 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>ZstandardCompressor</td><td>?</td><td>714.53 &mu;s</td><td>35.200 &mu;s</td><td>1.929 &mu;s</td><td>68.3594</td><td>68.3594</td><td>68.3594</td><td>346.4 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>BrotliNETCompressor</td><td>?</td><td>12,261.90 &mu;s</td><td>2,270.761 &mu;s</td><td>124.468 &mu;s</td><td>125.0000</td><td>62.5000</td><td>62.5000</td><td>537.99 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>BrotliCompressor</td><td>?</td><td>12,316.17 &mu;s</td><td>1,658.981 &mu;s</td><td>90.934 &mu;s</td><td>62.5000</td><td>62.5000</td><td>62.5000</td><td>345.83 KB</td>
+</tr><tr><td>CompressAndDecompress</td><td>LZMACompressor</td><td>?</td><td>15,865.26 &mu;s</td><td>3,599.289 &mu;s</td><td>197.289 &mu;s</td><td>1031.2500</td><td>968.7500</td><td>937.5000</td><td>52040.31 KB</td>
+</tr></tbody></table>
+</body>
+</html>
