@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="EasyCaching.InMemory" Version="0.9.0" />
     <PackageReference Include="EasyCaching.Redis" Version="1.1.0" />
-    <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="0.9.0" />
+    <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="nunit" Version="3.12.0" />
