@@ -32,25 +32,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="zstd-v1.4.4\x64\libzstd.dll" />
-    <None Remove="zstd-v1.4.4\x86\libzstd.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EasyCompressor\EasyCompressor.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="ZstdNet" Version="1.3.3" />
+    <PackageReference Include="ZstdNet" Version="1.4.5" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\EasyCompressor.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <!--
+  <ItemGroup>
+    <None Remove="zstd-v1.4.4\x64\libzstd.dll" />
+    <None Remove="zstd-v1.4.4\x86\libzstd.dll" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,5 +62,6 @@
       <LogicalName>libzstd.x86.dll</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
+  -->
 
 </Project>

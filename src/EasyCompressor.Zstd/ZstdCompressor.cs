@@ -15,26 +15,29 @@ namespace EasyCompressor
     {
         static ZstdCompressor()
         {
-            //Workaround to fix "System.DllNotFoundException: Unable to load DLL 'libzstd' or one of its dependencies: The specified module could not be found."
+            //This is no longer needed according to ZstdNet v1.4.5 update
+            #region Load libzstd v1.4.4 DLL
+            ////Workaround to fix "System.DllNotFoundException: Unable to load DLL 'libzstd' or one of its dependencies: The specified module could not be found."
 
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return;
+            //if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            //    return;
 
-            var bit = Environment.Is64BitProcess ? "x64" : "x86";
-            var folder = Path.Combine(Path.GetTempPath(), "zstd-v1.4.4", bit);
-            Directory.CreateDirectory(folder);
+            //var bit = Environment.Is64BitProcess ? "x64" : "x86";
+            //var folder = Path.Combine(Path.GetTempPath(), "zstd-v1.4.4", bit);
+            //Directory.CreateDirectory(folder);
 
-            var fileName = Path.Combine(folder, "libzstd.dll");
-            if (!File.Exists(fileName))
-            {
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"libzstd.{bit}.dll"))
-                using (var file = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
-                    stream.CopyTo(file);
-            }
+            //var fileName = Path.Combine(folder, "libzstd.dll");
+            //if (!File.Exists(fileName))
+            //{
+            //    using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"libzstd.{bit}.dll"))
+            //    using (var file = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
+            //        stream.CopyTo(file);
+            //}
 
-            var type = typeof(Compressor).Assembly.GetType("ZstdNet.ExternMethods");
-            var method = type.GetMethod("SetDllDirectory", BindingFlags.NonPublic | BindingFlags.Static);
-            method.Invoke(null, new[] { folder });
+            //var type = typeof(Compressor).Assembly.GetType("ZstdNet.ExternMethods");
+            //var method = type.GetMethod("SetDllDirectory", BindingFlags.NonPublic | BindingFlags.Static);
+            //method.Invoke(null, new[] { folder });
+            #endregion
         }
 
         /// <summary>
