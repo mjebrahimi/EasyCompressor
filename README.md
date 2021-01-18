@@ -1,4 +1,4 @@
-[![NuGet](https://img.shields.io/nuget/v/EasyCompressor.svg)](https://www.nuget.org/packages/EasyCompressor)
+[![NuGet Badge](https://buildstats.info/nuget/EasyCompressor)](https://www.nuget.org/packages/EasyCompressor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/mjebrahimi/EasyCompressor/workflows/.NET%20Core/badge.svg)](https://github.com/mjebrahimi/EasyCompressor)
 
