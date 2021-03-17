@@ -1,0 +1,35 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Mohammad Javad Ebrahimi</Authors>
+        <Company>Mohammad Javad Ebrahimi</Company>
+        <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
+        <Description>
+            A compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
+        </Description>
+        <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/mjebrahimi/EasyCompressor</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/mjebrahimi/EasyCompressor</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <PackageIcon>EasyCompressor.png</PackageIcon>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)\EasyCompressor.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+</Project>
