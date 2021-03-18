@@ -72,9 +72,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress))
+            using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOutputStreamOpen))
             {
                 brotliStream.SetQuality(Quality);
                 brotliStream.SetWindow(Window);
@@ -86,9 +86,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var brotliStream = new Brotli.BrotliStream(inputStream, CompressionMode.Decompress))
+            using (var brotliStream = new Brotli.BrotliStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
             {
                 brotliStream.CopyTo(outputStream);
 
@@ -98,9 +98,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress))
+            using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOutputStreamOpen))
             {
                 brotliStream.SetQuality(Quality);
                 brotliStream.SetWindow(Window);
@@ -112,9 +112,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var brotliStream = new Brotli.BrotliStream(inputStream, CompressionMode.Decompress))
+            using (var brotliStream = new Brotli.BrotliStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
             {
                 await brotliStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 

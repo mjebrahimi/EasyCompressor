@@ -9,6 +9,36 @@ namespace EasyCompressor
     /// </summary>
     public static class CompressorExtensions
     {
+        #region Overloads without leaveOpen (for backward compatibility)
+
+        /// <summary>
+        /// Compress input stream to output stream
+        /// </summary>
+        /// <param name="compressor">compressor</param>
+        /// <param name="inputStream">Input stream</param>
+        /// <param name="outputStream">Output stream</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task</returns>
+        public static Task CompressAsync(this ICompressor compressor, Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            return compressor.CompressAsync(inputStream, outputStream, cancellationToken: cancellationToken);
+        }
+
+        /// <summary>
+        /// Decompress input stream to output stream
+        /// </summary>
+        /// <param name="compressor">compressor</param>
+        /// <param name="inputStream">Input stream</param>
+        /// <param name="outputStream">Output stream</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Task</returns>
+        public static Task DecompressAsync(this ICompressor compressor, Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            return compressor.DecompressAsync(inputStream, outputStream, cancellationToken: cancellationToken);
+        }
+
+        #endregion
+
         #region byte[] to Stream/StreamWriter
 
         /// <summary>

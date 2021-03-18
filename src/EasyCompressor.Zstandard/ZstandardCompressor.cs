@@ -74,9 +74,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var gZipStream = new ZstandardStream(outputStream, Level))
+            using (var gZipStream = new ZstandardStream(outputStream, Level, leaveOutputStreamOpen))
             {
                 inputStream.CopyTo(gZipStream);
 
@@ -86,9 +86,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var gZipStream = new ZstandardStream(inputStream, CompressionMode.Decompress))
+            using (var gZipStream = new ZstandardStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
             {
                 gZipStream.CopyTo(outputStream);
 
@@ -98,9 +98,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var gZipStream = new ZstandardStream(outputStream, Level))
+            using (var gZipStream = new ZstandardStream(outputStream, Level, leaveOutputStreamOpen))
             {
                 await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
@@ -110,9 +110,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var gZipStream = new ZstandardStream(inputStream, CompressionMode.Decompress))
+            using (var gZipStream = new ZstandardStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
             {
                 await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 

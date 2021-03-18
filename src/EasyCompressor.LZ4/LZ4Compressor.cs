@@ -52,9 +52,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var lz4Stream = LZ4Stream.Encode(outputStream, Level))
+            using (var lz4Stream = LZ4Stream.Encode(outputStream, Level, leaveOpen: leaveOutputStreamOpen))
             {
                 inputStream.CopyTo(lz4Stream);
 
@@ -64,9 +64,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var lz4Stream = LZ4Stream.Decode(inputStream))
+            using (var lz4Stream = LZ4Stream.Decode(inputStream, leaveOpen: leaveOutputStreamOpen))
             {
                 lz4Stream.CopyTo(outputStream);
 
@@ -76,9 +76,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var lz4Stream = LZ4Stream.Encode(outputStream, Level))
+            using (var lz4Stream = LZ4Stream.Encode(outputStream, Level, leaveOpen: leaveOutputStreamOpen))
             {
                 await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
@@ -88,9 +88,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var lz4Stream = LZ4Stream.Decode(inputStream))
+            using (var lz4Stream = LZ4Stream.Decode(inputStream, leaveOpen: leaveOutputStreamOpen))
             {
                 await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 

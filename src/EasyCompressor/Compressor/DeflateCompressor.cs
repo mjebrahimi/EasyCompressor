@@ -63,9 +63,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var deflateStream = new DeflateStream(outputStream, Level))
+            using (var deflateStream = new DeflateStream(outputStream, Level, leaveOutputStreamOpen))
             {
                 inputStream.CopyTo(deflateStream);
 
@@ -75,9 +75,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
-            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress))
+            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
             {
                 deflateStream.CopyTo(outputStream);
 
@@ -87,9 +87,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var deflateStream = new DeflateStream(outputStream, Level))
+            using (var deflateStream = new DeflateStream(outputStream, Level, leaveOutputStreamOpen))
             {
                 await inputStream.CopyToAsync(deflateStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 
@@ -99,9 +99,9 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
-            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress))
+            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
             {
                 await deflateStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
 

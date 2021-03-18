@@ -158,7 +158,7 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
             using (MemoryStream inputMemory = new MemoryStream())
             {
@@ -178,11 +178,14 @@ namespace EasyCompressor
                 // Encode
                 encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
                 outputStream.Flush();
+
+                if (!leaveOutputStreamOpen)
+                    outputStream.Dispose();
             }
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
         {
             using (MemoryStream inputMemory = new MemoryStream())
             {
@@ -206,11 +209,14 @@ namespace EasyCompressor
                 // Decode
                 decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
                 outputStream.Flush();
+
+                if (!leaveOutputStreamOpen)
+                    outputStream.Dispose();
             }
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
             using (MemoryStream inputMemory = new MemoryStream())
             {
@@ -230,11 +236,14 @@ namespace EasyCompressor
                 // Encode
                 encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
                 await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+
+                if (!leaveOutputStreamOpen)
+                    outputStream.Dispose();
             }
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
         {
             using (MemoryStream inputMemory = new MemoryStream())
             {
@@ -258,6 +267,9 @@ namespace EasyCompressor
                 // Decode
                 decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
                 await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+
+                if (!leaveOutputStreamOpen)
+                    outputStream.Dispose();
             }
         }
     }
