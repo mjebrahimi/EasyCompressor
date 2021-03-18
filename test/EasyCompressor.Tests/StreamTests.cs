@@ -122,5 +122,15 @@ namespace EasyCompressor.Tests.StreamTests
 
             Assert.True(decompressedBytes.SequenceEqual(ObjectBytes));
         }
+
+        [Test]
+        public void Compressed_ShouldNot_Close_OutputStream()
+        {
+            using var inputStream = new MemoryStream(ObjectBytes);
+            using var outStream = new MemoryStream();
+            Compressor.Compress(inputStream, outStream);
+
+            outStream.Position = 0;
+        }
     }
 }

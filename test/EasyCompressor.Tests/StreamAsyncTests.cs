@@ -123,5 +123,15 @@ namespace EasyCompressor.Tests.StreamAsyncTest
 
             Assert.True(decompressedBytes.SequenceEqual(ObjectBytes));
         }
+
+        [Test]
+        public async Task Compressed_ShouldNot_Close_OutputStream()
+        {
+            using var inputStream = new MemoryStream(ObjectBytes);
+            using var outStream = new MemoryStream();
+            await Compressor.CompressAsync(inputStream, outStream);
+
+            outStream.Position = 0;
+        }
     }
 }
