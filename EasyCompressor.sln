@@ -10,6 +10,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FD294266-05F3-4FA6-8625-35597145DC15}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B64A2D28-C0FD-4800-908E-2792E4A3700E}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCompressor.BrotliNET", "src\EasyCompressor.BrotliNET\EasyCompressor.BrotliNET.csproj", "{048605FC-8A0D-4FBC-91B7-F77817FDEF9A}"
 EndProject

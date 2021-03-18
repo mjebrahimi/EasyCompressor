@@ -9,6 +9,16 @@
     <Version>1.3.0</Version>
     <PackageVersion>1.3.0</PackageVersion>
     <AssemblyVersion>1.3.0</AssemblyVersion>
+    <Description>
+      A compressor upon EasyCaching serializers using EasyCompressor.
+
+      This library is very useful for compressing cache data especially for distributed cache (such as Redis) to improve performance by reducing memory usage and network traffic and subsequently.
+
+      EasyCaching is the best caching abstraction library which supports many providers and serializers.
+
+      A compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
+    </Description>
+    <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate EasyCaching Cache Caching Memory In-Memory Distributed DistributedCache Serialization MessagePack Json</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
