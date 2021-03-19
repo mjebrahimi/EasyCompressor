@@ -1,5 +1,6 @@
 <Project>
   <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
     <Authors>Mohammad Javad Ebrahimi</Authors>
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>

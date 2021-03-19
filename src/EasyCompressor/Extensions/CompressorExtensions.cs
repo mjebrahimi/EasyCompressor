@@ -9,36 +9,6 @@ namespace EasyCompressor
     /// </summary>
     public static class CompressorExtensions
     {
-        #region Overloads without leaveOpen (for backward compatibility)
-
-        /// <summary>
-        /// Compress input stream to output stream
-        /// </summary>
-        /// <param name="compressor">compressor</param>
-        /// <param name="inputStream">Input stream</param>
-        /// <param name="outputStream">Output stream</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Task</returns>
-        public static Task CompressAsync(this ICompressor compressor, Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
-        {
-            return compressor.CompressAsync(inputStream, outputStream, cancellationToken: cancellationToken);
-        }
-
-        /// <summary>
-        /// Decompress input stream to output stream
-        /// </summary>
-        /// <param name="compressor">compressor</param>
-        /// <param name="inputStream">Input stream</param>
-        /// <param name="outputStream">Output stream</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Task</returns>
-        public static Task DecompressAsync(this ICompressor compressor, Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
-        {
-            return compressor.DecompressAsync(inputStream, outputStream, cancellationToken: cancellationToken);
-        }
-
-        #endregion
-
         #region byte[] to Stream/StreamWriter
 
         /// <summary>
@@ -49,10 +19,8 @@ namespace EasyCompressor
         /// <param name="outputStream">outputStream</param>
         public static void Compress(this ICompressor compressor, byte[] bytes, Stream outputStream)
         {
-            using (var inputStream = new MemoryStream(bytes))
-            {
-                compressor.Compress(inputStream, outputStream);
-            }
+            using var inputStream = new MemoryStream(bytes);
+            compressor.Compress(inputStream, outputStream);
         }
 
         /// <summary>
@@ -63,10 +31,8 @@ namespace EasyCompressor
         /// <param name="outputStream">outputStream</param>
         public static void Decompress(this ICompressor compressor, byte[] compressedBytes, Stream outputStream)
         {
-            using (var inputStream = new MemoryStream(compressedBytes))
-            {
-                compressor.Decompress(inputStream, outputStream);
-            }
+            using var inputStream = new MemoryStream(compressedBytes);
+            compressor.Decompress(inputStream, outputStream);
         }
 
         /// <summary>
@@ -79,10 +45,8 @@ namespace EasyCompressor
         /// <returns>Task</returns>
         public static async Task CompressAsync(this ICompressor compressor, byte[] bytes, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            using (var inputStream = new MemoryStream(bytes))
-            {
-                await compressor.CompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
-            }
+            using var inputStream = new MemoryStream(bytes);
+            await compressor.CompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -95,10 +59,8 @@ namespace EasyCompressor
         /// <returns>Task</returns>
         public static async Task DecompressAsync(this ICompressor compressor, byte[] compressedBytes, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            using (var inputStream = new MemoryStream(compressedBytes))
-            {
-                await compressor.DecompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
-            }
+            using var inputStream = new MemoryStream(compressedBytes);
+            await compressor.DecompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -161,11 +123,9 @@ namespace EasyCompressor
         /// <returns>Task</returns>
         public static byte[] Compress(this ICompressor compressor, Stream inputStream)
         {
-            using (var outputStream = new MemoryStream())
-            {
-                compressor.Compress(inputStream, outputStream);
-                return outputStream.ToArray();
-            }
+            using var outputStream = new MemoryStream();
+            compressor.Compress(inputStream, outputStream);
+            return outputStream.ToArray();
         }
 
         /// <summary>
@@ -176,11 +136,9 @@ namespace EasyCompressor
         /// <returns>Task</returns>
         public static byte[] Decompress(this ICompressor compressor, Stream inputStream)
         {
-            using (var outputStream = new MemoryStream())
-            {
-                compressor.Decompress(inputStream, outputStream);
-                return outputStream.ToArray();
-            }
+            using var outputStream = new MemoryStream();
+            compressor.Decompress(inputStream, outputStream);
+            return outputStream.ToArray();
         }
 
         /// <summary>
@@ -192,11 +150,9 @@ namespace EasyCompressor
         /// <returns>Task</returns>
         public static async Task<byte[]> CompressAsync(this ICompressor compressor, Stream inputStream, CancellationToken cancellationToken = default)
         {
-            using (var outputStream = new MemoryStream())
-            {
-                await compressor.CompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
-                return outputStream.ToArray();
-            }
+            using var outputStream = new MemoryStream();
+            await compressor.CompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
+            return outputStream.ToArray();
         }
 
         /// <summary>
@@ -208,11 +164,9 @@ namespace EasyCompressor
         /// <returns>Task</returns>
         public static async Task<byte[]> DecompressAsync(this ICompressor compressor, Stream inputStream, CancellationToken cancellationToken = default)
         {
-            using (var outputStream = new MemoryStream())
-            {
-                await compressor.DecompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
-                return outputStream.ToArray();
-            }
+            using var outputStream = new MemoryStream();
+            await compressor.DecompressAsync(inputStream, outputStream, cancellationToken).ConfigureAwait(false);
+            return outputStream.ToArray();
         }
 
         /// <summary>

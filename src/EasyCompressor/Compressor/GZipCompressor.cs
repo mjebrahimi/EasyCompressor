@@ -63,85 +63,73 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseCompress(byte[] bytes)
         {
-            using (var inputStream = new MemoryStream(bytes))
-            using (var outputStream = new MemoryStream())
+            using var inputStream = new MemoryStream(bytes);
+            using var outputStream = new MemoryStream();
+            using (var gZipStream = new GZipStream(outputStream, Level))
             {
-                using (var gZipStream = new GZipStream(outputStream, Level))
-                {
-                    inputStream.CopyTo(gZipStream, bytes.Length);
-                    //inputStream.WriteTo(gZipStream);
-                    //gZipStream.Write(bytes, 0, bytes.Length);
+                inputStream.CopyTo(gZipStream, bytes.Length);
+                //inputStream.WriteTo(gZipStream);
+                //gZipStream.Write(bytes, 0, bytes.Length);
 
-                    inputStream.Flush();
-                    gZipStream.Flush();
-                }
-                return outputStream.ToArray();
+                inputStream.Flush();
+                gZipStream.Flush();
             }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
         protected override byte[] BaseDecompress(byte[] compressedBytes)
         {
-            using (var inputStream = new MemoryStream(compressedBytes))
-            using (var outputStream = new MemoryStream())
+            using var inputStream = new MemoryStream(compressedBytes);
+            using var outputStream = new MemoryStream();
+            using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
             {
-                using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
-                {
-                    gZipStream.CopyTo(outputStream, compressedBytes.Length);
-
-                    outputStream.Flush();
-                    gZipStream.Flush();
-                }
-                return outputStream.ToArray();
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
-        {
-            using (var gZipStream = new GZipStream(outputStream, Level, leaveOutputStreamOpen))
-            {
-                inputStream.CopyTo(gZipStream);
-
-                inputStream.Flush();
-                gZipStream.Flush();
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
-        {
-            using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
-            {
-                gZipStream.CopyTo(outputStream);
+                gZipStream.CopyTo(outputStream, compressedBytes.Length);
 
                 outputStream.Flush();
                 gZipStream.Flush();
             }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream)
         {
-            using (var gZipStream = new GZipStream(outputStream, Level, leaveOutputStreamOpen))
-            {
-                await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            using var gZipStream = new GZipStream(outputStream, Level, true);
+            inputStream.CopyTo(gZipStream);
 
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            }
+            inputStream.Flush();
+            gZipStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
         {
-            using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
-            {
-                await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            using var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, true);
+            gZipStream.CopyTo(outputStream);
 
-                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            }
+            outputStream.Flush();
+            gZipStream.Flush();
+        }
+
+        /// <inheritdoc/>
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            using var gZipStream = new GZipStream(outputStream, Level, true);
+            await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            using var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, true);
+            await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+
+            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

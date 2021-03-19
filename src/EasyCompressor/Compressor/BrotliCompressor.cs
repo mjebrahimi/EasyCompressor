@@ -33,85 +33,73 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseCompress(byte[] bytes)
         {
-            using (var inputStream = new MemoryStream(bytes))
-            using (var outputStream = new MemoryStream())
+            using var inputStream = new MemoryStream(bytes);
+            using var outputStream = new MemoryStream();
+            using (var brotliStream = new BrotliStream(outputStream, Level))
             {
-                using (var brotliStream = new BrotliStream(outputStream, Level))
-                {
-                    inputStream.CopyTo(brotliStream, bytes.Length);
-                    //inputStream.WriteTo(brotliStream);
-                    //brotliStream.Write(bytes, 0, bytes.Length);
+                inputStream.CopyTo(brotliStream, bytes.Length);
+                //inputStream.WriteTo(brotliStream);
+                //brotliStream.Write(bytes, 0, bytes.Length);
 
-                    inputStream.Flush();
-                    brotliStream.Flush();
-                }
-                return outputStream.ToArray();
+                inputStream.Flush();
+                brotliStream.Flush();
             }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
         protected override byte[] BaseDecompress(byte[] compressedBytes)
         {
-            using (var inputStream = new MemoryStream(compressedBytes))
-            using (var outputStream = new MemoryStream())
+            using var inputStream = new MemoryStream(compressedBytes);
+            using var outputStream = new MemoryStream();
+            using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress))
             {
-                using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress))
-                {
-                    brotliStream.CopyTo(outputStream, compressedBytes.Length);
-
-                    outputStream.Flush();
-                    brotliStream.Flush();
-                }
-                return outputStream.ToArray();
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
-        {
-            using (var brotliStream = new BrotliStream(outputStream, Level, leaveOutputStreamOpen))
-            {
-                inputStream.CopyTo(brotliStream);
-
-                inputStream.Flush();
-                brotliStream.Flush();
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
-        {
-            using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
-            {
-                brotliStream.CopyTo(outputStream);
+                brotliStream.CopyTo(outputStream, compressedBytes.Length);
 
                 outputStream.Flush();
                 brotliStream.Flush();
             }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream)
         {
-            using (var brotliStream = new BrotliStream(outputStream, Level, leaveOutputStreamOpen))
-            {
-                await inputStream.CopyToAsync(brotliStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            using var brotliStream = new BrotliStream(outputStream, Level, true);
+            inputStream.CopyTo(brotliStream);
 
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            }
+            inputStream.Flush();
+            brotliStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
         {
-            using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
-            {
-                await brotliStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            using var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, true);
+            brotliStream.CopyTo(outputStream);
 
-                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            }
+            outputStream.Flush();
+            brotliStream.Flush();
+        }
+
+        /// <inheritdoc/>
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            using var brotliStream = new BrotliStream(outputStream, Level, true);
+            await inputStream.CopyToAsync(brotliStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            using var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, true);
+            await brotliStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+
+            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 #endif

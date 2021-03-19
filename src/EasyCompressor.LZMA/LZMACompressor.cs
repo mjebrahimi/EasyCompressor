@@ -112,165 +112,141 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseCompress(byte[] bytes)
         {
-            using (MemoryStream inputStream = new MemoryStream(bytes))
-            using (MemoryStream outputStream = new MemoryStream())
-            {
-                var encoder = new Encoder();
+            using MemoryStream inputStream = new MemoryStream(bytes);
+            using MemoryStream outputStream = new MemoryStream();
+            var encoder = new Encoder();
 
-                // Write the encoder properties
-                encoder.WriteCoderProperties(outputStream);
+            // Write the encoder properties
+            encoder.WriteCoderProperties(outputStream);
 
-                // Write the decompressed file size.
-                outputStream.Write(BitConverter.GetBytes(inputStream.Length), 0, 8);
+            // Write the decompressed file size.
+            outputStream.Write(BitConverter.GetBytes(inputStream.Length), 0, 8);
 
-                // Encode
-                encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
-                outputStream.Flush();
+            // Encode
+            encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
+            outputStream.Flush();
 
-                return outputStream.ToArray();
-            }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
         protected override byte[] BaseDecompress(byte[] compressedBytes)
         {
-            using (MemoryStream inputStream = new MemoryStream(compressedBytes))
-            using (MemoryStream outputStream = new MemoryStream())
-            {
-                var decoder = new Decoder();
+            using MemoryStream inputStream = new MemoryStream(compressedBytes);
+            using MemoryStream outputStream = new MemoryStream();
+            var decoder = new Decoder();
 
-                // Read the decoder properties
-                var properties = new byte[5];
-                inputStream.Read(properties, 0, 5);
-                decoder.SetDecoderProperties(properties);
+            // Read the decoder properties
+            var properties = new byte[5];
+            inputStream.Read(properties, 0, 5);
+            decoder.SetDecoderProperties(properties);
 
-                // Read in the decompress file size.
-                var fileLengthBytes = new byte[8];
-                inputStream.Read(fileLengthBytes, 0, 8);
-                var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
+            // Read in the decompress file size.
+            var fileLengthBytes = new byte[8];
+            inputStream.Read(fileLengthBytes, 0, 8);
+            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 
-                // Decode
-                decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
-                outputStream.Flush();
+            // Decode
+            decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
+            outputStream.Flush();
 
-                return outputStream.ToArray();
-            }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream)
         {
-            using (MemoryStream inputMemory = new MemoryStream())
-            {
-                inputStream.CopyTo(inputMemory);
-                inputStream.Flush();
-                inputMemory.Flush();
-                inputMemory.Position = 0;
+            using MemoryStream inputMemory = new MemoryStream();
+            inputStream.CopyTo(inputMemory);
+            inputStream.Flush();
+            inputMemory.Flush();
+            inputMemory.Position = 0;
 
-                var encoder = new Encoder();
+            var encoder = new Encoder();
 
-                // Write the encoder properties
-                encoder.WriteCoderProperties(outputStream);
+            // Write the encoder properties
+            encoder.WriteCoderProperties(outputStream);
 
-                // Write the decompressed file size.
-                outputStream.Write(BitConverter.GetBytes(inputMemory.Length), 0, 8);
+            // Write the decompressed file size.
+            outputStream.Write(BitConverter.GetBytes(inputMemory.Length), 0, 8);
 
-                // Encode
-                encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
-                outputStream.Flush();
-
-                if (!leaveOutputStreamOpen)
-                    outputStream.Dispose();
-            }
+            // Encode
+            encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
+            outputStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
         {
-            using (MemoryStream inputMemory = new MemoryStream())
-            {
-                inputStream.CopyTo(inputMemory);
-                inputStream.Flush();
-                inputMemory.Flush();
-                inputMemory.Position = 0;
+            using MemoryStream inputMemory = new MemoryStream();
+            inputStream.CopyTo(inputMemory);
+            inputStream.Flush();
+            inputMemory.Flush();
+            inputMemory.Position = 0;
 
-                var decoder = new Decoder();
+            var decoder = new Decoder();
 
-                // Read the decoder properties
-                var properties = new byte[5];
-                inputMemory.Read(properties, 0, 5);
-                decoder.SetDecoderProperties(properties);
+            // Read the decoder properties
+            var properties = new byte[5];
+            inputMemory.Read(properties, 0, 5);
+            decoder.SetDecoderProperties(properties);
 
-                // Read in the decompress file size.
-                var fileLengthBytes = new byte[8];
-                inputMemory.Read(fileLengthBytes, 0, 8);
-                var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
+            // Read in the decompress file size.
+            var fileLengthBytes = new byte[8];
+            inputMemory.Read(fileLengthBytes, 0, 8);
+            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 
-                // Decode
-                decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
-                outputStream.Flush();
-
-                if (!leaveInputStreamOpen)
-                    inputStream.Dispose();
-            }
+            // Decode
+            decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
+            outputStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            using (MemoryStream inputMemory = new MemoryStream())
-            {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
-                inputMemory.Position = 0;
+            using MemoryStream inputMemory = new MemoryStream();
+            await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
+            inputMemory.Position = 0;
 
-                var encoder = new Encoder();
+            var encoder = new Encoder();
 
-                // Write the encoder properties
-                encoder.WriteCoderProperties(outputStream);
+            // Write the encoder properties
+            encoder.WriteCoderProperties(outputStream);
 
-                // Write the decompressed file size.
-                await outputStream.WriteAsync(BitConverter.GetBytes(inputMemory.Length), 0, 8, cancellationToken).ConfigureAwait(false);
+            // Write the decompressed file size.
+            await outputStream.WriteAsync(BitConverter.GetBytes(inputMemory.Length), 0, 8, cancellationToken).ConfigureAwait(false);
 
-                // Encode
-                encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
-                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-
-                if (!leaveOutputStreamOpen)
-                    outputStream.Dispose();
-            }
+            // Encode
+            encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
+            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            using (MemoryStream inputMemory = new MemoryStream())
-            {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
-                inputMemory.Position = 0;
+            using MemoryStream inputMemory = new MemoryStream();
+            await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
+            inputMemory.Position = 0;
 
-                var decoder = new Decoder();
+            var decoder = new Decoder();
 
-                // Read the decoder properties
-                var properties = new byte[5];
-                await inputMemory.ReadAsync(properties, 0, 5, cancellationToken).ConfigureAwait(false);
-                decoder.SetDecoderProperties(properties);
+            // Read the decoder properties
+            var properties = new byte[5];
+            await inputMemory.ReadAsync(properties, 0, 5, cancellationToken).ConfigureAwait(false);
+            decoder.SetDecoderProperties(properties);
 
-                // Read in the decompress file size.
-                var fileLengthBytes = new byte[8];
-                await inputMemory.ReadAsync(fileLengthBytes, 0, 8, cancellationToken).ConfigureAwait(false);
-                var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
+            // Read in the decompress file size.
+            var fileLengthBytes = new byte[8];
+            await inputMemory.ReadAsync(fileLengthBytes, 0, 8, cancellationToken).ConfigureAwait(false);
+            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 
-                // Decode
-                decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
-                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-
-                if (!leaveInputStreamOpen)
-                    inputStream.Dispose();
-            }
+            // Decode
+            decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
+            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

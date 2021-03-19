@@ -20,7 +20,7 @@ namespace EasyCompressor.Tests
         {
             var json = File.ReadAllText("Data\\spotifyAlbum.json");
             var spotify = Serializer.FromJson<SpotifyAlbum>(json);
-            ObjectBytes = Serializer.Serialize(spotify);
+            ObjectBytes = Serializer.SerializeMessagePack(spotify);
         }
 
         public static IEnumerable GetCompressors

@@ -1,18 +1,44 @@
-﻿using Newtonsoft.Json;
+﻿using MessagePack;
+using Newtonsoft.Json;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 
 namespace EasyCompressor.Tests
 {
     public static class Serializer
     {
-        public static byte[] Serialize<T>(T obj)
+        public static byte[] SerializeMessagePack<T>(T value)
         {
-            using (MemoryStream stream = new MemoryStream())
-            {
-                new BinaryFormatter().Serialize(stream, obj);
-                return stream.ToArray();
-            }
+            return MessagePackSerializer.Serialize(value);
+        }
+
+        public static T DeserializeMessagePack<T>(byte[] bytes)
+        {
+            return MessagePackSerializer.Deserialize<T>(bytes);
+        }
+
+        public static byte[] SerializeMessagePackLz4<T>(T value)
+        {
+            var lz4Options = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4BlockArray);
+            return MessagePackSerializer.Serialize(value, lz4Options);
+        }
+
+        public static T DeserializeMessagePackLz4<T>(byte[] bytes)
+        {
+            var lz4Options = MessagePackSerializerOptions.Standard.WithCompression(MessagePackCompression.Lz4BlockArray);
+            return MessagePackSerializer.Deserialize<T>(bytes, lz4Options);
+        }
+
+        public static byte[] SerializeProtobuf<T>(T value)
+        {
+            using var stream = new MemoryStream();
+            ProtoBuf.Serializer.Serialize<T>(stream, value);
+            return stream.ToArray();
+        }
+
+        public static T DeserializeProtobuf<T>(byte[] bytes)
+        {
+            using var stream = new MemoryStream(bytes);
+            return ProtoBuf.Serializer.Deserialize<T>(stream);
         }
 
         public static T FromJson<T>(string json)
@@ -22,7 +48,7 @@ namespace EasyCompressor.Tests
 
         public static class Converter
         {
-            public static readonly JsonSerializerSettings Settings = new JsonSerializerSettings
+            public static readonly JsonSerializerSettings Settings = new()
             {
                 MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
                 DateParseHandling = DateParseHandling.None

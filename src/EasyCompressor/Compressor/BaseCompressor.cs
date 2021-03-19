@@ -37,36 +37,32 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveOutputStreamOpen">Indicates if output stream should be left open after the operation completes.</param>
-        protected abstract void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false);
+        protected abstract void BaseCompress(Stream inputStream, Stream outputStream);
 
         /// <summary>
         /// Base decompress input stream to output stream
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveInputStreamOpen">Indicates if input stream should be left open after the operation completes.</param>
-        protected abstract void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false);
+        protected abstract void BaseDecompress(Stream inputStream, Stream outputStream);
 
         /// <summary>
         /// Base compress input stream to output stream
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveOutputStreamOpen">Indicates if output stream should be left open after the operation completes.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task</returns>
-        protected abstract Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default);
+        protected abstract Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Base decompress input stream to output stream
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveInputStreamOpen">Indicates if input stream should be left open after the operation completes.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task</returns>
-        protected abstract Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default);
+        protected abstract Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
 
         /// <inheritdoc/>
         public byte[] Compress(byte[] bytes)
@@ -85,39 +81,39 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        public void Compress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
+        public void Compress(Stream inputStream, Stream outputStream)
         {
             inputStream.NotNull(nameof(inputStream));
             outputStream.NotNull(nameof(outputStream));
 
-            BaseCompress(inputStream, outputStream, leaveOutputStreamOpen);
+            BaseCompress(inputStream, outputStream);
         }
 
         /// <inheritdoc/>
-        public void Decompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false)
+        public void Decompress(Stream inputStream, Stream outputStream)
         {
             inputStream.NotNull(nameof(inputStream));
             outputStream.NotNull(nameof(outputStream));
 
-            BaseDecompress(inputStream, outputStream, leaveInputStreamOpen);
+            BaseDecompress(inputStream, outputStream);
         }
 
         /// <inheritdoc/>
-        public Task CompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        public Task CompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
             inputStream.NotNull(nameof(inputStream));
             outputStream.NotNull(nameof(outputStream));
 
-            return BaseCompressAsync(inputStream, outputStream, leaveOutputStreamOpen, cancellationToken);
+            return BaseCompressAsync(inputStream, outputStream, cancellationToken);
         }
 
         /// <inheritdoc/>
-        public Task DecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default)
+        public Task DecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
             inputStream.NotNull(nameof(inputStream));
             outputStream.NotNull(nameof(outputStream));
 
-            return BaseDecompressAsync(inputStream, outputStream, leaveInputStreamOpen, cancellationToken);
+            return BaseDecompressAsync(inputStream, outputStream, cancellationToken);
         }
     }
 }

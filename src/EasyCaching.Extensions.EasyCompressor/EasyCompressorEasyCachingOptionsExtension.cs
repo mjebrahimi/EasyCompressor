@@ -9,7 +9,7 @@ namespace EasyCompressor
 {
     internal class EasyCompressorEasyCachingOptionsExtension : IEasyCachingOptionsExtension
     {
-        private static readonly Dictionary<string, string> _dictonary = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase) { { "binary", null } };
+        private static readonly Dictionary<string, string> _dictonary = new(StringComparer.OrdinalIgnoreCase) { { "binary", null } };
 
         public EasyCompressorEasyCachingOptionsExtension()
         {

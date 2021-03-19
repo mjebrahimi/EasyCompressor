@@ -29,85 +29,73 @@ namespace EasyCompressor
         /// <inheritdoc/>
         protected override byte[] BaseCompress(byte[] bytes)
         {
-            using (var inputStream = new MemoryStream(bytes))
-            using (var outputStream = new MemoryStream())
+            using var inputStream = new MemoryStream(bytes);
+            using var outputStream = new MemoryStream();
+            using (var deflateStream = new DeflateStream(outputStream, Level))
             {
-                using (var deflateStream = new DeflateStream(outputStream, Level))
-                {
-                    inputStream.CopyTo(deflateStream, bytes.Length);
-                    //inputStream.WriteTo(deflateStream);
-                    //deflateStream.Write(bytes, 0, bytes.Length);
+                inputStream.CopyTo(deflateStream, bytes.Length);
+                //inputStream.WriteTo(deflateStream);
+                //deflateStream.Write(bytes, 0, bytes.Length);
 
-                    inputStream.Flush();
-                    deflateStream.Flush();
-                }
-                return outputStream.ToArray();
+                inputStream.Flush();
+                deflateStream.Flush();
             }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
         protected override byte[] BaseDecompress(byte[] compressedBytes)
         {
-            using (var inputStream = new MemoryStream(compressedBytes))
-            using (var outputStream = new MemoryStream())
+            using var inputStream = new MemoryStream(compressedBytes);
+            using var outputStream = new MemoryStream();
+            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress))
             {
-                using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress))
-                {
-                    deflateStream.CopyTo(outputStream, compressedBytes.Length);
-
-                    outputStream.Flush();
-                    deflateStream.Flush();
-                }
-                return outputStream.ToArray();
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
-        {
-            using (var deflateStream = new DeflateStream(outputStream, Level, leaveOutputStreamOpen))
-            {
-                inputStream.CopyTo(deflateStream);
-
-                inputStream.Flush();
-                deflateStream.Flush();
-            }
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
-        {
-            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
-            {
-                deflateStream.CopyTo(outputStream);
+                deflateStream.CopyTo(outputStream, compressedBytes.Length);
 
                 outputStream.Flush();
                 deflateStream.Flush();
             }
+            return outputStream.ToArray();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream)
         {
-            using (var deflateStream = new DeflateStream(outputStream, Level, leaveOutputStreamOpen))
-            {
-                await inputStream.CopyToAsync(deflateStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            using var deflateStream = new DeflateStream(outputStream, Level, true);
+            inputStream.CopyTo(deflateStream);
 
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            }
+            inputStream.Flush();
+            deflateStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
         {
-            using (var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress, leaveOutputStreamOpen))
-            {
-                await deflateStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            using var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress, true);
+            deflateStream.CopyTo(outputStream);
 
-                await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            }
+            outputStream.Flush();
+            deflateStream.Flush();
+        }
+
+        /// <inheritdoc/>
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            using var deflateStream = new DeflateStream(outputStream, Level, true);
+            await inputStream.CopyToAsync(deflateStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <inheritdoc/>
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+        {
+            using var deflateStream = new DeflateStream(inputStream, CompressionMode.Decompress, true);
+            await deflateStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+
+            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
     }
 }

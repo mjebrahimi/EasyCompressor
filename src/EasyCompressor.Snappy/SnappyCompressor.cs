@@ -32,79 +32,59 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
+        protected override void BaseCompress(Stream inputStream, Stream outputStream)
         {
-            using (var inputMemory = new MemoryStream())
-            {
-                inputStream.CopyTo(inputMemory);
-                inputStream.Flush();
-                inputMemory.Flush();
+            using var inputMemory = new MemoryStream();
+            inputStream.CopyTo(inputMemory);
+            inputStream.Flush();
+            inputMemory.Flush();
 
-                var compressedBytes = BaseCompress(inputMemory.ToArray());
+            var compressedBytes = BaseCompress(inputMemory.ToArray());
 
-                outputStream.Write(compressedBytes, 0, compressedBytes.Length);
-                outputStream.Flush();
-
-                if (!leaveOutputStreamOpen)
-                    outputStream.Dispose();
-            }
+            outputStream.Write(compressedBytes, 0, compressedBytes.Length);
+            outputStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
         {
-            using (var inputMemory = new MemoryStream())
-            {
-                inputStream.CopyTo(inputMemory, DefaultBufferSize);
-                inputStream.Flush();
-                inputMemory.Flush();
+            using var inputMemory = new MemoryStream();
+            inputStream.CopyTo(inputMemory, DefaultBufferSize);
+            inputStream.Flush();
+            inputMemory.Flush();
 
-                var compressedBytes = BaseDecompress(inputMemory.ToArray());
+            var compressedBytes = BaseDecompress(inputMemory.ToArray());
 
-                outputStream.Write(compressedBytes, 0, compressedBytes.Length);
-                outputStream.Flush();
-
-                if (!leaveInputStreamOpen)
-                    inputStream.Dispose();
-            }
+            outputStream.Write(compressedBytes, 0, compressedBytes.Length);
+            outputStream.Flush();
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            using (var inputMemory = new MemoryStream())
-            {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
+            using var inputMemory = new MemoryStream();
+            await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-                var compressedBytes = BaseCompress(inputMemory.ToArray());
+            var compressedBytes = BaseCompress(inputMemory.ToArray());
 
-                await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
-                await outputStream.FlushAsync().ConfigureAwait(false);
-
-                if (!leaveOutputStreamOpen)
-                    outputStream.Dispose();
-            }
+            await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
+            await outputStream.FlushAsync().ConfigureAwait(false);
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
         {
-            using (var inputMemory = new MemoryStream())
-            {
-                await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-                await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-                await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
+            using var inputMemory = new MemoryStream();
+            await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
 
-                var compressedBytes = BaseDecompress(inputMemory.ToArray());
+            var compressedBytes = BaseDecompress(inputMemory.ToArray());
 
-                await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
-                await outputStream.FlushAsync().ConfigureAwait(false);
-
-                if (!leaveInputStreamOpen)
-                    inputStream.Dispose();
-            }
+            await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
+            await outputStream.FlushAsync().ConfigureAwait(false);
         }
     }
 }
