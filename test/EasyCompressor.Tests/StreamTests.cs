@@ -124,13 +124,38 @@ namespace EasyCompressor.Tests.StreamTests
         }
 
         [Test]
-        public void Compressed_ShouldNot_Close_OutputStream()
+        public void LeaveOpen_ShouldNot_Close_OutputStream()
         {
             using var inputStream = new MemoryStream(ObjectBytes);
-            using var outStream = new MemoryStream();
-            Compressor.Compress(inputStream, outStream);
+            using var outputStream = new MemoryStream();
+            Compressor.Compress(inputStream, outputStream, true);
 
-            outStream.Position = 0;
+            Assert.DoesNotThrow(() => inputStream.Position = 0);
+            Assert.DoesNotThrow(() => outputStream.Position = 0);
+
+            using var outputStream2 = new MemoryStream();
+            Compressor.Decompress(outputStream, outputStream2, true);
+
+            Assert.DoesNotThrow(() => outputStream.Position = 0);
+            Assert.DoesNotThrow(() => outputStream2.Position = 0);
+        }
+
+        [Test]
+        public void NoLeaveOpen_Should_Close_OutputStream()
+        {
+            using var inputStream = new MemoryStream(ObjectBytes);
+            using var outputStream = new MemoryStream();
+            Compressor.Compress(inputStream, outputStream);
+
+            Assert.DoesNotThrow(() => inputStream.Position = 0);
+            Assert.Throws<ObjectDisposedException>(() => outputStream.Position = 0);
+
+            using var inputStream2 = new MemoryStream(outputStream.ToArray());
+            using var outputStream2 = new MemoryStream();
+            Compressor.Decompress(inputStream2, outputStream2);
+
+            Assert.DoesNotThrow(() => outputStream2.Position = 0);
+            Assert.Throws<ObjectDisposedException>(() => inputStream2.Position = 0);
         }
     }
 }

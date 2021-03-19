@@ -45,8 +45,8 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveOutputStreamOpen">Indicates if output stream should be left open after the operation completes.</param>
-        protected abstract void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false);
+        /// <param name="leaveInputStreamOpen">Indicates if input stream should be left open after the operation completes.</param>
+        protected abstract void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false);
 
         /// <summary>
         /// Base compress input stream to output stream
@@ -63,10 +63,10 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveOutputStreamOpen">Indicates if output stream should be left open after the operation completes.</param>
+        /// <param name="leaveInputStreamOpen">Indicates if input stream should be left open after the operation completes.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task</returns>
-        protected abstract Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default);
+        protected abstract Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default);
 
         /// <inheritdoc/>
         public byte[] Compress(byte[] bytes)
@@ -94,12 +94,12 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        public void Decompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
+        public void Decompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false)
         {
             inputStream.NotNull(nameof(inputStream));
             outputStream.NotNull(nameof(outputStream));
 
-            BaseDecompress(inputStream, outputStream, leaveOutputStreamOpen);
+            BaseDecompress(inputStream, outputStream, leaveInputStreamOpen);
         }
 
         /// <inheritdoc/>
@@ -112,12 +112,12 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        public Task DecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        public Task DecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default)
         {
             inputStream.NotNull(nameof(inputStream));
             outputStream.NotNull(nameof(outputStream));
 
-            return BaseDecompressAsync(inputStream, outputStream, leaveOutputStreamOpen, cancellationToken);
+            return BaseDecompressAsync(inputStream, outputStream, leaveInputStreamOpen, cancellationToken);
         }
     }
 }

@@ -41,8 +41,8 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveOutputStreamOpen">Indicates if output stream should be left open after the operation completes.</param>
-        void Decompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false);
+        /// <param name="leaveInputStreamOpen">Indicates if input stream should be left open after the operation completes.</param>
+        void Decompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false);
 
         /// <summary>
         /// Compress input stream to output stream
@@ -59,9 +59,9 @@ namespace EasyCompressor
         /// </summary>
         /// <param name="inputStream">Input stream</param>
         /// <param name="outputStream">Output stream</param>
-        /// <param name="leaveOutputStreamOpen">Indicates if output stream should be left open after the operation completes.</param>
+        /// <param name="leaveInputStreamOpen">Indicates if input stream should be left open after the operation completes.</param>
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>Task</returns>
-        Task DecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default);
+        Task DecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default);
     }
 }

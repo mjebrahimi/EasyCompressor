@@ -51,7 +51,7 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false)
+        protected override void BaseDecompress(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false)
         {
             using (var inputMemory = new MemoryStream())
             {
@@ -64,8 +64,8 @@ namespace EasyCompressor
                 outputStream.Write(compressedBytes, 0, compressedBytes.Length);
                 outputStream.Flush();
 
-                if (!leaveOutputStreamOpen)
-                    outputStream.Dispose();
+                if (!leaveInputStreamOpen)
+                    inputStream.Dispose();
             }
         }
 
@@ -89,7 +89,7 @@ namespace EasyCompressor
         }
 
         /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveOutputStreamOpen = false, CancellationToken cancellationToken = default)
+        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, bool leaveInputStreamOpen = false, CancellationToken cancellationToken = default)
         {
             using (var inputMemory = new MemoryStream())
             {
@@ -102,8 +102,8 @@ namespace EasyCompressor
                 await outputStream.WriteAsync(compressedBytes, 0, compressedBytes.Length, cancellationToken).ConfigureAwait(false);
                 await outputStream.FlushAsync().ConfigureAwait(false);
 
-                if (!leaveOutputStreamOpen)
-                    outputStream.Dispose();
+                if (!leaveInputStreamOpen)
+                    inputStream.Dispose();
             }
         }
     }
