@@ -13,7 +13,7 @@
 
       EasyCaching is the best caching abstraction library which supports many providers and serializers.
 
-      A compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
+      EasyCompressor is a compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
     </Description>
     <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate EasyCaching Cache Caching Memory In-Memory Distributed DistributedCache Serialization MessagePack Json</PackageTags>
   </PropertyGroup>
