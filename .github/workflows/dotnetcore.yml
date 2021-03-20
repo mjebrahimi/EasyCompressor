@@ -22,8 +22,11 @@ jobs:
         with:
             dotnet-version: '5.0.201'
 
+      - name: Install Dependencies
+        run: dotnet restore
+
       - name: Build (Release)
-        run: dotnet build --configuration Release
+        run: dotnet build --configuration Release --no-restore
 
       - name: Test (Release)
         run: dotnet test --configuration Release --no-build --no-restore
