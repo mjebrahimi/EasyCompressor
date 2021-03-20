@@ -1,6 +1,9 @@
 <Project>
   <PropertyGroup>
     <LangVersion>9.0</LangVersion>
+    <Version>1.4.0</Version>
+    <PackageVersion>1.4.0</PackageVersion>
+    <AssemblyVersion>1.4.0</AssemblyVersion>
     <Authors>Mohammad Javad Ebrahimi</Authors>
     <Company>Mohammad Javad Ebrahimi</Company>
     <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>

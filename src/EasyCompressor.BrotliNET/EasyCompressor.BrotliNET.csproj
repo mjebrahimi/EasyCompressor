@@ -1,14 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net45;net461;</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net45;net461</TargetFrameworks>
     <AssemblyName>EasyCompressor.BrotliNET</AssemblyName>
     <PackageId>EasyCompressor.BrotliNET</PackageId>
     <Title>EasyCompressor.BrotliNET</Title>
     <Product>EasyCompressor.BrotliNET</Product>
-    <Version>1.3.0</Version>
-    <PackageVersion>1.3.0</PackageVersion>
-    <AssemblyVersion>1.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

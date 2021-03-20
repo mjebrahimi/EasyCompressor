@@ -1,17 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;netstandard2.0;netstandard2.1;net45;net461;netcoreapp2.1</TargetFrameworks>
+    <TargetFrameworks>netstandard1.1;netstandard2.0;net45;net461</TargetFrameworks>
     <AssemblyName>EasyCompressor</AssemblyName>
     <PackageId>EasyCompressor</PackageId>
     <Title>EasyCompressor</Title>
     <Product>EasyCompressor</Product>
-    <Version>1.3.0</Version>
-    <PackageVersion>1.3.0</PackageVersion>
-    <AssemblyVersion>1.3.0</AssemblyVersion>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='netstandard2.0' OR '$(TargetFramework)'=='netstandard2.1' OR '$(TargetFramework)'=='net461' OR '$(TargetFramework)'=='netcoreapp2.1'">
+  <ItemGroup Condition="'$(TargetFramework)'!='netstandard1.1' AND '$(TargetFramework)'!='net45'">
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0"/>
   </ItemGroup>
 

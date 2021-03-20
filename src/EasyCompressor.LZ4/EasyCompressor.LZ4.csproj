@@ -1,14 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;netstandard2.0;net45;net461;</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;netstandard2.0;net45;net461</TargetFrameworks>
     <AssemblyName>EasyCompressor.LZ4</AssemblyName>
     <PackageId>EasyCompressor.LZ4</PackageId>
     <Title>EasyCompressor.LZ4</Title>
     <Product>EasyCompressor.LZ4</Product>
-    <Version>1.3.0</Version>
-    <PackageVersion>1.3.0</PackageVersion>
-    <AssemblyVersion>1.3.0</AssemblyVersion>
   </PropertyGroup>
 
   <ItemGroup>

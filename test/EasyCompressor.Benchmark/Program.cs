@@ -1,9 +1,12 @@
-﻿using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
 
 namespace EasySerializer.Benchmark
 {
+#pragma warning disable RCS1018 // Add accessibility modifiers (or vice versa).
+#pragma warning disable S1118 // Utility classes should not have public constructors
     class Program
+#pragma warning restore S1118 // Utility classes should not have public constructors
+#pragma warning restore RCS1018 // Add accessibility modifiers (or vice versa).
     {
         static void Main(string[] args)
         {
@@ -13,8 +16,7 @@ namespace EasySerializer.Benchmark
             return;
 #endif
 #pragma warning disable CS0162 // Unreachable code detected
-            //var config = ManualConfig.Create(DefaultConfig.Instance).WithOptions(ConfigOptions.DisableOptimizationsValidator);
-            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(/*null, config*/);
+            BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run();
 #pragma warning restore CS0162 // Unreachable code detected
         }
     }

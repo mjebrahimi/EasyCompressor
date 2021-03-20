@@ -1,8 +1,10 @@
 ﻿#pragma warning disable S1128 // Unused "using" should be removed
+#pragma warning disable IDE0005 // Using directive is unnecessary
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning restore IDE0005 // Using directive is unnecessary
 #pragma warning restore S1128 // Unused "using" should be removed
 
 #pragma warning disable S3261 // Namespaces should not be empty
