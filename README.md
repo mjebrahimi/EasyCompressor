@@ -74,6 +74,35 @@ var uncompressedBytes = compressor.Decompress(compressedBytes);
 
 ## Benchmark
 
+### Tips and Results
+
+**Origial data size is :**
+- **89,535 bytes (about ≈ 90 KB)** (binary serialized output of a json file by messagepack).
+
+**Compressed data size (for examle) :**
+- **776 bytes for Zstd** (115x compression ratio) that results in **99.13% memory and bandwidth saving.**
+- **1,234 bytes for LZ4** (72x compression ratio) that results in **98.62% memory and bandwidth saving.**
+
+**Maximum Compression :**
+- Brotli
+- Zstd
+- LZMA
+- LZ4
+
+**Fastest Speed :**
+- Zstd
+- Snappy
+- LZ4
+
+**Most Efficient :**
+- Zstd (*windows only package*)
+- LZ4 (*cross-platform package*)
+
+**Moderated :**
+- GZip
+- Deflate
+
+Compression Ratio : higher is better
 ![Benchmark](Benchmark.png)
 
 ## Contributing

@@ -5,24 +5,24 @@ namespace EasySerializer.Benchmark
     public class BinaryBenchmark : BaseBenchmark
     {
         [Benchmark]
-        [ArgumentsSource(nameof(GetCompressors))]
-        public void Compress(CompressorArg Compressor)
+        [ArgumentsSource(nameof(GetArguments))]
+        public void Compress(CompressorArg Compressor, CompressedArg CompressionRatio)
         {
-            Compressor.Compressor.Compress(ObjectBytes);
+            Compressor.Compressor.Compress(OriginalBytes);
         }
 
         [Benchmark]
-        [ArgumentsSource(nameof(GetDeompressors))]
-        public void Decompress(CompressorArg Compressor, CompressedBytesArg CompressedSize)
+        [ArgumentsSource(nameof(GetArguments))]
+        public void Decompress(CompressorArg Compressor, CompressedArg CompressionRatio)
         {
-            Compressor.Compressor.Decompress(CompressedSize.CompressedBytes);
+            Compressor.Compressor.Decompress(CompressionRatio.CompressedBytes);
         }
 
         [Benchmark]
-        [ArgumentsSource(nameof(GetCompressors))]
-        public void CompressAndDecompress(CompressorArg Compressor)
+        [ArgumentsSource(nameof(GetArguments))]
+        public void CompressAndDecompress(CompressorArg Compressor, CompressedArg CompressionRatio)
         {
-            var compressedBytes = Compressor.Compressor.Compress(ObjectBytes);
+            var compressedBytes = Compressor.Compressor.Compress(OriginalBytes);
             Compressor.Compressor.Decompress(compressedBytes);
         }
     }

@@ -11,7 +11,7 @@ namespace EasySerializer.Benchmark
     [ShortRunJob]
     //[SimpleJob(RunStrategy.Throughput)]
     [MemoryDiagnoser]
-    [KeepBenchmarkFiles(false)]
+    [KeepBenchmarkFiles(true)]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByMethod)]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
     public class BaseBenchmark
@@ -20,40 +20,24 @@ namespace EasySerializer.Benchmark
         {
             var json = File.ReadAllText("Data\\spotifyAlbum.json");
             var spotifyAlbums = Serializer.FromJson<SpotifyAlbumArray>(json);
-            ObjectBytes = Serializer.SerializeMessagePack(spotifyAlbums);
+            OriginalBytes = Serializer.SerializeMessagePack(spotifyAlbums);
         }
 
-        protected byte[] ObjectBytes;
+        protected byte[] OriginalBytes;
 
-        public IEnumerable<CompressorArg> GetCompressors
+        public IEnumerable<object[]> GetArguments
         {
             get
             {
-                yield return new CompressorArg(new GZipCompressor());
-                yield return new CompressorArg(new DeflateCompressor());
-                yield return new CompressorArg(new BrotliCompressor());
-                yield return new CompressorArg(new BrotliNETCompressor());
-                yield return new CompressorArg(new LZ4Compressor());
-                yield return new CompressorArg(new LZMACompressor());
-                yield return new CompressorArg(new SnappyCompressor());
-                yield return new CompressorArg(new ZstandardCompressor());
-                yield return new CompressorArg(new ZstdCompressor());
-            }
-        }
-
-        public IEnumerable<object[]> GetDeompressors
-        {
-            get
-            {
-                yield return new object[] { new CompressorArg(new GZipCompressor()), new CompressedBytesArg(new GZipCompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new DeflateCompressor()), new CompressedBytesArg(new DeflateCompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new BrotliCompressor()), new CompressedBytesArg(new BrotliCompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new BrotliNETCompressor()), new CompressedBytesArg(new BrotliNETCompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new LZ4Compressor()), new CompressedBytesArg(new LZ4Compressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new LZMACompressor()), new CompressedBytesArg(new LZMACompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new SnappyCompressor()), new CompressedBytesArg(new SnappyCompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new ZstandardCompressor()), new CompressedBytesArg(new ZstandardCompressor(), ObjectBytes) };
-                yield return new object[] { new CompressorArg(new ZstdCompressor()), new CompressedBytesArg(new ZstdCompressor(), ObjectBytes) };
+                yield return new object[] { new CompressorArg(new GZipCompressor()), new CompressedArg(new GZipCompressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new DeflateCompressor()), new CompressedArg(new DeflateCompressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new BrotliCompressor()), new CompressedArg(new BrotliCompressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new BrotliNETCompressor()), new CompressedArg(new BrotliNETCompressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new LZ4Compressor()), new CompressedArg(new LZ4Compressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new LZMACompressor()), new CompressedArg(new LZMACompressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new SnappyCompressor()), new CompressedArg(new SnappyCompressor(), OriginalBytes) };
+                //yield return new object[] { new CompressorArg(new ZstandardCompressor()), new CompressedArg(new ZstandardCompressor(), OriginalBytes) };
+                yield return new object[] { new CompressorArg(new ZstdCompressor()), new CompressedArg(new ZstdCompressor(), OriginalBytes) };
             }
         }
 
@@ -67,14 +51,20 @@ namespace EasySerializer.Benchmark
             public override string ToString() => Compressor.GetType().Name;
         }
 
-        public class CompressedBytesArg
+        public class CompressedArg
         {
+            private readonly int compressedRatio;
+            private readonly decimal savingPercent;
             public byte[] CompressedBytes { get; }
-            public CompressedBytesArg(ICompressor compressor, byte[] bytes)
+
+            public CompressedArg(ICompressor compressor, byte[] originalBytes)
             {
-                CompressedBytes = compressor.Compress(bytes);
+                CompressedBytes = compressor.Compress(originalBytes);
+                compressedRatio = originalBytes.Length / CompressedBytes.Length;
+                savingPercent = (originalBytes.Length - CompressedBytes.Length) * 100 / (decimal)originalBytes.Length;
             }
-            public override string ToString() => CompressedBytes.Length + " bytes";
+
+            public override string ToString() => string.Format("{0} ({1} bytes)", compressedRatio, CompressedBytes.Length);
         }
     }
 }

@@ -7,30 +7,30 @@ namespace EasySerializer.Benchmark
     public class StreamAsyncBenchmark : BaseBenchmark
     {
         [Benchmark]
-        [ArgumentsSource(nameof(GetCompressors))]
-        public Task Compress(CompressorArg Compressor)
+        [ArgumentsSource(nameof(GetArguments))]
+        public Task Compress(CompressorArg Compressor, CompressedArg CompressionRatio)
         {
-            using var inputStream = new MemoryStream(ObjectBytes);
+            using var inputStream = new MemoryStream(OriginalBytes);
             using var outputStream = new MemoryStream();
 
             return Compressor.Compressor.CompressAsync(inputStream, outputStream);
         }
 
         [Benchmark]
-        [ArgumentsSource(nameof(GetDeompressors))]
-        public Task Decompress(CompressorArg Compressor, CompressedBytesArg CompressedSize)
+        [ArgumentsSource(nameof(GetArguments))]
+        public Task Decompress(CompressorArg Compressor, CompressedArg CompressionRatio)
         {
-            using var inputStream = new MemoryStream(CompressedSize.CompressedBytes);
+            using var inputStream = new MemoryStream(CompressionRatio.CompressedBytes);
             using var outputStream = new MemoryStream();
 
             return Compressor.Compressor.DecompressAsync(inputStream, outputStream);
         }
 
         [Benchmark]
-        [ArgumentsSource(nameof(GetCompressors))]
-        public async Task CompressAndDecompress(CompressorArg Compressor)
+        [ArgumentsSource(nameof(GetArguments))]
+        public async Task CompressAndDecompress(CompressorArg Compressor, CompressedArg CompressionRatio)
         {
-            using var inputStream = new MemoryStream(ObjectBytes);
+            using var inputStream = new MemoryStream(OriginalBytes);
             using var outputStream = new MemoryStream();
 
             await Compressor.Compressor.CompressAsync(inputStream, outputStream);
