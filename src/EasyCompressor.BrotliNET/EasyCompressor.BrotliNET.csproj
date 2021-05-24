@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Brotli.NET" Version="2.0.4.2" />
+    <PackageReference Include="Brotli.NET" Version="2.1.1" />
   </ItemGroup>
 
 </Project>
