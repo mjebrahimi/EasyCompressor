@@ -11,7 +11,7 @@
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="protobuf-net" Version="3.0.101" />
-    <PackageReference Include="MessagePack" Version="2.2.113" />
+    <PackageReference Include="MessagePack" Version="2.3.75" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="nunit" Version="3.13.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.0.0">
