@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.6;netstandard2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard1.6;netstandard2.0;netstandard2.1;net461</TargetFrameworks>
     <AssemblyName>EasyCompressor.Snappy</AssemblyName>
     <PackageId>EasyCompressor.Snappy</PackageId>
     <Title>EasyCompressor.Snappy</Title>

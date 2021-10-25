@@ -33,13 +33,13 @@ namespace EasySerializer.Benchmark
             using var inputStream = new MemoryStream(OriginalBytes);
             using var outputStream = new MemoryStream();
 
-            await Compressor.Compressor.CompressAsync(inputStream, outputStream);
+            await Compressor.Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
             var compressedBytes = outputStream.ToArray();
 
             using var inputStream2 = new MemoryStream(compressedBytes);
             using var outputStream2 = new MemoryStream();
 
-            await Compressor.Compressor.DecompressAsync(inputStream2, outputStream2);
+            await Compressor.Compressor.DecompressAsync(inputStream2, outputStream2).ConfigureAwait(false);
         }
     }
 }
