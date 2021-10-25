@@ -62,7 +62,7 @@ namespace EasyCompressor.Tests.StreamAsyncTest
             using var inputStream = new MemoryStream(ObjectBytes);
             using var compressedStream = new MemoryStream();
 
-            await Compressor.CompressAsync(inputStream, compressedStream);
+            await Compressor.CompressAsync(inputStream, compressedStream).ConfigureAwait(false);
 
             var compressedBytes = compressedStream.ToArray();
 
@@ -76,7 +76,7 @@ namespace EasyCompressor.Tests.StreamAsyncTest
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
 
-            await Compressor.CompressAsync(inputStream, outputStream);
+            await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
             var compressedBytes = outputStream.ToArray();
 
             using var inputStream2 = new MemoryStream(compressedBytes);
@@ -93,13 +93,13 @@ namespace EasyCompressor.Tests.StreamAsyncTest
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
 
-            await Compressor.CompressAsync(inputStream, outputStream);
+            await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
             var compressedBytes = outputStream.ToArray();
 
             using var inputStream2 = new MemoryStream(compressedBytes);
             using var outputStream2 = new MemoryStream();
 
-            await Compressor.DecompressAsync(inputStream2, outputStream2);
+            await Compressor.DecompressAsync(inputStream2, outputStream2).ConfigureAwait(false);
             var decompressedBytes = outputStream2.ToArray();
 
             Assert.IsNotNull(decompressedBytes);
@@ -112,13 +112,13 @@ namespace EasyCompressor.Tests.StreamAsyncTest
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
 
-            await Compressor.CompressAsync(inputStream, outputStream);
+            await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
             var compressedBytes = outputStream.ToArray();
 
             using var inputStream2 = new MemoryStream(compressedBytes);
             using var outputStream2 = new MemoryStream();
 
-            await Compressor.DecompressAsync(inputStream2, outputStream2);
+            await Compressor.DecompressAsync(inputStream2, outputStream2).ConfigureAwait(false);
             var decompressedBytes = outputStream2.ToArray();
 
             Assert.True(decompressedBytes.SequenceEqual(ObjectBytes));
@@ -129,13 +129,13 @@ namespace EasyCompressor.Tests.StreamAsyncTest
         {
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
-            await Compressor.CompressAsync(inputStream, outputStream);
+            await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
 
             Assert.DoesNotThrow(() => inputStream.Position = 0);
             Assert.DoesNotThrow(() => outputStream.Position = 0);
 
             using var outputStream2 = new MemoryStream();
-            await Compressor.DecompressAsync(outputStream, outputStream2);
+            await Compressor.DecompressAsync(outputStream, outputStream2).ConfigureAwait(false);
 
             Assert.DoesNotThrow(() => outputStream.Position = 0);
             Assert.DoesNotThrow(() => outputStream2.Position = 0);
