@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'!='netstandard1.1' AND '$(TargetFramework)'!='net45'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='netstandard1.1' OR '$(TargetFramework)'=='net45'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="1.1.1"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0"/>
   </ItemGroup>
 
 </Project>
