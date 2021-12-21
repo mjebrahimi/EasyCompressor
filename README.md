@@ -22,13 +22,13 @@ A compression library that implements many compression algorithms such as **LZ4,
 
 `LZ4`, `GZip`, `Deflate`, `Brotli`, and `LZMA` are **cross-platform** because these are complete implementations with C#.  (also `BrotliNet` too because this is a wrapper of *brotli* native library for win/linux/osx)
 
-But `Zstd` and `Snappy` are **not cross-platform**, because they are just a wrapper of the native library for windows.
+`Zstd` and `Snappy` are **not cross-platform**, because they are just a wrapper of the native library for windows.
 
 ## Features
 
-- Supports and Implements **many compression algorithms**.
+- Supports and implements **many compression algorithms**.
 - Supports **async/await and CancellationToken**.
-- Supports woking with **multiple compressor with specified name**
+- Supports woking with **multiple compressors with specified names**
 - Supports **Stream** as most as possible (*depending on the underlying* library)
 - Compress/Decompress between **byte[], Stream, StreamReader and StreamWriter**.
 
@@ -63,12 +63,12 @@ public void ConfigureServices(IServiceCollection services)
 ```csharp
 using EasyCompressor;
 
-//Inject (ICompressor compressor)
+// Inject (ICompressor compressor)
 
-//Compress
+// Compress
 var compressedBytes = compressor.Compress(inputBytes);
 
-//Decompress
+// Decompress
 var uncompressedBytes = compressor.Decompress(compressedBytes);
 ```
 
@@ -76,29 +76,29 @@ var uncompressedBytes = compressor.Decompress(compressedBytes);
 
 ### Tips and Results
 
-**Origial data size is :**
+**Original data size is:**
 - **89,535 bytes (about ≈ 90 KB)** (binary serialized output of a json file by messagepack).
 
-**Compressed data size (for examle) :**
+**Compressed data size (for example):**
 - **776 bytes for Zstd** (115x compression ratio) that results in **99.13% memory and bandwidth saving.**
 - **1,234 bytes for LZ4** (72x compression ratio) that results in **98.62% memory and bandwidth saving.**
 
-**Maximum Compression :**
+**Maximum Compression:**
 - Brotli
 - Zstd
 - LZMA
 - LZ4
 
-**Fastest Speed :**
+**Fastest Speed:**
 - Zstd
 - Snappy
 - LZ4
 
-**Most Efficient :**
+**Most Efficient:**
 - Zstd (*windows only package*)
 - LZ4 (*cross-platform package*)
 
-**Moderated :**
+**Moderated:**
 - GZip
 - Deflate
 
