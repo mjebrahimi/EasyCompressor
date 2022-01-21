@@ -49,6 +49,9 @@ namespace EasyCompressor
         /// </summary>
         protected readonly CompressionLevel Level;
 
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.GZip;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

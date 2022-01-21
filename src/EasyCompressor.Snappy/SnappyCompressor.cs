@@ -10,6 +10,10 @@ namespace EasyCompressor
     /// </summary>
     public class SnappyCompressor : BaseCompressor
     {
+
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.Snappy;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

@@ -15,6 +15,9 @@ namespace EasyCompressor
         /// </summary>
         protected readonly CompressionLevel Level;
 
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.Deflate;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

@@ -18,6 +18,9 @@ namespace EasyCompressor
         /// </summary>
         protected readonly LZ4Level Level;
 
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.LZ4;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

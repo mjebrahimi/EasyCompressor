@@ -100,6 +100,10 @@ namespace EasyCompressor
         //} // End Function Decompress 
         #endregion
 
+
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.LZMA;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

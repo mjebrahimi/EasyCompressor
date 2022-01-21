@@ -21,6 +21,9 @@ namespace EasyCompressor
         /// </summary>
         protected readonly CompressionLevel Level;
 
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.Brotli;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

@@ -18,6 +18,9 @@ namespace EasyCompressor
         /// <inheritdoc/>
         public string Name { get; protected set; }
 
+        /// <inheritdoc/>
+        public abstract CompressionMethod Method { get; }
+
         /// <summary>
         /// Base dompress bytes
         /// </summary>

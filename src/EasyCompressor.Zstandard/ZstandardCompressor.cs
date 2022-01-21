@@ -16,6 +16,9 @@ namespace EasyCompressor
         /// </summary>
         protected readonly int Level;
 
+        /// <inheritdoc/>
+        public override CompressionMethod Method => CompressionMethod.Zstd;
+
         /// <summary>
         /// Initializes a new instance
         /// </summary>

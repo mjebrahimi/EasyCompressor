@@ -15,6 +15,12 @@ namespace EasyCompressor
         string Name { get; }
 
         /// <summary>
+        /// Compression method
+        /// </summary>
+        CompressionMethod Method { get; }
+
+
+        /// <summary>
         /// Compress bytes
         /// </summary>
         /// <param name="bytes">Bytes</param>
