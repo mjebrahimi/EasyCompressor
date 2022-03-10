@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyCaching.InMemory" Version="1.5.0" />
+    <PackageReference Include="EasyCaching.InMemory" Version="1.5.1" />
     <PackageReference Include="EasyCaching.Redis" Version="1.5.0" />
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
