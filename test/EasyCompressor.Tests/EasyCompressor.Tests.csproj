@@ -10,7 +10,7 @@
     <PackageReference Include="EasyCaching.Redis" Version="1.5.0" />
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.5.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
-    <PackageReference Include="protobuf-net" Version="3.0.101" />
+    <PackageReference Include="protobuf-net" Version="3.2.12" />
     <PackageReference Include="MessagePack" Version="2.3.85" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="nunit" Version="3.13.2" />
