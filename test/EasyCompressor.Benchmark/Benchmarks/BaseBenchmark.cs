@@ -32,7 +32,6 @@ namespace EasySerializer.Benchmark;
                 yield return new object[] { new CompressorArg(new GZipCompressor()), new CompressedArg(new GZipCompressor(), OriginalBytes) };
                 yield return new object[] { new CompressorArg(new DeflateCompressor()), new CompressedArg(new DeflateCompressor(), OriginalBytes) };
                 yield return new object[] { new CompressorArg(new BrotliCompressor()), new CompressedArg(new BrotliCompressor(), OriginalBytes) };
-                yield return new object[] { new CompressorArg(new BrotliNETCompressor()), new CompressedArg(new BrotliNETCompressor(), OriginalBytes) };
                 yield return new object[] { new CompressorArg(new LZ4Compressor()), new CompressedArg(new LZ4Compressor(), OriginalBytes) };
                 yield return new object[] { new CompressorArg(new LZMACompressor()), new CompressedArg(new LZMACompressor(), OriginalBytes) };
                 yield return new object[] { new CompressorArg(new SnappyCompressor()), new CompressedArg(new SnappyCompressor(), OriginalBytes) };
