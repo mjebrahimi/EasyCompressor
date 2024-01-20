@@ -31,6 +31,7 @@ public class LZ4Compressor : BaseCompressor
         Level = level;
     }
 
+#pragma warning disable IDE0057 // Use range operator (net462 and nestandard2.0 don't support System.Range)
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
     {
@@ -38,20 +39,21 @@ public class LZ4Compressor : BaseCompressor
         var target = new byte[LZ4Codec.MaximumOutputSize(source.Length) + 4].AsSpan();
         var size = BitConverter.GetBytes(source.Length).AsSpan();
         size.CopyTo(target);
-        int compressedBytesSize = LZ4Codec.Encode(source, target[4..], Level);
-        return target[..(compressedBytesSize + 4)].ToArray();
+        int compressedBytesSize = LZ4Codec.Encode(source, target.Slice(4), Level);
+        return target.Slice(0, compressedBytesSize + 4).ToArray();
     }
 
     /// <inheritdoc/>
     protected override byte[] BaseDecompress(byte[] compressedBytes)
     {
         var source = compressedBytes.AsSpan();
-        var size = source[..4].ToArray();
+        var size = source.Slice(0, 4).ToArray();
         var length = BitConverter.ToInt32(size, 0);
         var target = new byte[length].AsSpan();
-        int decoded = LZ4Codec.Decode(source[4..], target);
-        return target[..decoded].ToArray();
+        int decoded = LZ4Codec.Decode(source.Slice(4), target);
+        return target.Slice(0, decoded).ToArray();
     }
+#pragma warning restore IDE0057 // Use range operator (net462 and nestandard2.0 don't support System.Range)
 
     /// <inheritdoc/>
     protected override void BaseCompress(Stream inputStream, Stream outputStream)
