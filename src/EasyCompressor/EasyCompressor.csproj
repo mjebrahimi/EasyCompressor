@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.1;netstandard2.0;netstandard2.1;net45;net461;</TargetFrameworks>
     <AssemblyName>EasyCompressor</AssemblyName>
     <PackageId>EasyCompressor</PackageId>
     <Title>EasyCompressor</Title>
