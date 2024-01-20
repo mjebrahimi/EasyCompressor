@@ -51,8 +51,8 @@ public class BinaryTests(ICompressor compressor) : TestBase(compressor)
     {
         var compressedBytes = Compressor.Compress(ObjectBytes);
 
-        Assert.IsNotNull(compressedBytes);
-        Assert.IsNotEmpty(compressedBytes);
+        Assert.That(compressedBytes, Is.Not.Null);
+        Assert.That(compressedBytes, Is.Not.Empty);
     }
 
     [Test]
@@ -65,13 +65,13 @@ public class BinaryTests(ICompressor compressor) : TestBase(compressor)
     }
 
     [Test]
-    public void DecompressdResult_ShouldNot_NullOrEmpty()
+    public void DecompressedResult_ShouldNot_NullOrEmpty()
     {
         var compressedBytes = Compressor.Compress(ObjectBytes);
         var decompressedBytes = Compressor.Decompress(compressedBytes);
 
-        Assert.IsNotNull(decompressedBytes);
-        Assert.IsNotEmpty(decompressedBytes);
+        Assert.That(decompressedBytes, Is.Not.Null);
+        Assert.That(decompressedBytes, Is.Not.Empty);
     }
 
     [Test]
@@ -80,7 +80,7 @@ public class BinaryTests(ICompressor compressor) : TestBase(compressor)
         var compressedBytes = Compressor.Compress(ObjectBytes);
         var decompressedBytes = Compressor.Decompress(compressedBytes);
 
-        Assert.IsTrue(decompressedBytes.SequenceEqual(ObjectBytes));
+        Assert.That(decompressedBytes.SequenceEqual(ObjectBytes), Is.True);
     }
 
     #region TODO: Must be completed

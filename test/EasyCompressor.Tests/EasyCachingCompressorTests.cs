@@ -65,15 +65,15 @@ namespace EasyCompressor.Tests.EasyCachingCompressor;
             });
             var cachingProvider = services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
 
-            Assert.IsInstanceOf<EasyCachingSerializerDecorator>(cachingProvider.GetFieldValue("_serializer"));
+        Assert.That(cachingProvider.GetFieldValue("_serializer"), Is.InstanceOf<EasyCachingSerializerDecorator>());
 
-            Assert.IsInstanceOf<DefaultMessagePackSerializer>(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_easyCachingSerializer"));
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_easyCachingSerializer"), Is.InstanceOf<DefaultMessagePackSerializer>());
 
-            Assert.IsInstanceOf<ZstdCompressor>(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_compressor"));
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_compressor"), Is.InstanceOf<ZstdCompressor>());
 
-            Assert.AreEqual("msgpack", cachingProvider.GetFieldValue("_serializer").GetFieldValue<IEasyCachingSerializer>("_easyCachingSerializer").Name);
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue<IEasyCachingSerializer>("_easyCachingSerializer").Name, Is.SameAs("msgpack"));
 
-            Assert.AreEqual(null, cachingProvider.GetFieldValue("_serializer").GetFieldValue<ICompressor>("_compressor").Name);
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue<ICompressor>("_compressor").Name, Is.Null);
         }
 
         [Test]
@@ -93,15 +93,15 @@ namespace EasyCompressor.Tests.EasyCachingCompressor;
             });
             var cachingProvider = services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
 
-            Assert.IsInstanceOf<EasyCachingSerializerDecorator>(cachingProvider.GetFieldValue("_serializer"));
+        Assert.That(cachingProvider.GetFieldValue("_serializer"), Is.InstanceOf<EasyCachingSerializerDecorator>());
 
-            Assert.IsInstanceOf<DefaultMessagePackSerializer>(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_easyCachingSerializer"));
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_easyCachingSerializer"), Is.InstanceOf<DefaultMessagePackSerializer>());
 
-            Assert.IsInstanceOf<ZstdCompressor>(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_compressor"));
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue("_compressor"), Is.InstanceOf<ZstdCompressor>());
 
-            Assert.AreEqual("MessagePack", cachingProvider.GetFieldValue("_serializer").GetFieldValue<IEasyCachingSerializer>("_easyCachingSerializer").Name);
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue<IEasyCachingSerializer>("_easyCachingSerializer").Name, Is.SameAs("MessagePack"));
 
-            Assert.AreEqual("Zstd", cachingProvider.GetFieldValue("_serializer").GetFieldValue<ICompressor>("_compressor").Name);
+        Assert.That(cachingProvider.GetFieldValue("_serializer").GetFieldValue<ICompressor>("_compressor").Name, Is.SameAs("Zstd"));
         }
 
         [Test]

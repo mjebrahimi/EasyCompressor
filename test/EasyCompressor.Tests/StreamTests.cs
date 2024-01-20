@@ -67,8 +67,8 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
 
             var compressedBytes = compressedStream.ToArray();
 
-            Assert.IsNotNull(compressedBytes);
-            Assert.IsNotEmpty(compressedBytes);
+        Assert.That(compressedBytes, Is.Not.Null);
+        Assert.That(compressedBytes, Is.Not.Empty);
         }
 
         [Test]
@@ -89,7 +89,7 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
         }
 
         [Test]
-        public void DecompressdResult_ShouldNot_NullOrEmpty()
+    public void DecompressedResult_ShouldNot_NullOrEmpty()
         {
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
@@ -122,7 +122,7 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
             Compressor.Decompress(inputStream2, outputStream2);
             var decompressedBytes = outputStream2.ToArray();
 
-            Assert.True(decompressedBytes.SequenceEqual(ObjectBytes));
+        Assert.That(decompressedBytes.SequenceEqual(ObjectBytes), Is.True);
         }
 
         [Test]

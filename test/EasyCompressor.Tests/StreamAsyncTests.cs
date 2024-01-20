@@ -54,28 +54,28 @@ public class StreamAsyncTests(ICompressor compressor) : TestBase(compressor)
     [Test]
     public async Task CompressedResult_ShouldNot_NullOrEmpty()
     {
-        using var inputStream = new MemoryStream(ObjectBytes);
-        using var compressedStream = new MemoryStream();
+        await using var inputStream = new MemoryStream(ObjectBytes);
+        await using var compressedStream = new MemoryStream();
 
         await Compressor.CompressAsync(inputStream, compressedStream).ConfigureAwait(false);
 
         var compressedBytes = compressedStream.ToArray();
 
-        Assert.IsNotNull(compressedBytes);
-        Assert.IsNotEmpty(compressedBytes);
+        Assert.That(compressedBytes, Is.Not.Null);
+        Assert.That(compressedBytes, Is.Not.Empty);
     }
 
     [Test]
     public async Task Decompress_Should_DoesNotThrow_Exception()
     {
-        using var inputStream = new MemoryStream(ObjectBytes);
-        using var outputStream = new MemoryStream();
+        await using var inputStream = new MemoryStream(ObjectBytes);
+        await using var outputStream = new MemoryStream();
 
         await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
         var compressedBytes = outputStream.ToArray();
 
-        using var inputStream2 = new MemoryStream(compressedBytes);
-        using var outputStream2 = new MemoryStream();
+        await using var inputStream2 = new MemoryStream(compressedBytes);
+        await using var outputStream2 = new MemoryStream();
 
         Task action() => Compressor.DecompressAsync(inputStream2, outputStream2);
 
@@ -83,53 +83,53 @@ public class StreamAsyncTests(ICompressor compressor) : TestBase(compressor)
     }
 
     [Test]
-    public async Task DecompressdResult_ShouldNot_NullOrEmpty()
+    public async Task DecompressedResult_ShouldNot_NullOrEmpty()
     {
-        using var inputStream = new MemoryStream(ObjectBytes);
-        using var outputStream = new MemoryStream();
+        await using var inputStream = new MemoryStream(ObjectBytes);
+        await using var outputStream = new MemoryStream();
 
         await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
         var compressedBytes = outputStream.ToArray();
 
-        using var inputStream2 = new MemoryStream(compressedBytes);
-        using var outputStream2 = new MemoryStream();
+        await using var inputStream2 = new MemoryStream(compressedBytes);
+        await using var outputStream2 = new MemoryStream();
 
         await Compressor.DecompressAsync(inputStream2, outputStream2).ConfigureAwait(false);
         var decompressedBytes = outputStream2.ToArray();
 
-        Assert.IsNotNull(decompressedBytes);
-        Assert.IsNotEmpty(decompressedBytes);
+        Assert.That(decompressedBytes, Is.Not.Null);
+        Assert.That(decompressedBytes, Is.Not.Empty);
     }
 
     [Test]
     public async Task DecompressedResult_Should_SequenceEqual_With_SourceBytes()
     {
-        using var inputStream = new MemoryStream(ObjectBytes);
-        using var outputStream = new MemoryStream();
+        await using var inputStream = new MemoryStream(ObjectBytes);
+        await using var outputStream = new MemoryStream();
 
         await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
         var compressedBytes = outputStream.ToArray();
 
-        using var inputStream2 = new MemoryStream(compressedBytes);
-        using var outputStream2 = new MemoryStream();
+        await using var inputStream2 = new MemoryStream(compressedBytes);
+        await using var outputStream2 = new MemoryStream();
 
         await Compressor.DecompressAsync(inputStream2, outputStream2).ConfigureAwait(false);
         var decompressedBytes = outputStream2.ToArray();
 
-        Assert.True(decompressedBytes.SequenceEqual(ObjectBytes));
+        Assert.That(decompressedBytes.SequenceEqual(ObjectBytes), Is.True);
     }
 
     [Test]
     public async Task CompressAndDecompress_ShouldNot_Close_BothStreams()
     {
-        using var inputStream = new MemoryStream(ObjectBytes);
-        using var outputStream = new MemoryStream();
+        await using var inputStream = new MemoryStream(ObjectBytes);
+        await using var outputStream = new MemoryStream();
         await Compressor.CompressAsync(inputStream, outputStream).ConfigureAwait(false);
 
         Assert.DoesNotThrow(() => inputStream.Position = 0);
         Assert.DoesNotThrow(() => outputStream.Position = 0);
 
-        using var outputStream2 = new MemoryStream();
+        await using var outputStream2 = new MemoryStream();
         await Compressor.DecompressAsync(outputStream, outputStream2).ConfigureAwait(false);
 
         Assert.DoesNotThrow(() => outputStream.Position = 0);

@@ -29,23 +29,23 @@ public class DependencyInjectionTests
     }
 
     [Test]
-    public void Service_Count_ShouldBe_Foure()
+    public void Service_Count_ShouldBe_Four()
     {
-        Assert.AreEqual(ServiceCollection.Count, 4);
+        Assert.That(ServiceCollection.Count, Is.SameAs(4));
     }
 
     [Test]
     public void ICompressorProvider_Count_ShouldBe_One()
     {
         var count = ServiceCollection.Count(p => p.ServiceType == typeof(ICompressorProvider));
-        Assert.AreEqual(count, 1);
+        Assert.That(count, Is.SameAs(1));
     }
 
     [Test]
     public void ICompressor_Count_ShouldBe_Tree()
     {
         var count = ServiceCollection.Count(p => p.ServiceType == typeof(ICompressor));
-        Assert.AreEqual(count, 3);
+        Assert.That(count, Is.SameAs(3));
     }
 
     [Test]
@@ -55,8 +55,8 @@ public class DependencyInjectionTests
 
         foreach (var serviceDescriptor in list)
         {
-            Assert.IsNotNull(serviceDescriptor);
-            Assert.AreEqual(serviceDescriptor.Lifetime, ServiceLifetime.Singleton);
+            Assert.That(serviceDescriptor, Is.Not.Null);
+            Assert.That(serviceDescriptor.Lifetime, Is.SameAs(ServiceLifetime.Singleton));
         }
     }
 
@@ -65,8 +65,8 @@ public class DependencyInjectionTests
     {
         var serviceDescriptor = ServiceCollection.SingleOrDefault(p => p.ServiceType == typeof(ICompressorProvider));
 
-        Assert.IsNotNull(serviceDescriptor);
-        Assert.AreEqual(serviceDescriptor.Lifetime, ServiceLifetime.Singleton);
+        Assert.That(serviceDescriptor, Is.Not.Null);
+        Assert.That(serviceDescriptor.Lifetime, Is.SameAs(ServiceLifetime.Singleton));
     }
 
     [Test]
@@ -74,8 +74,8 @@ public class DependencyInjectionTests
     {
         var compressor = ServiceProvider.GetService<ICompressor>();
 
-        Assert.IsNotNull(compressor);
-        Assert.AreEqual(compressor.GetType(), ImplementationType);
+        Assert.That(compressor, Is.Not.Null);
+        Assert.That(compressor.GetType(), Is.SameAs(ImplementationType));
     }
 
     [Test]
@@ -83,7 +83,7 @@ public class DependencyInjectionTests
     {
         var compressorProvider = ServiceProvider.GetService<ICompressorProvider>();
 
-        Assert.IsNotNull(compressorProvider);
+        Assert.That(compressorProvider, Is.Not.Null);
     }
 
     [Test]
@@ -95,8 +95,8 @@ public class DependencyInjectionTests
 
         var compressor2 = compressorProvider.GetCompressor("my-compressor");
 
-        Assert.IsNotNull(compressor2);
-        Assert.AreSame(compressor1, compressor2);
+        Assert.That(compressor2, Is.Not.Null);
+        Assert.That(compressor1, Is.SameAs(compressor2));
     }
 
     [Test]
