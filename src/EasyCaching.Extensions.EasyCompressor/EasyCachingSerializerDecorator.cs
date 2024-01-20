@@ -2,72 +2,65 @@
 using EasyCompressor.Internal;
 using System;
 
-namespace EasyCompressor
+namespace EasyCompressor;
+
+/// <summary>
+/// EasyCaching serializer decorator
+/// </summary>
+/// <remarks>
+/// Initializes a new instance
+/// </remarks>
+/// <param name="compressor">Compressor</param>
+/// <param name="easyCachingSerializer">EasyCaching serializer</param>
+public class EasyCachingSerializerDecorator(ICompressor compressor, IEasyCachingSerializer easyCachingSerializer) : IEasyCachingSerializer
 {
-    /// <summary>
-    /// EasyCaching serializer decorator
-    /// </summary>
-    public class EasyCachingSerializerDecorator : IEasyCachingSerializer
+    private readonly ICompressor _compressor = compressor.NotNull(nameof(compressor));
+    private readonly IEasyCachingSerializer _easyCachingSerializer = easyCachingSerializer.NotNull(nameof(easyCachingSerializer));
+
+    /// <inheritdoc/>
+    public string Name => _easyCachingSerializer.Name;
+
+    /// <inheritdoc/>
+    public T Deserialize<T>(byte[] bytes)
     {
-        private readonly ICompressor _compressor;
-        private readonly IEasyCachingSerializer _easyCachingSerializer;
+        var decompressedBytes = _compressor.Decompress(bytes);
 
-        /// <summary>
-        /// Initializes a new instance
-        /// </summary>
-        /// <param name="compressor">Compressor</param>
-        /// <param name="easyCachingSerializer">EasyCaching serializer</param>
-        public EasyCachingSerializerDecorator(ICompressor compressor, IEasyCachingSerializer easyCachingSerializer)
-        {
-            _compressor = compressor.NotNull(nameof(compressor));
-            _easyCachingSerializer = easyCachingSerializer.NotNull(nameof(easyCachingSerializer));
-        }
+        return _easyCachingSerializer.Deserialize<T>(decompressedBytes);
+    }
 
-        /// <inheritdoc/>
-        public string Name => _easyCachingSerializer.Name;
+    /// <inheritdoc/>
+    public object Deserialize(byte[] bytes, Type type)
+    {
+        var decompressedBytes = _compressor.Decompress(bytes);
 
-        /// <inheritdoc/>
-        public T Deserialize<T>(byte[] bytes)
-        {
-            var decompressedBytes = _compressor.Decompress(bytes);
+        return _easyCachingSerializer.Deserialize(decompressedBytes, type);
+    }
 
-            return _easyCachingSerializer.Deserialize<T>(decompressedBytes);
-        }
+    /// <inheritdoc/>
+    public object DeserializeObject(ArraySegment<byte> value)
+    {
+        var decompressedBytes = _compressor.Decompress(value.Array);
 
-        /// <inheritdoc/>
-        public object Deserialize(byte[] bytes, Type type)
-        {
-            var decompressedBytes = _compressor.Decompress(bytes);
+        var arraySegment = new ArraySegment<byte>(decompressedBytes);
 
-            return _easyCachingSerializer.Deserialize(decompressedBytes, type);
-        }
+        return _easyCachingSerializer.DeserializeObject(arraySegment);
+    }
 
-        /// <inheritdoc/>
-        public object DeserializeObject(ArraySegment<byte> value)
-        {
-            var decompressedBytes = _compressor.Decompress(value.Array);
+    /// <inheritdoc/>
+    public byte[] Serialize<T>(T value)
+    {
+        var bytes = _easyCachingSerializer.Serialize(value);
 
-            var arraySegment = new ArraySegment<byte>(decompressedBytes);
+        return _compressor.Compress(bytes);
+    }
 
-            return _easyCachingSerializer.DeserializeObject(arraySegment);
-        }
+    /// <inheritdoc/>
+    public ArraySegment<byte> SerializeObject(object obj)
+    {
+        var arraySegment = _easyCachingSerializer.SerializeObject(obj);
 
-        /// <inheritdoc/>
-        public byte[] Serialize<T>(T value)
-        {
-            var bytes = _easyCachingSerializer.Serialize(value);
+        var compressedBytes = _compressor.Compress(arraySegment.Array);
 
-            return _compressor.Compress(bytes);
-        }
-
-        /// <inheritdoc/>
-        public ArraySegment<byte> SerializeObject(object obj)
-        {
-            var arraySegment = _easyCachingSerializer.SerializeObject(obj);
-
-            var compressedBytes = _compressor.Compress(arraySegment.Array);
-
-            return new ArraySegment<byte>(compressedBytes);
-        }
+        return new ArraySegment<byte>(compressedBytes);
     }
 }

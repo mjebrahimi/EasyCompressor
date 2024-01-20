@@ -3,8 +3,8 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyCompressor
-{
+namespace EasyCompressor;
+
     /*
     TODO
     
@@ -135,4 +135,3 @@ namespace EasyCompressor
             await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
     }
-}

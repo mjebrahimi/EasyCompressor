@@ -3,8 +3,8 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyCompressor
-{
+namespace EasyCompressor;
+
     /// <summary>
     /// Deflate compressor
     /// </summary>
@@ -101,4 +101,3 @@ namespace EasyCompressor
             await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false);
         }
     }
-}

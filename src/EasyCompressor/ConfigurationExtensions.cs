@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.IO.Compression;
 
-namespace Microsoft.Extensions.DependencyInjection
-{
+namespace Microsoft.Extensions.DependencyInjection;
+
     /// <summary>
     /// Configuration extensions
     /// </summary>
@@ -95,4 +95,3 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 #endif
     }
-}
