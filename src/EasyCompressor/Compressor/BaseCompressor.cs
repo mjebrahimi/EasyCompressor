@@ -3,120 +3,119 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyCompressor
+namespace EasyCompressor;
+
+/// <summary>
+/// Base compressor
+/// </summary>
+public abstract class BaseCompressor : ICompressor
 {
     /// <summary>
-    /// Base compressor
+    /// Default buffer size
     /// </summary>
-    public abstract class BaseCompressor : ICompressor
+    protected const int DefaultBufferSize = 81920;
+
+    /// <inheritdoc/>
+    public string Name { get; protected set; }
+
+    /// <inheritdoc/>
+    public abstract CompressionMethod Method { get; }
+
+    /// <summary>
+    /// Base dompress bytes
+    /// </summary>
+    /// <param name="bytes">Bytes</param>
+    /// <returns>Return compressed bytes</returns>
+    protected abstract byte[] BaseCompress(byte[] bytes);
+
+    /// <summary>
+    /// Base decompress bytes
+    /// </summary>
+    /// <param name="compressedBytes">Compressed bytes</param>
+    /// <returns>Return uncompressed bytes</returns>
+    protected abstract byte[] BaseDecompress(byte[] compressedBytes);
+
+    /// <summary>
+    /// Base compress input stream to output stream
+    /// </summary>
+    /// <param name="inputStream">Input stream</param>
+    /// <param name="outputStream">Output stream</param>
+    protected abstract void BaseCompress(Stream inputStream, Stream outputStream);
+
+    /// <summary>
+    /// Base decompress input stream to output stream
+    /// </summary>
+    /// <param name="inputStream">Input stream</param>
+    /// <param name="outputStream">Output stream</param>
+    protected abstract void BaseDecompress(Stream inputStream, Stream outputStream);
+
+    /// <summary>
+    /// Base compress input stream to output stream
+    /// </summary>
+    /// <param name="inputStream">Input stream</param>
+    /// <param name="outputStream">Output stream</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Task</returns>
+    protected abstract Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Base decompress input stream to output stream
+    /// </summary>
+    /// <param name="inputStream">Input stream</param>
+    /// <param name="outputStream">Output stream</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>Task</returns>
+    protected abstract Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
+
+    /// <inheritdoc/>
+    public byte[] Compress(byte[] bytes)
     {
-        /// <summary>
-        /// Default buffer size
-        /// </summary>
-        protected const int DefaultBufferSize = 81920;
+        bytes.NotNullOrEmpty(nameof(bytes));
 
-        /// <inheritdoc/>
-        public string Name { get; protected set; }
+        return BaseCompress(bytes);
+    }
 
-        /// <inheritdoc/>
-        public abstract CompressionMethod Method { get; }
+    /// <inheritdoc/>
+    public byte[] Decompress(byte[] compressedBytes)
+    {
+        compressedBytes.NotNullOrEmpty(nameof(compressedBytes));
 
-        /// <summary>
-        /// Base dompress bytes
-        /// </summary>
-        /// <param name="bytes">Bytes</param>
-        /// <returns>Return compressed bytes</returns>
-        protected abstract byte[] BaseCompress(byte[] bytes);
+        return BaseDecompress(compressedBytes);
+    }
 
-        /// <summary>
-        /// Base decompress bytes
-        /// </summary>
-        /// <param name="compressedBytes">Compressed bytes</param>
-        /// <returns>Return uncompressed bytes</returns>
-        protected abstract byte[] BaseDecompress(byte[] compressedBytes);
+    /// <inheritdoc/>
+    public void Compress(Stream inputStream, Stream outputStream)
+    {
+        inputStream.NotNull(nameof(inputStream));
+        outputStream.NotNull(nameof(outputStream));
 
-        /// <summary>
-        /// Base compress input stream to output stream
-        /// </summary>
-        /// <param name="inputStream">Input stream</param>
-        /// <param name="outputStream">Output stream</param>
-        protected abstract void BaseCompress(Stream inputStream, Stream outputStream);
+        BaseCompress(inputStream, outputStream);
+    }
 
-        /// <summary>
-        /// Base decompress input stream to output stream
-        /// </summary>
-        /// <param name="inputStream">Input stream</param>
-        /// <param name="outputStream">Output stream</param>
-        protected abstract void BaseDecompress(Stream inputStream, Stream outputStream);
+    /// <inheritdoc/>
+    public void Decompress(Stream inputStream, Stream outputStream)
+    {
+        inputStream.NotNull(nameof(inputStream));
+        outputStream.NotNull(nameof(outputStream));
 
-        /// <summary>
-        /// Base compress input stream to output stream
-        /// </summary>
-        /// <param name="inputStream">Input stream</param>
-        /// <param name="outputStream">Output stream</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Task</returns>
-        protected abstract Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
+        BaseDecompress(inputStream, outputStream);
+    }
 
-        /// <summary>
-        /// Base decompress input stream to output stream
-        /// </summary>
-        /// <param name="inputStream">Input stream</param>
-        /// <param name="outputStream">Output stream</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Task</returns>
-        protected abstract Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
+    /// <inheritdoc/>
+    public Task CompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+    {
+        inputStream.NotNull(nameof(inputStream));
+        outputStream.NotNull(nameof(outputStream));
 
-        /// <inheritdoc/>
-        public byte[] Compress(byte[] bytes)
-        {
-            bytes.NotNullOrEmpty(nameof(bytes));
+        return BaseCompressAsync(inputStream, outputStream, cancellationToken);
+    }
 
-            return BaseCompress(bytes);
-        }
+    /// <inheritdoc/>
+    public Task DecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+    {
+        inputStream.NotNull(nameof(inputStream));
+        outputStream.NotNull(nameof(outputStream));
 
-        /// <inheritdoc/>
-        public byte[] Decompress(byte[] compressedBytes)
-        {
-            compressedBytes.NotNullOrEmpty(nameof(compressedBytes));
-
-            return BaseDecompress(compressedBytes);
-        }
-
-        /// <inheritdoc/>
-        public void Compress(Stream inputStream, Stream outputStream)
-        {
-            inputStream.NotNull(nameof(inputStream));
-            outputStream.NotNull(nameof(outputStream));
-
-            BaseCompress(inputStream, outputStream);
-        }
-
-        /// <inheritdoc/>
-        public void Decompress(Stream inputStream, Stream outputStream)
-        {
-            inputStream.NotNull(nameof(inputStream));
-            outputStream.NotNull(nameof(outputStream));
-
-            BaseDecompress(inputStream, outputStream);
-        }
-
-        /// <inheritdoc/>
-        public Task CompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
-        {
-            inputStream.NotNull(nameof(inputStream));
-            outputStream.NotNull(nameof(outputStream));
-
-            return BaseCompressAsync(inputStream, outputStream, cancellationToken);
-        }
-
-        /// <inheritdoc/>
-        public Task DecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
-        {
-            inputStream.NotNull(nameof(inputStream));
-            outputStream.NotNull(nameof(outputStream));
-
-            return BaseDecompressAsync(inputStream, outputStream, cancellationToken);
-        }
+        return BaseDecompressAsync(inputStream, outputStream, cancellationToken);
     }
 }

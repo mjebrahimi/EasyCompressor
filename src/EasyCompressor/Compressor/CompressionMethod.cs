@@ -1,43 +1,42 @@
-﻿namespace EasyCompressor
+﻿namespace EasyCompressor;
+
+/// <summary>
+/// Compression method
+/// </summary>
+public enum CompressionMethod
 {
     /// <summary>
-    /// Compression method
+    /// Deflate
     /// </summary>
-    public enum CompressionMethod
-    {
-        /// <summary>
-        /// Deflate
-        /// </summary>
-        Deflate,
+    Deflate,
 
-        /// <summary>
-        /// GZip
-        /// </summary>
-        GZip,
+    /// <summary>
+    /// GZip
+    /// </summary>
+    GZip,
 
-        /// <summary>
-        /// Brotli
-        /// </summary>
-        Brotli,
+    /// <summary>
+    /// Brotli
+    /// </summary>
+    Brotli,
 
-        /// <summary>
-        /// LZ4
-        /// </summary>
-        LZ4,
+    /// <summary>
+    /// LZ4
+    /// </summary>
+    LZ4,
 
-        /// <summary>
-        /// LZMA
-        /// </summary>
-        LZMA,
+    /// <summary>
+    /// LZMA
+    /// </summary>
+    LZMA,
 
-        /// <summary>
-        /// Snappy
-        /// </summary>
-        Snappy,
+    /// <summary>
+    /// Snappy
+    /// </summary>
+    Snappy,
 
-        /// <summary>
-        /// Zstd
-        /// </summary>
-        Zstd
-    }
+    /// <summary>
+    /// Zstd
+    /// </summary>
+    Zstd
 }
