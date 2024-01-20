@@ -28,7 +28,6 @@ public class TestBase(ICompressor compressor)
             yield return new TestFixtureData(new LZ4Compressor()).SetArgDisplayNames(" LZ4 ");
             yield return new TestFixtureData(new LZMACompressor()).SetArgDisplayNames(" LZMA ");
             yield return new TestFixtureData(new SnappyCompressor()).SetArgDisplayNames(" Snappy ");
-            yield return new TestFixtureData(new ZstandardCompressor()).SetArgDisplayNames(" Zstandard ");
             yield return new TestFixtureData(new ZstdCompressor()).SetArgDisplayNames(" Zstd ");
         }
     }

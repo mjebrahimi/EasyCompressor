@@ -129,7 +129,6 @@ public class DependencyInjectionTests
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddLZ4Compressor(name)), typeof(LZ4Compressor)).SetArgDisplayNames(" LZ4 ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddLZMACompressor(name)), typeof(LZMACompressor)).SetArgDisplayNames(" LZMA ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddSnappyCompressor(name)), typeof(SnappyCompressor)).SetArgDisplayNames(" Snappy ");
-            yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZstandardCompressor(name)), typeof(ZstandardCompressor)).SetArgDisplayNames(" Zstandard ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZstdCompressor(name)), typeof(ZstdCompressor)).SetArgDisplayNames(" Zstd ");
         }
     }
