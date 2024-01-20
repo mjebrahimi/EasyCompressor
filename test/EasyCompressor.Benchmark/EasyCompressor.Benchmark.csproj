@@ -19,7 +19,6 @@
     <ProjectReference Include="..\..\src\EasyCompressor.LZ4\EasyCompressor.LZ4.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.LZMA\EasyCompressor.LZMA.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.Snappy\EasyCompressor.Snappy.csproj" />
-    <ProjectReference Include="..\..\src\EasyCompressor.Zstandard\EasyCompressor.Zstandard.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.Zstd\EasyCompressor.Zstd.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor\EasyCompressor.csproj" />
   </ItemGroup>
