@@ -8,8 +8,8 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace EasyCompressor.Tests.EasyCachingCompressor
-{
+namespace EasyCompressor.Tests.EasyCachingCompressor;
+
     [TestFixture]
     public class EasyCachingCompressorTests
     {
@@ -120,7 +120,7 @@ namespace EasyCompressor.Tests.EasyCachingCompressor
                 .WithCompressor();
             });
 
-            TestDelegate action = () => services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
+        void action() => services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
             Assert.Catch(action);
         }
 
@@ -140,7 +140,7 @@ namespace EasyCompressor.Tests.EasyCachingCompressor
                 .WithCompressor("msgpack", "xzy");
             });
 
-            TestDelegate action = () => services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
+        void action() => services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
             Assert.Catch(action);
         }
 
@@ -160,7 +160,7 @@ namespace EasyCompressor.Tests.EasyCachingCompressor
                 .WithCompressor("xyz", "zstd");
             });
 
-            TestDelegate action = () => services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
+        void action() => services.BuildServiceProvider().GetRequiredService<IEasyCachingProvider>();
             Assert.Catch(action);
         }
 
@@ -205,4 +205,3 @@ namespace EasyCompressor.Tests.EasyCachingCompressor
             return (T)field?.GetValue(obj);
         }
     }
-}

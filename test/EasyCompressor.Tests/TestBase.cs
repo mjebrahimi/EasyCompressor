@@ -2,18 +2,13 @@
 using System.Collections;
 using System.IO;
 
-namespace EasyCompressor.Tests
-{
-    [TestFixtureSource(nameof(GetCompressors))]
-    public class TestBase
-    {
-        protected readonly ICompressor Compressor;
-        protected byte[] ObjectBytes;
+namespace EasyCompressor.Tests;
 
-        public TestBase(ICompressor compressor)
-        {
-            Compressor = compressor;
-        }
+    [TestFixtureSource(nameof(GetCompressors))]
+public class TestBase(ICompressor compressor)
+    {
+    protected readonly ICompressor Compressor = compressor;
+        protected byte[] ObjectBytes;
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
@@ -39,4 +34,3 @@ namespace EasyCompressor.Tests
             }
         }
     }
-}

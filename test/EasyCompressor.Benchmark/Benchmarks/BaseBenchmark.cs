@@ -5,13 +5,13 @@ using EasyCompressor;
 using System.Collections.Generic;
 using System.IO;
 
-namespace EasySerializer.Benchmark
-{
+namespace EasySerializer.Benchmark;
+
     //[DryJob]
     [ShortRunJob]
     //[SimpleJob(RunStrategy.Throughput)]
     [MemoryDiagnoser]
-    [KeepBenchmarkFiles(true)]
+[KeepBenchmarkFiles(false)]
     [GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByMethod)]
     [Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
     public class BaseBenchmark
@@ -41,13 +41,10 @@ namespace EasySerializer.Benchmark
             }
         }
 
-        public class CompressorArg
+    public class CompressorArg(ICompressor compressor)
         {
-            public ICompressor Compressor { get; }
-            public CompressorArg(ICompressor compressor)
-            {
-                Compressor = compressor;
-            }
+        public ICompressor Compressor { get; } = compressor;
+
             public override string ToString() => Compressor.GetType().Name;
         }
 
@@ -67,4 +64,3 @@ namespace EasySerializer.Benchmark
             public override string ToString() => string.Format("{0} ({1} bytes)", compressedRatio, CompressedBytes.Length);
         }
     }
-}

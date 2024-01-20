@@ -4,8 +4,8 @@ using System;
 using System.Collections;
 using System.Linq;
 
-namespace EasyCompressor.Tests.DependencyInjectionTests
-{
+namespace EasyCompressor.Tests.DependencyInjectionTests;
+
     [TestFixtureSource(nameof(GetTestItems))]
     public class DependencyInjectionTests
     {
@@ -104,7 +104,7 @@ namespace EasyCompressor.Tests.DependencyInjectionTests
         {
             var compressorProvider = ServiceProvider.GetService<ICompressorProvider>();
 
-            TestDelegate action = () => compressorProvider.GetCompressor("not-exist-name");
+        void action() => compressorProvider.GetCompressor("not-exist-name");
 
             Assert.Throws<ArgumentException>(action);
         }
@@ -114,7 +114,7 @@ namespace EasyCompressor.Tests.DependencyInjectionTests
         {
             var compressorProvider = ServiceProvider.GetService<ICompressorProvider>();
 
-            TestDelegate action = () => compressorProvider.GetCompressor("duplicate-name");
+        void action() => compressorProvider.GetCompressor("duplicate-name");
 
             Assert.Throws<ArgumentException>(action);
         }
@@ -135,4 +135,3 @@ namespace EasyCompressor.Tests.DependencyInjectionTests
             }
         }
     }
-}

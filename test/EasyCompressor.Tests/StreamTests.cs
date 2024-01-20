@@ -3,7 +3,9 @@ using System;
 using System.IO;
 using System.Linq;
 
-namespace EasyCompressor.Tests.StreamTests
+namespace EasyCompressor.Tests.StreamTests;
+
+public class StreamTests(ICompressor compressor) : TestBase(compressor)
 {
     public class StreamTests : TestBase
     {
@@ -15,7 +17,7 @@ namespace EasyCompressor.Tests.StreamTests
         [Test]
         public void Compress_NullValue1_Should_Throws_ArgumentNullException()
         {
-            TestDelegate action = () => Compressor.Compress(null, new MemoryStream());
+        void action() => Compressor.Compress(null, new MemoryStream());
 
             Assert.Throws<ArgumentNullException>(action);
         }
@@ -23,7 +25,7 @@ namespace EasyCompressor.Tests.StreamTests
         [Test]
         public void Compress_NullValue2_Should_Throws_ArgumentNullException()
         {
-            TestDelegate action = () => Compressor.Compress(new MemoryStream(), null);
+        void action() => Compressor.Compress(new MemoryStream(), null);
 
             Assert.Throws<ArgumentNullException>(action);
         }
@@ -31,7 +33,7 @@ namespace EasyCompressor.Tests.StreamTests
         [Test]
         public void Decompress_NullValue1_Should_Throws_ArgumentNullException()
         {
-            TestDelegate action = () => Compressor.Decompress(null, new MemoryStream());
+        void action() => Compressor.Decompress(null, new MemoryStream());
 
             Assert.Throws<ArgumentNullException>(action);
         }
@@ -39,7 +41,7 @@ namespace EasyCompressor.Tests.StreamTests
         [Test]
         public void Decompress_NullValue2_Should_Throws_ArgumentNullException()
         {
-            TestDelegate action = () => Compressor.Decompress(new MemoryStream(), null);
+        void action() => Compressor.Decompress(new MemoryStream(), null);
 
             Assert.Throws<ArgumentNullException>(action);
         }
@@ -50,7 +52,7 @@ namespace EasyCompressor.Tests.StreamTests
             using var inputStream = new MemoryStream(ObjectBytes);
             using var outputStream = new MemoryStream();
 
-            TestDelegate action = () => Compressor.Compress(inputStream, outputStream);
+        void action() => Compressor.Compress(inputStream, outputStream);
 
             Assert.DoesNotThrow(action);
         }
@@ -81,7 +83,7 @@ namespace EasyCompressor.Tests.StreamTests
             using var inputStream2 = new MemoryStream(compressedBytes);
             using var outputStream2 = new MemoryStream();
 
-            TestDelegate action = () => Compressor.Decompress(inputStream2, outputStream2);
+        void action() => Compressor.Decompress(inputStream2, outputStream2);
 
             Assert.DoesNotThrow(action);
         }
