@@ -1,256 +1,169 @@
-﻿using System;
+﻿using SevenZip.Compression.LZMA;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using SevenZip.Compression.LZMA;
 
-namespace EasyCompressor
+namespace EasyCompressor;
+
+/// <summary>
+/// LZMA compressor
+/// https://gist.github.com/ststeiger/cb9750664952f775a341
+/// </summary>
+public class LZMACompressor : BaseCompressor
 {
+    /// <inheritdoc/>
+    public override CompressionMethod Method => CompressionMethod.LZMA;
+
     /// <summary>
-    /// LZMA compressor
+    /// Gets the options.
     /// </summary>
-    public class LZMACompressor : BaseCompressor
+    /// <value>
+    /// The options.
+    /// </value>
+    public LZMACompressionOptions Options { get; }
+
+    /// <summary>
+    /// Initializes a new instance
+    /// </summary>
+    /// <param name="name">Name</param>
+    /// <param name="options">Options</param>
+    public LZMACompressor(string name = null, LZMACompressionOptions options = null)
     {
-        #region Stream https://gist.github.com/ststeiger/cb9750664952f775a341
-        //private static readonly CoderPropID[] propIDs =
-        //{
-        //    CoderPropID.DictionarySize,
-        //    CoderPropID.PosStateBits,
-        //    CoderPropID.LitContextBits,
-        //    CoderPropID.LitPosBits,
-        //    CoderPropID.Algorithm,
-        //    CoderPropID.NumFastBytes,
-        //    CoderPropID.MatchFinder,
-        //    CoderPropID.EndMarker
-        //};
+        Name = name;
+        Options = options;
+    }
 
-        //// these are the default properties, keeping it simple for now:
-        //private static readonly object[] properties =
-        //{
-        //    1 << 23,
-        //    2,
-        //    3,
-        //    0,
-        //    2,
-        //    128,
-        //    "bt4",
-        //    false
-        //};
+    /// <inheritdoc/>
+    protected override byte[] BaseCompress(byte[] bytes)
+    {
+        using var inputStream = new MemoryStream(bytes);
+        using var outputStream = new MemoryStream();
 
-        //public override byte[] Compress(byte[] inputBytes)
-        //{
-        //    byte[] retVal = null;
-        //    SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
-        //    encoder.SetCoderProperties(propIDs, properties);
+        BaseCompress(inputStream, outputStream);
 
-        //    using (System.IO.MemoryStream strmInStream = new System.IO.MemoryStream(inputBytes))
-        //    {
-        //        using (System.IO.MemoryStream strmOutStream = new System.IO.MemoryStream())
-        //        {
-        //            encoder.WriteCoderProperties(strmOutStream);
-        //            long fileSize = strmInStream.Length;
-        //            for (int i = 0; i < 8; i++)
-        //                strmOutStream.WriteByte((byte)(fileSize >> (8 * i)));
+        return outputStream.GetTrimmedBuffer();
+    }
 
-        //            encoder.Code(strmInStream, strmOutStream, -1, -1, null);
-        //            retVal = strmOutStream.ToArray();
-        //        } // End Using outStream
+    /// <inheritdoc/>
+    protected override byte[] BaseDecompress(byte[] compressedBytes)
+    {
+        using var inputStream = new MemoryStream(compressedBytes);
+        using var outputStream = new MemoryStream();
 
-        //    } // End Using inStream 
+        BaseDecompress(inputStream, outputStream);
 
-        //    return retVal;
-        //} // End Function Compress
+        return outputStream.GetTrimmedBuffer();
+    }
 
-        //public override byte[] Decompress(byte[] inputBytes)
-        //{
-        //    byte[] retVal = null;
+    /// <inheritdoc/>
+    protected override void BaseCompress(Stream inputStream, Stream outputStream)
+    {
+        var encoder = new Encoder();
 
-        //    SevenZip.Compression.LZMA.Decoder decoder = new SevenZip.Compression.LZMA.Decoder();
+        if (Options is not null)
+            encoder.SetCoderProperties(LZMACompressionOptions.PropIDs, Options.GetProperties());
 
-        //    using (System.IO.MemoryStream strmInStream = new System.IO.MemoryStream(inputBytes))
-        //    {
-        //        strmInStream.Seek(0, 0);
+        // Write the encoder properties
+        encoder.WriteCoderProperties(outputStream);
 
-        //        using (System.IO.MemoryStream strmOutStream = new System.IO.MemoryStream())
-        //        {
-        //            byte[] properties2 = new byte[5];
-        //            if (strmInStream.Read(properties2, 0, 5) != 5)
-        //                throw (new System.Exception("input .lzma is too short"));
+        var fileSize = BitConverter.GetBytes(inputStream.Length);
+        // Write the decompressed file size.
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+        outputStream.Write((ReadOnlySpan<byte>)fileSize);
+#else
+        outputStream.Write(fileSize, 0, 8);
+#endif
 
-        //            long outSize = 0;
-        //            for (int i = 0; i < 8; i++)
-        //            {
-        //                int v = strmInStream.ReadByte();
-        //                if (v < 0)
-        //                    throw (new System.Exception("Can't Read 1"));
-        //                outSize |= ((long)(byte)v) << (8 * i);
-        //            } // Next i 
+        // Encode
+        encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
+        outputStream.Flush();
+    }
 
-        //            decoder.SetDecoderProperties(properties2);
+    /// <inheritdoc/>
+    protected override void BaseDecompress(Stream inputStream, Stream outputStream)
+    {
+        var decoder = new Decoder();
 
-        //            long compressedSize = strmInStream.Length - strmInStream.Position;
-        //            decoder.Code(strmInStream, strmOutStream, compressedSize, outSize, null);
+        var properties = new byte[5];
 
-        //            retVal = strmOutStream.ToArray();
-        //        } // End Using newOutStream 
+        // Read the decoder properties
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+        inputStream.Read(properties.AsSpan());
+#else
+        inputStream.Read(properties, 0, 5);
+#endif
+        decoder.SetDecoderProperties(properties);
 
-        //    } // End Using newInStream 
+        var fileLengthBytes = new byte[8];
 
-        //    return retVal;
-        //} // End Function Decompress 
-        #endregion
+        // Read in the decompress file size.
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+        inputStream.Read(fileLengthBytes.AsSpan());
+        var fileLength = BitConverter.ToInt64((ReadOnlySpan<byte>)fileLengthBytes);
+#else
+        inputStream.Read(fileLengthBytes, 0, 8);
+        var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
+#endif
 
+        // Decode
+        decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
+        outputStream.Flush();
+    }
 
-        /// <inheritdoc/>
-        public override CompressionMethod Method => CompressionMethod.LZMA;
+    /// <inheritdoc/>
+    protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+    {
+        var encoder = new Encoder();
 
-        /// <summary>
-        /// Initializes a new instance
-        /// </summary>
-        /// <param name="name">Name</param>
-        public LZMACompressor(string name = null)
-        {
-            Name = name;
-        }
+        if (Options is not null)
+            encoder.SetCoderProperties(LZMACompressionOptions.PropIDs, Options.GetProperties());
 
-        /// <inheritdoc/>
-        protected override byte[] BaseCompress(byte[] bytes)
-        {
-            using MemoryStream inputStream = new MemoryStream(bytes);
-            using MemoryStream outputStream = new MemoryStream();
-            var encoder = new Encoder();
+        // Write the encoder properties
+        encoder.WriteCoderProperties(outputStream);
 
-            // Write the encoder properties
-            encoder.WriteCoderProperties(outputStream);
+        var fileSize = BitConverter.GetBytes(inputStream.Length);
+        // Write the decompressed file size.
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+        await outputStream.WriteAsync((ReadOnlyMemory<byte>)fileSize, cancellationToken).ConfigureAwait(false);
+#else
+        await outputStream.WriteAsync(fileSize, 0, 8, cancellationToken).ConfigureAwait(false);
+#endif
 
-            // Write the decompressed file size.
-            outputStream.Write(BitConverter.GetBytes(inputStream.Length), 0, 8);
+        // Encode
+        encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+    }
 
-            // Encode
-            encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
-            outputStream.Flush();
+    /// <inheritdoc/>
+    protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
+    {
+        var decoder = new Decoder();
 
-            return outputStream.ToArray();
-        }
+        var properties = new byte[5];
 
-        /// <inheritdoc/>
-        protected override byte[] BaseDecompress(byte[] compressedBytes)
-        {
-            using MemoryStream inputStream = new MemoryStream(compressedBytes);
-            using MemoryStream outputStream = new MemoryStream();
-            var decoder = new Decoder();
+        // Read the decoder properties
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+        await inputStream.ReadAsync(properties.AsMemory(), cancellationToken).ConfigureAwait(false);
+#else
+        await inputStream.ReadAsync(properties, 0, 5, cancellationToken).ConfigureAwait(false);
+#endif
 
-            // Read the decoder properties
-            var properties = new byte[5];
-            inputStream.Read(properties, 0, 5);
-            decoder.SetDecoderProperties(properties);
+        decoder.SetDecoderProperties(properties);
 
-            // Read in the decompress file size.
-            var fileLengthBytes = new byte[8];
-            inputStream.Read(fileLengthBytes, 0, 8);
-            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
+        var fileLengthBytes = new byte[8];
 
-            // Decode
-            decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
-            outputStream.Flush();
+        // Read in the decompress file size.
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+        await inputStream.ReadAsync(fileLengthBytes.AsMemory(), cancellationToken).ConfigureAwait(false);
+        var fileLength = BitConverter.ToInt64((ReadOnlySpan<byte>)fileLengthBytes);
+#else
+        await inputStream.ReadAsync(fileLengthBytes, 0, 8, cancellationToken).ConfigureAwait(false);
+        var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
+#endif
 
-            return outputStream.ToArray();
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseCompress(Stream inputStream, Stream outputStream)
-        {
-            using MemoryStream inputMemory = new MemoryStream();
-            inputStream.CopyTo(inputMemory);
-            inputStream.Flush();
-            inputMemory.Flush();
-            inputMemory.Position = 0;
-
-            var encoder = new Encoder();
-
-            // Write the encoder properties
-            encoder.WriteCoderProperties(outputStream);
-
-            // Write the decompressed file size.
-            outputStream.Write(BitConverter.GetBytes(inputMemory.Length), 0, 8);
-
-            // Encode
-            encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
-            outputStream.Flush();
-        }
-
-        /// <inheritdoc/>
-        protected override void BaseDecompress(Stream inputStream, Stream outputStream)
-        {
-            using MemoryStream inputMemory = new MemoryStream();
-            inputStream.CopyTo(inputMemory);
-            inputStream.Flush();
-            inputMemory.Flush();
-            inputMemory.Position = 0;
-
-            var decoder = new Decoder();
-
-            // Read the decoder properties
-            var properties = new byte[5];
-            inputMemory.Read(properties, 0, 5);
-            decoder.SetDecoderProperties(properties);
-
-            // Read in the decompress file size.
-            var fileLengthBytes = new byte[8];
-            inputMemory.Read(fileLengthBytes, 0, 8);
-            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
-
-            // Decode
-            decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
-            outputStream.Flush();
-        }
-
-        /// <inheritdoc/>
-        protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
-        {
-            using MemoryStream inputMemory = new MemoryStream();
-            await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
-            inputMemory.Position = 0;
-
-            var encoder = new Encoder();
-
-            // Write the encoder properties
-            encoder.WriteCoderProperties(outputStream);
-
-            // Write the decompressed file size.
-            await outputStream.WriteAsync(BitConverter.GetBytes(inputMemory.Length), 0, 8, cancellationToken).ConfigureAwait(false);
-
-            // Encode
-            encoder.Code(inputMemory, outputStream, inputMemory.Length, -1, null);
-            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <inheritdoc/>
-        protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
-        {
-            using MemoryStream inputMemory = new MemoryStream();
-            await inputStream.CopyToAsync(inputMemory, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-            await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-            await inputMemory.FlushAsync(cancellationToken).ConfigureAwait(false);
-            inputMemory.Position = 0;
-
-            var decoder = new Decoder();
-
-            // Read the decoder properties
-            var properties = new byte[5];
-            await inputMemory.ReadAsync(properties, 0, 5, cancellationToken).ConfigureAwait(false);
-            decoder.SetDecoderProperties(properties);
-
-            // Read in the decompress file size.
-            var fileLengthBytes = new byte[8];
-            await inputMemory.ReadAsync(fileLengthBytes, 0, 8, cancellationToken).ConfigureAwait(false);
-            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
-
-            // Decode
-            decoder.Code(inputMemory, outputStream, inputMemory.Length, fileLength, null);
-            await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        }
+        // Decode
+        decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
     }
 }
