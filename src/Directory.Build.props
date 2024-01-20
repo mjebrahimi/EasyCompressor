@@ -1,100 +1,106 @@
 <Project>
-  <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
-    <Version>1.4.0</Version>
-    <PackageVersion>1.4.0</PackageVersion>
-    <AssemblyVersion>1.4.0</AssemblyVersion>
-    <Authors>Mohammad Javad Ebrahimi</Authors>
-    <Company>Mohammad Javad Ebrahimi</Company>
-    <Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
-    <Description>
-      A compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
-    </Description>
-    <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/mjebrahimi/EasyCompressor</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/mjebrahimi/EasyCompressor</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <PackageIcon>EasyCompressor.png</PackageIcon>
+	<PropertyGroup>
+		<TargetFrameworks>net462;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0;</TargetFrameworks>
+		<LangVersion>12.0</LangVersion>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<Nullable>disable</Nullable>
+		<Version>1.4.0</Version>
+		<PackageVersion>1.4.0</PackageVersion>
+		<AssemblyVersion>1.4.0</AssemblyVersion>
+		<Authors>Mohammad Javad Ebrahimi</Authors>
+		<Company>Mohammad Javad Ebrahimi</Company>
+		<Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
+		<Description>
+			A compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
+		</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/mjebrahimi/EasyCompressor</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/mjebrahimi/EasyCompressor</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+		<PackageIcon>EasyCompressor.png</PackageIcon>
 
-    <!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <!-- Embed source files that are not tracked by the source control manager in the PDB -->
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
-    <DebugType>embedded</DebugType>
+		<!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<!-- Embed source files that are not tracked by the source control manager in the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
+		<DebugType>embedded</DebugType>
 
-    <!--
-    SourceLink Tips:
-    
-    Necessary for enabling SoruceLink
-    First: publish the repository URL in the built .nupkg (in the NuSpec <Repository> element)
-    Second : embed source files that are not tracked by the source control manager in the PDB
-    
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    
-    ================================================
-    
-    Approach 1:  Distribute Symbol files (.pdb) via a Symbol Server (like Nuget.org)
-    Create snupkg file that includes pdb symbols alongside the main NuGet package (.nupkg)
-    Symbol files (.pdb) published to NuGet.org symbol server.
-    Therefor developers need to configure NuGet.org symbol server in their IDE
-    Then these symbols downloaded by a tool like Visual Studio on demand.
-    
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    
-    ================================================
-    
-    Approach 2: Distribute Symbol files (.pdb) by Embedding ino the Main package
-    Embedding symbol files (.pdb) in the main NuGet package (.nupkg)
-    The main package size will be larger but developers dons't need to configure symbol server in ther IDE
-    
-    <DebugType>embedded</DebugType>
-    
-    Alternative way to embedding symbol files is below but the above tag is recommended.
-    
-    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
-    
-    ================================================
-    
-    Using the Embedding way .snupkg files not generated and when you want to push nuget package with command (dotnet nuget push *.nupkg)
-    You will receive an error "File does not exist (*.snupkg)". Therefor to resolve this, you must add "no-symbols true" option like below.
-    
-    dotnet nuget push *.nupkg -s nuget.org -k ****** no-symbols true
-    
-    ================================================
-    
-    Deterministic Builds:
-    Deterministic builds ensure that the same binary is produced regardless of the machine building it, including paths to sources stored in the symbols. 
-    
-    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-      <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    </PropertyGroup>
+		<!--
+		SourceLink Tips:
 
-    ================================================
+		Necessary for enabling SoruceLink
+		First: publish the repository URL in the built .nupkg (in the NuSpec <Repository> element)
+		Second : embed source files that are not tracked by the source control manager in the PDB
 
-    More Info:
-    https://devblogs.microsoft.com/dotnet/producing-packages-with-source-link/
-    https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg
-    https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget#symbol-packages
-    https://github.com/dotnet/sourcelink/blob/main/README.md
-    -->
-  </PropertyGroup>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 
-  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-  </PropertyGroup>
+		================================================
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
-  </ItemGroup>
+		Approach 1:  Distribute Symbol files (.pdb) via a Symbol Server (like Nuget.org)
+		Create snupkg file that includes pdb symbols alongside the main NuGet package (.nupkg)
+		Symbol files (.pdb) published to NuGet.org symbol server.
+		Therefor developers need to configure NuGet.org symbol server in their IDE
+		Then these symbols downloaded by a tool like Visual Studio on demand.
 
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)\EasyCompressor.png" Pack="true" PackagePath="" />
-  </ItemGroup>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+
+		================================================
+
+		Approach 2: Distribute Symbol files (.pdb) by Embedding ino the Main package
+		Embedding symbol files (.pdb) in the main NuGet package (.nupkg)
+		The main package size will be larger but developers dons't need to configure symbol server in ther IDE
+
+		<DebugType>embedded</DebugType>
+
+		Alternative way to embedding symbol files is below but the above tag is recommended.
+
+		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+		================================================
+
+		Using the Embedding way .snupkg files not generated and when you want to push nuget package with command (dotnet nuget push *.nupkg)
+		You will receive an error "File does not exist (*.snupkg)". Therefor to resolve this, you must add "no-symbols true" option like below.
+
+		dotnet nuget push *.nupkg -s nuget.org -k ****** no-symbols true
+
+		================================================
+
+		Deterministic Builds:
+		Deterministic builds ensure that the same binary is produced regardless of the machine building it, including paths to sources stored in the symbols.
+
+		<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		  <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		</PropertyGroup>
+
+		================================================
+
+		More Info:
+		https://devblogs.microsoft.com/dotnet/producing-packages-with-source-link/
+		https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg
+		https://docs.microsoft.com/en-us/dotnet/standard/library-guidance/nuget#symbol-packages
+		https://github.com/dotnet/sourcelink/blob/main/README.md
+		-->
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+		<!--<PackageReference Include="NuGetizer" Version="1.2.0" PrivateAssets="all" />-->
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="$(MSBuildThisFileDirectory)\EasyCompressor.png" Pack="true" PackagePath="" />
+		<None Include="$(SolutionDir)\README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
 </Project>
