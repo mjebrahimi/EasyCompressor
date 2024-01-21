@@ -1,11 +1,14 @@
-﻿using System.IO;
+﻿// Ignore Spelling: Brotli
+
+using System;
+using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyCompressor;
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 /// <summary>
 /// Brotli compressor
 /// </summary>
@@ -33,71 +36,73 @@ public class BrotliCompressor : BaseCompressor
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
     {
-        using var inputStream = new MemoryStream(bytes);
         using var outputStream = new MemoryStream();
-        using (var brotliStream = new BrotliStream(outputStream, Level))
+        using (var brotliStream = new BrotliStream(outputStream, Level, leaveOpen: true))
         {
-            inputStream.CopyTo(brotliStream, bytes.Length);
-            //inputStream.WriteTo(brotliStream);
-            //brotliStream.Write(bytes, 0, bytes.Length);
+            brotliStream.WriteAllBytes((ReadOnlySpan<byte>)bytes);
 
-            brotliStream.Flush();
+            //Since we Dispose before returning and Dispose will Flush, we don't need to Flush anymore.
+            //If we use using statement we have to Flush the brotliStream before returning.
+            //brotliStream.Flush(); //It adds some extra bytes but it's not necessary based on my experiments
         }
-        return outputStream.ToArray();
+        return outputStream.GetTrimmedBuffer();
     }
 
     /// <inheritdoc/>
     protected override byte[] BaseDecompress(byte[] compressedBytes)
     {
         using var inputStream = new MemoryStream(compressedBytes);
-        using var outputStream = new MemoryStream();
-        using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress))
-        {
-            brotliStream.CopyTo(outputStream, compressedBytes.Length);
-
-            brotliStream.Flush();
-        }
-        return outputStream.ToArray();
+        using var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, leaveOpen: true);
+        //brotliStream.Flush(); //Flush only works when compressing (not when decompressing)
+        return brotliStream.ReadAllBytes();
     }
 
     /// <inheritdoc/>
     protected override void BaseCompress(Stream inputStream, Stream outputStream)
     {
-        using var brotliStream = new BrotliStream(outputStream, Level, true);
-        inputStream.CopyTo(brotliStream);
+        using (var brotliStream = new BrotliStream(outputStream, Level, leaveOpen: true))
+        {
+            inputStream.CopyTo(brotliStream); //Don't pass buffer size
 
-        inputStream.Flush();
-        brotliStream.Flush();
+            //brotliStream.Flush(); //It adds some extra bytes but it's not necessary based on my experiments
+        }
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override void BaseDecompress(Stream inputStream, Stream outputStream)
     {
-        using var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, true);
-        brotliStream.CopyTo(outputStream);
+        using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
+        {
+            brotliStream.CopyTo(outputStream); //Don't pass buffer size
 
-        outputStream.Flush();
-        brotliStream.Flush();
+            //brotliStream.Flush(); //Flush only works when compressing (not when decompressing)
+        }
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-        using var brotliStream = new BrotliStream(outputStream, Level, true);
-        await inputStream.CopyToAsync(brotliStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+        await using (var brotliStream = new BrotliStream(outputStream, Level, leaveOpen: true))
+        {
+            await inputStream.CopyToAsync(brotliStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
 
-        await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            //await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It adds some extra bytes but it's not necessary based on my experiments
+        }
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-        using var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, true);
-        await brotliStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+        await using (var brotliStream = new BrotliStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
+        {
+            await brotliStream.CopyToAsync(outputStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
 
-        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+            //await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
+        }
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 }
 #endif

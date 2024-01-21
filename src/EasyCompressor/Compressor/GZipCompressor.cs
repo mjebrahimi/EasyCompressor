@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,37 +7,48 @@ using System.Threading.Tasks;
 namespace EasyCompressor;
 
 /*
-TODO
+NOTE:
+Gzip vs Deflate
+----------------------------------------------------------------
+//https://stackoverflow.com/questions/7243705/what-is-the-advantage-of-gzip-vs-deflate-compression
+//https://dev.to/biellls/compression-clearing-the-confusion-on-zip-gzip-zlib-and-deflate-15g1
 
-Flush or Close/Dispose?
--------------------
-Use Dispose() (or in using) instead of Close()
-Dispose() => Close() => Dispose(true)
 
-CopyTo/WriteTo or Read/Write
--------------------
-inputStream.WriteTo(gZipStream); //MemoryStream for Stream
+CopyTo vs WriteTo
+----------------------------------------------------------------
+====== MemoryStream.WriteTo ======
+inputStream.WriteTo(gZipStream);
 Writes the entire contents of this memory stream to another stream.
 Resetting the read position to zero before copying the data
 
-inputStream.CopyTo(gZipStream); //Global for Stream
+====== Stream.CopyTo ======
+inputStream.CopyTo(gZipStream);
 Reads the bytes from the current memory stream and writes them to another stream.
 Copy whatever data remains after the current position in the stream,
 That means if you did not reset the position yourself, no data will be read at all.
 
-gZipStream.Write(bytes, 0, bytes.Length); //Global for bytes
+
+
+Flush or Close/Dispose?
+----------------------------------------------------------------
+Use Dispose() (or in using) instead of Close()
+Dispose() => Close() => Dispose(true)
+
+
 
 Flush or Not
--------------------
+----------------------------------------------------------------
 Flush is useful for non-memory stream like FileStream
-Flush after Write add Extera bytes (6)
+Flush after Write add Extra bytes (6)
+
+
 
 StreamReader/Writer vs StringReader/Writer
--------------------
-StreamWriter:TextWriter (most used) : write string to another stream (in a particular Encoding) like writing to FileStream
-StreamReader:TextReader (most used) : read string to another stream  (in a particular Encoding) like reading from FileStream
-StringWriter:TextWriter (less used) : write data to string (using underlying StringBuilder)
-StringReader:TextReader (less used) : read from string
+----------------------------------------------------------------
+StreamWriter (TextWriter): write string to another stream (in a particular Encoding) like writing to FileStream
+StreamReader (TextReader): read string to another stream  (in a particular Encoding) like reading from FileStream
+StringWriter (TextWriter): write data to string (using underlying StringBuilder)
+StringReader (TextReader): read from string
 */
 
 /// <summary>
@@ -66,70 +78,93 @@ public class GZipCompressor : BaseCompressor
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
     {
-        using var inputStream = new MemoryStream(bytes);
         using var outputStream = new MemoryStream();
-        using (var gZipStream = new GZipStream(outputStream, Level))
+        using (var gZipStream = new GZipStream(outputStream, Level, leaveOpen: true))
         {
-            inputStream.CopyTo(gZipStream, bytes.Length);
-            //inputStream.WriteTo(gZipStream);
-            //gZipStream.Write(bytes, 0, bytes.Length);
-
-            gZipStream.Flush();
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+            gZipStream.WriteAllBytes((ReadOnlySpan<byte>)bytes);
+#else
+            gZipStream.WriteAllBytes(bytes);
+#endif
+            //Since we Dispose before returning and Dispose will Flush, we don't need to Flush anymore.
+            //If we use using statement we have to Flush the gZipStream before returning.
+            //gZipStream.Flush(); //It adds some extra bytes but it's not necessary based on my experiments
         }
-        return outputStream.ToArray();
+        return outputStream.GetTrimmedBuffer();
     }
 
     /// <inheritdoc/>
     protected override byte[] BaseDecompress(byte[] compressedBytes)
     {
         using var inputStream = new MemoryStream(compressedBytes);
-        using var outputStream = new MemoryStream();
-        using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
-        {
-            gZipStream.CopyTo(outputStream, compressedBytes.Length);
-
-            gZipStream.Flush();
-        }
-        return outputStream.ToArray();
+        using var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOpen: true);
+        //gZipStream.Flush(); //Flush only works when compressing (not when decompressing)
+        return gZipStream.ReadAllBytes();
     }
 
     /// <inheritdoc/>
     protected override void BaseCompress(Stream inputStream, Stream outputStream)
     {
-        using var gZipStream = new GZipStream(outputStream, Level, true);
-        inputStream.CopyTo(gZipStream);
-
-        inputStream.Flush();
-        gZipStream.Flush();
+        using (var gZipStream = new GZipStream(outputStream, Level, leaveOpen: true))
+        {
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+            inputStream.CopyTo(gZipStream); //Don't pass buffer size
+#else
+            inputStream.CopyTo(gZipStream, DefaultBufferSize);
+#endif
+            //gZipStream.Flush(); //It adds some extra bytes but it's not necessary based on my experiments
+        }
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override void BaseDecompress(Stream inputStream, Stream outputStream)
     {
-        using var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, true);
-        gZipStream.CopyTo(outputStream);
-
-        outputStream.Flush();
-        gZipStream.Flush();
+        using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
+        {
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+            gZipStream.CopyTo(outputStream); //Don't pass buffer size
+#else
+            gZipStream.CopyTo(outputStream, DefaultBufferSize);
+#endif
+            //gZipStream.Flush(); //Flush only works when compressing (not when decompressing)
+        }
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-        using var gZipStream = new GZipStream(outputStream, Level, true);
-        await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-
-        await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        await
+#endif
+        using (var gZipStream = new GZipStream(outputStream, Level, leaveOpen: true))
+        {
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+            await inputStream.CopyToAsync(gZipStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
+#else
+            await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+#endif
+            //await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It adds some extra bytes but it's not necessary based on my experiments
+        }
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-        using var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, true);
-        await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-
-        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+        await
+#endif
+        using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
+        {
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+            await gZipStream.CopyToAsync(outputStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
+#else
+            await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+#endif
+            //await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
+        }
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 }
