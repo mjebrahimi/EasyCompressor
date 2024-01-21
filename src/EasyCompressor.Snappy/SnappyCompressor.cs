@@ -47,7 +47,7 @@ public class SnappyCompressor : BaseCompressor
 #else
         outputStream.WriteAllBytes(compressedBytes);
 #endif
-        outputStream.Flush();
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
@@ -61,7 +61,7 @@ public class SnappyCompressor : BaseCompressor
 #else
         outputStream.WriteAllBytes(bytes);
 #endif
-        outputStream.Flush();
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
@@ -75,7 +75,7 @@ public class SnappyCompressor : BaseCompressor
 #else
         await outputStream.WriteAllBytesAsync(compressedBytes, cancellationToken).ConfigureAwait(false);
 #endif
-        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
@@ -89,6 +89,6 @@ public class SnappyCompressor : BaseCompressor
 #else
         await outputStream.WriteAllBytesAsync(bytes, cancellationToken).ConfigureAwait(false);
 #endif
-        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 }

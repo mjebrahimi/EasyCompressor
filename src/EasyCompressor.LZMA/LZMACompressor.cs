@@ -77,7 +77,8 @@ public class LZMACompressor : BaseCompressor
 
         // Encode
         encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
-        outputStream.Flush();
+
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
@@ -108,7 +109,8 @@ public class LZMACompressor : BaseCompressor
 
         // Decode
         decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
-        outputStream.Flush();
+
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
@@ -132,7 +134,8 @@ public class LZMACompressor : BaseCompressor
 
         // Encode
         encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
-        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
@@ -164,6 +167,7 @@ public class LZMACompressor : BaseCompressor
 
         // Decode
         decoder.Code(inputStream, outputStream, inputStream.Length, fileLength, null);
-        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
+
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 }
