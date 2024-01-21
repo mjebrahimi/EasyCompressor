@@ -49,7 +49,7 @@ public static class StreamExtensions
         var bytes = new byte[(int)(stream.Length - stream.Position)];
 #endif
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
         /*var bytesRead = */
         stream.Read(bytes.AsSpan());
 #else
@@ -71,7 +71,7 @@ public static class StreamExtensions
         if (stream.CanSeek is false)
         {
             using var output = new MemoryStream();
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             await stream.CopyToAsync(output, cancellationToken).ConfigureAwait(false);
 #else
             await stream.CopyToAsync(output, 81920, cancellationToken).ConfigureAwait(false); // DefaultBufferSize: 81920
@@ -85,7 +85,7 @@ public static class StreamExtensions
         var bytes = new byte[(int)(stream.Length - stream.Position)];
 #endif
 
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
         /*var bytesRead = */
         await stream.ReadAsync(bytes.AsMemory(), cancellationToken);
 #else
@@ -98,7 +98,7 @@ public static class StreamExtensions
     #endregion
 
     #region WriteAllBytes
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER || NET5_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 #pragma warning disable S4136 // Method overloads should be grouped together
     /// <summary>
     /// Writes all bytes.
