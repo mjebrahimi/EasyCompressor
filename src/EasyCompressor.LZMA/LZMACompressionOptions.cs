@@ -29,7 +29,7 @@ public class LZMACompressionOptions
     /// Gets the properties.
     /// </summary>
     /// <returns></returns>
-    internal object[] GetProperties()
+    public object[] GetProperties()
     {
         const int posStateBits = 2; // default: 2
         const int litContextBits = 3; // 3 for normal files, 0 for 32-bit data (uint)
@@ -51,7 +51,13 @@ public class LZMACompressionOptions
             ];
     }
 
-    internal static readonly CoderPropID[] PropIDs =
+    /// <summary>
+    /// Gets the property IDs.
+    /// </summary>
+    /// <value>
+    /// The property IDs.
+    /// </value>
+    public static readonly CoderPropID[] PropIDs =
         [
             CoderPropID.DictionarySize,
             CoderPropID.PosStateBits, // (0 <= x <= 4).
