@@ -8,7 +8,9 @@
   <ItemGroup>
     <PackageReference Include="EasyCaching.InMemory" Version="1.9.2" />
     <PackageReference Include="EasyCaching.Redis" Version="1.9.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.7.17" />
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.9.2" />
+    <PackageReference Include="MessagePack" Version="2.5.140" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="protobuf-net" Version="3.2.30" />
     <PackageReference Include="MessagePack" Version="2.5.140" />
