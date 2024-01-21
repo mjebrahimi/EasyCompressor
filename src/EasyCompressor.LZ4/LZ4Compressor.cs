@@ -58,40 +58,44 @@ public class LZ4Compressor : BaseCompressor
     /// <inheritdoc/>
     protected override void BaseCompress(Stream inputStream, Stream outputStream)
     {
-        using var lz4Stream = LZ4Stream.Encode(outputStream, Level, leaveOpen: true);
-        inputStream.CopyTo(lz4Stream);
-
-        inputStream.Flush();
-        lz4Stream.Flush();
+        using (var lz4Stream = LZ4Stream.Encode(outputStream, Level, leaveOpen: true))
+        {
+            inputStream.CopyTo(lz4Stream);
+            //lz4Stream.Flush(); //It's not necessary based on my experiments
+        }
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override void BaseDecompress(Stream inputStream, Stream outputStream)
     {
-        using var lz4Stream = LZ4Stream.Decode(inputStream, leaveOpen: true);
-        lz4Stream.CopyTo(outputStream);
-
-        inputStream.Flush();
-        lz4Stream.Flush();
+        using (var lz4Stream = LZ4Stream.Decode(inputStream, leaveOpen: true))
+        {
+            lz4Stream.CopyTo(outputStream);
+            //lz4Stream.Flush(); //It's not necessary based on my experiments
+        }
+        outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-        using var lz4Stream = LZ4Stream.Encode(outputStream, Level, leaveOpen: true);
-        await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-
-        await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        using (var lz4Stream = LZ4Stream.Encode(outputStream, Level, leaveOpen: true))
+        {
+            await inputStream.CopyToAsync(lz4Stream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            //await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's not necessary based on my experiments
+        }
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 
     /// <inheritdoc/>
     protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-        using var lz4Stream = LZ4Stream.Decode(inputStream, leaveOpen: true);
-        await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-
-        await inputStream.FlushAsync(cancellationToken).ConfigureAwait(false);
-        await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false);
+        using (var lz4Stream = LZ4Stream.Decode(inputStream, leaveOpen: true))
+        {
+            await lz4Stream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
+            //await lz4Stream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's not necessary based on my experiments
+        }
+        await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 }
