@@ -31,21 +31,21 @@ public class DependencyInjectionTests
     [Test]
     public void Service_Count_ShouldBe_Four()
     {
-        Assert.That(ServiceCollection.Count, Is.SameAs(4));
+        Assert.That(ServiceCollection.Count, Is.EqualTo(4));
     }
 
     [Test]
     public void ICompressorProvider_Count_ShouldBe_One()
     {
         var count = ServiceCollection.Count(p => p.ServiceType == typeof(ICompressorProvider));
-        Assert.That(count, Is.SameAs(1));
+        Assert.That(count, Is.EqualTo(1));
     }
 
     [Test]
     public void ICompressor_Count_ShouldBe_Tree()
     {
         var count = ServiceCollection.Count(p => p.ServiceType == typeof(ICompressor));
-        Assert.That(count, Is.SameAs(3));
+        Assert.That(count, Is.EqualTo(3));
     }
 
     [Test]
@@ -56,7 +56,7 @@ public class DependencyInjectionTests
         foreach (var serviceDescriptor in list)
         {
             Assert.That(serviceDescriptor, Is.Not.Null);
-            Assert.That(serviceDescriptor.Lifetime, Is.SameAs(ServiceLifetime.Singleton));
+            Assert.That(serviceDescriptor.Lifetime, Is.EqualTo(ServiceLifetime.Singleton));
         }
     }
 
@@ -66,7 +66,7 @@ public class DependencyInjectionTests
         var serviceDescriptor = ServiceCollection.SingleOrDefault(p => p.ServiceType == typeof(ICompressorProvider));
 
         Assert.That(serviceDescriptor, Is.Not.Null);
-        Assert.That(serviceDescriptor.Lifetime, Is.SameAs(ServiceLifetime.Singleton));
+        Assert.That(serviceDescriptor.Lifetime, Is.EqualTo(ServiceLifetime.Singleton));
     }
 
     [Test]
