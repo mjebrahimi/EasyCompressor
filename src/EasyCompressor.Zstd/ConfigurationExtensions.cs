@@ -1,4 +1,6 @@
-﻿using EasyCompressor;
+﻿// Ignore Spelling: Zstd
+
+using EasyCompressor;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,7 @@ public static class ConfigurationExtensions
     /// Add ZstdCompressor to services
     /// </summary>
     /// <param name="services">services</param>
-    /// <param name="level">Level</param>
+    /// <param name="level">Compression level (Defaults to <c>3</c>)</param>
     /// <returns>IServiceCollection</returns>
     public static IServiceCollection AddZstdCompressor(this IServiceCollection services, int level = 3)
     {
@@ -24,15 +26,12 @@ public static class ConfigurationExtensions
     /// </summary>
     /// <param name="services">services</param>
     /// <param name="name">Name</param>
-    /// <param name="level">Level</param>
+    /// <param name="level">Compression level (Defaults to <c>3</c>)</param>
     /// <returns>IServiceCollection</returns>
     public static IServiceCollection AddZstdCompressor(this IServiceCollection services, string name, int level = 3)
     {
         services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-        services.AddSingleton<ICompressor, ZstdCompressor>(x =>
-        {
-            return new ZstdCompressor(name, level);
-        });
+        services.AddSingleton<ICompressor, ZstdCompressor>(_ => new ZstdCompressor(name, level));
         return services;
     }
 }

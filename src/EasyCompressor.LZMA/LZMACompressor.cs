@@ -69,11 +69,7 @@ public class LZMACompressor : BaseCompressor
 
         var fileSize = BitConverter.GetBytes(inputStream.Length);
         // Write the decompressed file size.
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        outputStream.Write((ReadOnlySpan<byte>)fileSize);
-#else
-        outputStream.Write(fileSize, 0, 8);
-#endif
+        outputStream.WriteAllBytes(fileSize);
 
         // Encode
         encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
@@ -90,7 +86,7 @@ public class LZMACompressor : BaseCompressor
 
         // Read the decoder properties
 #if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        inputStream.Read(properties.AsSpan());
+        inputStream.Read((Span<byte>)properties);
 #else
         inputStream.Read(properties, 0, 5);
 #endif
@@ -100,7 +96,7 @@ public class LZMACompressor : BaseCompressor
 
         // Read in the decompress file size.
 #if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        inputStream.Read(fileLengthBytes.AsSpan());
+        inputStream.Read((Span<byte>)fileLengthBytes);
         var fileLength = BitConverter.ToInt64((ReadOnlySpan<byte>)fileLengthBytes);
 #else
         inputStream.Read(fileLengthBytes, 0, 8);

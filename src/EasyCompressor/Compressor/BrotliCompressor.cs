@@ -1,4 +1,5 @@
-﻿// Ignore Spelling: Brotli
+﻿#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+// Ignore Spelling: Brotli
 
 using System;
 using System.IO;
@@ -8,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace EasyCompressor;
 
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
 /// <summary>
 /// Brotli compressor
 /// </summary>
@@ -39,7 +39,7 @@ public class BrotliCompressor : BaseCompressor
         using var outputStream = new MemoryStream();
         using (var brotliStream = new BrotliStream(outputStream, Level, leaveOpen: true))
         {
-            brotliStream.WriteAllBytes((ReadOnlySpan<byte>)bytes);
+            brotliStream.WriteAllBytes(bytes);
 
             //Since we Dispose before returning and Dispose will Flush, we don't need to Flush anymore.
             //If we use using statement we have to Flush the brotliStream before returning.

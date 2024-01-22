@@ -1,5 +1,4 @@
 ﻿using Snappy;
-using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -42,11 +41,8 @@ public class SnappyCompressor : BaseCompressor
         var bytes = inputStream.ReadAllBytes();
         var compressedBytes = BaseCompress(bytes);
 
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        outputStream.WriteAllBytes((ReadOnlySpan<byte>)compressedBytes);
-#else
         outputStream.WriteAllBytes(compressedBytes);
-#endif
+
         outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
@@ -56,11 +52,8 @@ public class SnappyCompressor : BaseCompressor
         var compressedBytes = inputStream.ReadAllBytes();
         var bytes = BaseDecompress(compressedBytes);
 
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        outputStream.WriteAllBytes((ReadOnlySpan<byte>)bytes);
-#else
         outputStream.WriteAllBytes(bytes);
-#endif
+
         outputStream.Flush(); //It's needed because of FileStream internal buffering
     }
 
@@ -70,11 +63,8 @@ public class SnappyCompressor : BaseCompressor
         var bytes = await inputStream.ReadAllBytesAsync(cancellationToken).ConfigureAwait(false);
         var compressedBytes = BaseCompress(bytes);
 
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        await outputStream.WriteAllBytesAsync((ReadOnlyMemory<byte>)compressedBytes, cancellationToken).ConfigureAwait(false);
-#else
         await outputStream.WriteAllBytesAsync(compressedBytes, cancellationToken).ConfigureAwait(false);
-#endif
+
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 
@@ -84,11 +74,8 @@ public class SnappyCompressor : BaseCompressor
         var compressedBytes = await inputStream.ReadAllBytesAsync(cancellationToken).ConfigureAwait(false);
         var bytes = BaseDecompress(compressedBytes);
 
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        await outputStream.WriteAllBytesAsync((ReadOnlyMemory<byte>)bytes, cancellationToken).ConfigureAwait(false);
-#else
         await outputStream.WriteAllBytesAsync(bytes, cancellationToken).ConfigureAwait(false);
-#endif
+
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
     }
 }

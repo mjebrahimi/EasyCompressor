@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,11 +80,8 @@ public class GZipCompressor : BaseCompressor
         using var outputStream = new MemoryStream();
         using (var gZipStream = new GZipStream(outputStream, Level, leaveOpen: true))
         {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-            gZipStream.WriteAllBytes((ReadOnlySpan<byte>)bytes);
-#else
             gZipStream.WriteAllBytes(bytes);
-#endif
+
             //Since we Dispose before returning and Dispose will Flush, we don't need to Flush anymore.
             //If we use using statement we have to Flush the gZipStream before returning.
             //gZipStream.Flush(); //It adds some extra bytes but it's not necessary based on my experiments
@@ -107,11 +103,8 @@ public class GZipCompressor : BaseCompressor
     {
         using (var gZipStream = new GZipStream(outputStream, Level, leaveOpen: true))
         {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             inputStream.CopyTo(gZipStream); //Don't pass buffer size
-#else
-            inputStream.CopyTo(gZipStream, DefaultBufferSize);
-#endif
+
             //gZipStream.Flush(); //It adds some extra bytes but it's not necessary based on my experiments
         }
         outputStream.Flush(); //It's needed because of FileStream internal buffering
@@ -122,11 +115,8 @@ public class GZipCompressor : BaseCompressor
     {
         using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
         {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             gZipStream.CopyTo(outputStream); //Don't pass buffer size
-#else
-            gZipStream.CopyTo(outputStream, DefaultBufferSize);
-#endif
+
             //gZipStream.Flush(); //Flush only works when compressing (not when decompressing)
         }
         outputStream.Flush(); //It's needed because of FileStream internal buffering
@@ -135,16 +125,13 @@ public class GZipCompressor : BaseCompressor
     /// <inheritdoc/>
     protected override async Task BaseCompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
         await
 #endif
         using (var gZipStream = new GZipStream(outputStream, Level, leaveOpen: true))
         {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             await inputStream.CopyToAsync(gZipStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
-#else
-            await inputStream.CopyToAsync(gZipStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-#endif
+
             //await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It adds some extra bytes but it's not necessary based on my experiments
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
@@ -153,16 +140,13 @@ public class GZipCompressor : BaseCompressor
     /// <inheritdoc/>
     protected override async Task BaseDecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default)
     {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP3_0_OR_GREATER
         await
 #endif
         using (var gZipStream = new GZipStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
         {
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
             await gZipStream.CopyToAsync(outputStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
-#else
-            await gZipStream.CopyToAsync(outputStream, DefaultBufferSize, cancellationToken).ConfigureAwait(false);
-#endif
+
             //await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering

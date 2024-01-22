@@ -1,4 +1,6 @@
-﻿using EasyCompressor;
+﻿// Ignore Spelling: Brotli
+
+using EasyCompressor;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.IO.Compression;
 
@@ -30,10 +32,7 @@ public static class ConfigurationExtensions
     public static IServiceCollection AddGZipCompressor(this IServiceCollection services, string name, CompressionLevel level = CompressionLevel.Optimal)
     {
         services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-        services.AddSingleton<ICompressor, GZipCompressor>(x =>
-        {
-            return new GZipCompressor(name, level);
-        });
+        services.AddSingleton<ICompressor, GZipCompressor>(_ => new GZipCompressor(name, level));
         return services;
     }
 
@@ -58,14 +57,11 @@ public static class ConfigurationExtensions
     public static IServiceCollection AddDeflateCompressor(this IServiceCollection services, string name, CompressionLevel level = CompressionLevel.Optimal)
     {
         services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-        services.AddSingleton<ICompressor, DeflateCompressor>(x =>
-        {
-            return new DeflateCompressor(name, level);
-        });
+        services.AddSingleton<ICompressor, DeflateCompressor>(_ => new DeflateCompressor(name, level));
         return services;
     }
 
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
     /// <summary>
     /// Add BrotliCompressor to services
     /// </summary>
@@ -87,10 +83,7 @@ public static class ConfigurationExtensions
     public static IServiceCollection AddBrotliCompressor(this IServiceCollection services, string name, CompressionLevel level = CompressionLevel.Optimal)
     {
         services.TryAddSingleton<ICompressorProvider, DefaultCompressorProvider>();
-        services.AddSingleton<ICompressor, BrotliCompressor>(x =>
-        {
-            return new BrotliCompressor(name, level);
-        });
+        services.AddSingleton<ICompressor, BrotliCompressor>(_ => new BrotliCompressor(name, level));
         return services;
     }
 #endif
