@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>EasyCompressor.ZstdSharp</AssemblyName>
+    <PackageId>EasyCompressor.ZstdSharp</PackageId>
+    <Title>EasyCompressor.ZstdSharp</Title>
+    <Product>EasyCompressor.ZstdSharp</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EasyCompressor\EasyCompressor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ZstdSharp.Port" Version="0.7.4" />
+  </ItemGroup>
+</Project>
