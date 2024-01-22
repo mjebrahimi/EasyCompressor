@@ -2,6 +2,8 @@
 using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Order;
 using EasyCompressor;
+using EasyCompressor.Snappier;
+using EasyCompressor.ZstdSharp;
 using System.Collections.Generic;
 using System.IO;
 
@@ -35,8 +37,9 @@ public class BaseBenchmark
             yield return new object[] { new CompressorArg(new LZ4Compressor()), new CompressedArg(new LZ4Compressor(), OriginalBytes) };
             yield return new object[] { new CompressorArg(new LZMACompressor()), new CompressedArg(new LZMACompressor(), OriginalBytes) };
             yield return new object[] { new CompressorArg(new SnappyCompressor()), new CompressedArg(new SnappyCompressor(), OriginalBytes) };
-            //yield return new object[] { new CompressorArg(new ZstandardCompressor()), new CompressedArg(new ZstandardCompressor(), OriginalBytes) };
             yield return new object[] { new CompressorArg(new ZstdCompressor()), new CompressedArg(new ZstdCompressor(), OriginalBytes) };
+            yield return new object[] { new CompressorArg(new SnappierCompressor()), new CompressedArg(new SnappierCompressor(), OriginalBytes) };
+            yield return new object[] { new CompressorArg(new ZstdSharpCompressor()), new CompressedArg(new ZstdSharpCompressor(), OriginalBytes) };
         }
     }
 
