@@ -33,6 +33,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCompressor.ZstdSharp", "src\EasyCompressor.ZstdSharp\EasyCompressor.ZstdSharp.csproj", "{13ECA9E3-983A-438D-B1F8-5064C32868AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EasyCompressor.Snappier", "src\EasyCompressor.Snappier\EasyCompressor.Snappier.csproj", "{B163C056-B187-4F56-B215-CC46BE4E575B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,14 @@ Global
 		{7567F616-62BE-45CE-9D10-97FF29337808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7567F616-62BE-45CE-9D10-97FF29337808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7567F616-62BE-45CE-9D10-97FF29337808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13ECA9E3-983A-438D-B1F8-5064C32868AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13ECA9E3-983A-438D-B1F8-5064C32868AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13ECA9E3-983A-438D-B1F8-5064C32868AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13ECA9E3-983A-438D-B1F8-5064C32868AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B163C056-B187-4F56-B215-CC46BE4E575B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B163C056-B187-4F56-B215-CC46BE4E575B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B163C056-B187-4F56-B215-CC46BE4E575B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B163C056-B187-4F56-B215-CC46BE4E575B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +97,8 @@ Global
 		{CAEA7388-DABE-45D1-B764-0E528575FEC0} = {FD294266-05F3-4FA6-8625-35597145DC15}
 		{7567F616-62BE-45CE-9D10-97FF29337808} = {67227E01-0834-4421-A018-A32EB477108C}
 		{67227E01-0834-4421-A018-A32EB477108C} = {B64A2D28-C0FD-4800-908E-2792E4A3700E}
+		{13ECA9E3-983A-438D-B1F8-5064C32868AB} = {B64A2D28-C0FD-4800-908E-2792E4A3700E}
+		{B163C056-B187-4F56-B215-CC46BE4E575B} = {B64A2D28-C0FD-4800-908E-2792E4A3700E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D2F9FD4-DF11-43CE-8656-91081562FACD}

@@ -10,7 +10,6 @@
     <PackageReference Include="EasyCaching.Redis" Version="1.9.2" />
     <PackageReference Include="StackExchange.Redis" Version="2.7.17" />
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.9.2" />
-    <PackageReference Include="MessagePack" Version="2.5.140" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="protobuf-net" Version="3.2.30" />
     <PackageReference Include="MessagePack" Version="2.5.140" />
@@ -28,7 +27,9 @@
     <!--<ProjectReference Include="..\..\src\EasyCompressor.BrotliNET\EasyCompressor.BrotliNET.csproj" />-->
     <ProjectReference Include="..\..\src\EasyCompressor.LZ4\EasyCompressor.LZ4.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.LZMA\EasyCompressor.LZMA.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.Snappier\EasyCompressor.Snappier.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.Snappy\EasyCompressor.Snappy.csproj" />
+    <ProjectReference Include="..\..\src\EasyCompressor.ZstdSharp\EasyCompressor.ZstdSharp.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.Zstd\EasyCompressor.Zstd.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor\EasyCompressor.csproj" />
   </ItemGroup>

@@ -25,7 +25,7 @@ public class FileStreamTests(ICompressor compressor) : TestBase(compressor)
         //Compress Bytes
         using var originalStream = new MemoryStream(ObjectBytes);
         using var compressedStream = new FileStream(Path_Compressed, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite);
-        compressor.Compress(originalStream, compressedStream);
+        Compressor.Compress(originalStream, compressedStream);
 
         //Read Compressed Bytes
         using var compressedStream2 = new FileStream(Path_Compressed, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -34,7 +34,7 @@ public class FileStreamTests(ICompressor compressor) : TestBase(compressor)
         //Decompressed Bytes
         using var compressedStream3 = new MemoryStream(compressedBytes);
         using var decompressedStream = new FileStream(Path_Decompressed, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite);
-        compressor.Decompress(compressedStream3, decompressedStream);
+        Compressor.Decompress(compressedStream3, decompressedStream);
 
         //Read Decompressed Bytes
         using var decompressedStream2 = new FileStream(Path_Decompressed, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -55,7 +55,7 @@ public class FileStreamTests(ICompressor compressor) : TestBase(compressor)
 
         //Compress Bytes
         using var compressedStream1 = new MemoryStream();
-        compressor.Compress(originalStream1, compressedStream1);
+        Compressor.Compress(originalStream1, compressedStream1);
 
         //Read Compressed Bytes
         compressedStream1.Position = 0;
@@ -68,7 +68,7 @@ public class FileStreamTests(ICompressor compressor) : TestBase(compressor)
 
         //Decompressed Bytes
         using var decompressedStream = new MemoryStream();
-        compressor.Decompress(compressedStream2, decompressedStream);
+        Compressor.Decompress(compressedStream2, decompressedStream);
 
         //Read Decompressed Bytes
         decompressedStream.Position = 0;
@@ -101,7 +101,7 @@ public class FileStreamAsyncTests(ICompressor compressor) : TestBase(compressor)
         //Compress Bytes
         await using var originalStream = new MemoryStream(ObjectBytes);
         await using var compressedStream = new FileStream(Path_Compressed, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite);
-        await compressor.CompressAsync(originalStream, compressedStream);
+        await Compressor.CompressAsync(originalStream, compressedStream);
 
         //Read Compressed Bytes
         await using var compressedStream2 = new FileStream(Path_Compressed, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -110,7 +110,7 @@ public class FileStreamAsyncTests(ICompressor compressor) : TestBase(compressor)
         //Decompressed Bytes
         await using var compressedStream3 = new MemoryStream(compressedBytes);
         await using var decompressedStream = new FileStream(Path_Decompressed, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.ReadWrite);
-        await compressor.DecompressAsync(compressedStream3, decompressedStream);
+        await Compressor.DecompressAsync(compressedStream3, decompressedStream);
 
         //Read Decompressed Bytes
         await using var decompressedStream2 = new FileStream(Path_Decompressed, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite);
@@ -131,7 +131,7 @@ public class FileStreamAsyncTests(ICompressor compressor) : TestBase(compressor)
 
         //Compress Bytes
         await using var compressedStream1 = new MemoryStream();
-        await compressor.CompressAsync(originalStream1, compressedStream1);
+        await Compressor.CompressAsync(originalStream1, compressedStream1);
 
         //Read Compressed Bytes
         compressedStream1.Position = 0;
@@ -144,7 +144,7 @@ public class FileStreamAsyncTests(ICompressor compressor) : TestBase(compressor)
 
         //Decompressed Bytes
         await using var decompressedStream = new MemoryStream();
-        await compressor.DecompressAsync(compressedStream2, decompressedStream);
+        await Compressor.DecompressAsync(compressedStream2, decompressedStream);
 
         //Read Decompressed Bytes
         decompressedStream.Position = 0;
