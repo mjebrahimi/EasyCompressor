@@ -5,7 +5,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EasyCompressor.Snappier;
+namespace EasyCompressor;
 
 /// <summary>
 /// Snappier compressor
@@ -70,7 +70,7 @@ public class SnappierCompressor : BaseCompressor
             inputStream.CopyTo(snappyStream);
 
             // Disposing the compressor also flushes the buffers to the inner stream
-            // We pass true to the constructor above so that it doesn't dispose the inner stream
+            // We pass true to the constructor above so that it doesn't close/dispose the inner stream
             // Alternatively, we could call snappyStream.Flush() //It's not necessary based on my experiments
         }
         outputStream.Flush(); //It's needed because of FileStream internal buffering

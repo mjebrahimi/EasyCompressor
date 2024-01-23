@@ -1,7 +1,6 @@
 ﻿// Ignore Spelling: Zstd
 
 using EasyCompressor;
-using EasyCompressor.ZstdSharp;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection;

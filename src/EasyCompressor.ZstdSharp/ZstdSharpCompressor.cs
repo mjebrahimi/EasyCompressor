@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using ZstdSharp;
 
-namespace EasyCompressor.ZstdSharp;
+namespace EasyCompressor;
 
 /// <summary>
 /// Snappier compressor

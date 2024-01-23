@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="zstd-v1.4.4\**" />
+    <EmbeddedResource Remove="zstd-v1.4.4\**" />
+    <None Remove="zstd-v1.4.4\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EasyCompressor\EasyCompressor.csproj" />
   </ItemGroup>
 
