@@ -1,6 +1,4 @@
-﻿using EasyCompressor.Snappier;
-using EasyCompressor.ZstdSharp;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System.Collections;
 using System.IO;
 
@@ -27,6 +25,7 @@ public class TestBase(ICompressor compressor)
             yield return new TestFixtureData(new GZipCompressor()).SetArgDisplayNames(" GZip ");
             yield return new TestFixtureData(new DeflateCompressor()).SetArgDisplayNames(" Deflate ");
             yield return new TestFixtureData(new BrotliCompressor()).SetArgDisplayNames(" Brotli ");
+            yield return new TestFixtureData(new BrotliNETCompressor()).SetArgDisplayNames(" BrotliNET ");
             yield return new TestFixtureData(new LZ4Compressor()).SetArgDisplayNames(" LZ4 ");
             yield return new TestFixtureData(new LZMACompressor()).SetArgDisplayNames(" LZMA ");
             yield return new TestFixtureData(new SnappyCompressor()).SetArgDisplayNames(" Snappy ");

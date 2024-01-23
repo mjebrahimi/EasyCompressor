@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EasyCaching.Extensions.EasyCompressor\EasyCaching.Extensions.EasyCompressor.csproj" />
-    <!--<ProjectReference Include="..\..\src\EasyCompressor.BrotliNET\EasyCompressor.BrotliNET.csproj" />-->
+    <ProjectReference Include="..\..\src\EasyCompressor.BrotliNET\EasyCompressor.BrotliNET.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.LZ4\EasyCompressor.LZ4.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.LZMA\EasyCompressor.LZMA.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.Snappier\EasyCompressor.Snappier.csproj" />
