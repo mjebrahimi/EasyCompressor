@@ -26,7 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data\SpotifyAlbum.json">
+    <None Update="Data\SearchResponse\SearchResponse.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Data\SpotifyAlbum\SpotifyAlbum.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

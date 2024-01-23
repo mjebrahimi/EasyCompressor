@@ -1,4 +1,6 @@
-﻿using MessagePack;
+﻿// Ignore Spelling: Lz Protobuf
+
+using MessagePack;
 using Newtonsoft.Json;
 using System.IO;
 
