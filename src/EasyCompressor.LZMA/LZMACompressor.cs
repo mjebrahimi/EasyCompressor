@@ -85,20 +85,20 @@ public class LZMACompressor : BaseCompressor
         var properties = new byte[5];
 
         // Read the decoder properties
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
         inputStream.Read((Span<byte>)properties);
 #else
         inputStream.Read(properties, 0, 5);
 #endif
         decoder.SetDecoderProperties(properties);
 
-        var fileLengthBytes = new byte[8];
-
         // Read in the decompress file size.
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        inputStream.Read((Span<byte>)fileLengthBytes);
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+        Span<byte> fileLengthBytes = stackalloc byte[8];
+        inputStream.Read(fileLengthBytes);
         var fileLength = BitConverter.ToInt64((ReadOnlySpan<byte>)fileLengthBytes);
 #else
+        var fileLengthBytes = new byte[8];
         inputStream.Read(fileLengthBytes, 0, 8);
         var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 #endif
@@ -122,11 +122,7 @@ public class LZMACompressor : BaseCompressor
 
         var fileSize = BitConverter.GetBytes(inputStream.Length);
         // Write the decompressed file size.
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        await outputStream.WriteAsync((ReadOnlyMemory<byte>)fileSize, cancellationToken).ConfigureAwait(false);
-#else
-        await outputStream.WriteAsync(fileSize, 0, 8, cancellationToken).ConfigureAwait(false);
-#endif
+        await outputStream.WriteAllBytesAsync(fileSize, cancellationToken).ConfigureAwait(false);
 
         // Encode
         encoder.Code(inputStream, outputStream, inputStream.Length, -1, null);
@@ -142,21 +138,21 @@ public class LZMACompressor : BaseCompressor
         var properties = new byte[5];
 
         // Read the decoder properties
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        await inputStream.ReadAsync(properties.AsMemory(), cancellationToken).ConfigureAwait(false);
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+        await inputStream.ReadAsync((Memory<byte>)properties, cancellationToken).ConfigureAwait(false);
 #else
         await inputStream.ReadAsync(properties, 0, 5, cancellationToken).ConfigureAwait(false);
 #endif
 
         decoder.SetDecoderProperties(properties);
 
-        var fileLengthBytes = new byte[8];
-
         // Read in the decompress file size.
-#if NETSTANDARD2_1_OR_GREATER || NET6_0_OR_GREATER
-        await inputStream.ReadAsync(fileLengthBytes.AsMemory(), cancellationToken).ConfigureAwait(false);
-        var fileLength = BitConverter.ToInt64((ReadOnlySpan<byte>)fileLengthBytes);
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+        Memory<byte> fileLengthBytes = new byte[8];
+        await inputStream.ReadAsync(fileLengthBytes, cancellationToken).ConfigureAwait(false);
+        var fileLength = BitConverter.ToInt64(fileLengthBytes.Span);
 #else
+        var fileLengthBytes = new byte[8];
         await inputStream.ReadAsync(fileLengthBytes, 0, 8, cancellationToken).ConfigureAwait(false);
         var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
 #endif
