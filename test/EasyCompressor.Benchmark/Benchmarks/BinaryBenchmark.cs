@@ -1,28 +1,43 @@
 ﻿using BenchmarkDotNet.Attributes;
+using EasyCompressor;
+using System.ComponentModel.DataAnnotations;
 
 namespace EasySerializer.Benchmark;
 
-public class BinaryBenchmark : BaseBenchmark
+[GenericTypeArguments(typeof(GZipCompressor))]
+[GenericTypeArguments(typeof(DeflateCompressor))]
+[GenericTypeArguments(typeof(BrotliCompressor))]
+[GenericTypeArguments(typeof(BrotliNETCompressor))]
+[GenericTypeArguments(typeof(LZ4Compressor))]
+[GenericTypeArguments(typeof(LZMACompressor))]
+[GenericTypeArguments(typeof(SnappyCompressor))]
+[GenericTypeArguments(typeof(SnappierCompressor))]
+[GenericTypeArguments(typeof(ZstdCompressor))]
+[GenericTypeArguments(typeof(ZstdSharpCompressor))]
+[Display(Name = "Benchmark of Binary Compressor of '{0}' type", GroupName = "Benchmark of Binary Compressors")]
+public class BinaryBenchmark<T> : BaseBenchmark<T> where T : BaseCompressor
 {
+    public override string CompressionType => "Binary";
+
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void Compress(CompressorArg Compressor, CompressedArg CompressionRatio)
+    public void Compress(string Data, CompressedArg Compressed, string CompressionRatio)
     {
-        Compressor.Compressor.Compress(OriginalBytes);
+        CompressorInstance.Compress(Compressed.OriginalBytes);
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void Decompress(CompressorArg Compressor, CompressedArg CompressionRatio)
+    public void Decompress(string Data, CompressedArg Compressed, string CompressionRatio)
     {
-        Compressor.Compressor.Decompress(CompressionRatio.CompressedBytes);
+        CompressorInstance.Decompress(Compressed.CompressedBytes);
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void CompressAndDecompress(CompressorArg Compressor, CompressedArg CompressionRatio)
+    public void CompressAndDecompress(string Data, CompressedArg Compressed, string CompressionRatio)
     {
-        var compressedBytes = Compressor.Compressor.Compress(OriginalBytes);
-        Compressor.Compressor.Decompress(compressedBytes);
+        var compressedBytes = CompressorInstance.Compress(Compressed.OriginalBytes);
+        CompressorInstance.Decompress(compressedBytes);
     }
 }

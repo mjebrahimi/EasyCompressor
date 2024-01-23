@@ -1,68 +1,119 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Order;
 using EasyCompressor;
-using EasyCompressor.Snappier;
-using EasyCompressor.ZstdSharp;
+using EasyCompressor.Benchmark;
+using ProtobufVsMsgPack.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace EasySerializer.Benchmark;
 
-//[DryJob]
-[ShortRunJob]
-//[SimpleJob(RunStrategy.Throughput)]
-[MemoryDiagnoser]
-[KeepBenchmarkFiles(false)]
-[GroupBenchmarksBy(BenchmarkLogicalGroupRule.ByMethod)]
-[Orderer(SummaryOrderPolicy.FastestToSlowest, MethodOrderPolicy.Declared)]
-public class BaseBenchmark
+#if RELEASE
+//[ShortRunJob] //Does not achieve accurate results
+[SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
+#else
+[MarkdownExporterAttribute.GitHub]
+#endif
+//[CategoriesColumn]
+[Config(typeof(CustomConfig))]
+[MemoryDiagnoser(displayGenColumns: false)]
+public abstract class BaseBenchmark<T> where T : BaseCompressor
 {
-    public BaseBenchmark()
+    public abstract string CompressionType { get; }
+    public string[] GetCompressionType => [CompressionType];
+
+    public static (byte[] Bytes, string Size)[] GetData()
     {
-        var json = File.ReadAllText("Data\\spotifyAlbum.json");
-        var spotifyAlbums = Serializer.FromJson<SpotifyAlbumArray>(json);
-        OriginalBytes = Serializer.SerializeMessagePack(spotifyAlbums);
+        var person = PersonGenerator.GeneratePerson();
+        var smallData = Serializer.SerializeMessagePack(person);
+
+        var json1 = File.ReadAllText(@"Data\SpotifyAlbum\SpotifyAlbum.json");
+        var data1 = Serializer.FromJson<SpotifyAlbumArray>(json1);
+        var mediumData = Serializer.SerializeMessagePack(data1);
+
+        var json2 = File.ReadAllText(@"Data\SearchResponse\SearchResponse.json");
+        var data2 = Serializer.FromJson<List<SearchResponse>>(json2);
+        var largeData = Serializer.SerializeMessagePack(data2);
+
+        return
+        [
+            (smallData, "Small (190 B)"),
+            (mediumData, "Medium (10 KB)"),
+            (largeData, "Large (20 KB)")
+        ];
     }
 
-    protected byte[] OriginalBytes;
+    private static readonly (byte[] Bytes, string Size)[] Data = GetData();
 
-    public IEnumerable<object[]> GetArguments
+    public BaseCompressor CompressorInstance { get; } = ActivatorHelper.CreateInstanceWithDefaultValues<T>();
+
+
+    [ParamsSource(nameof(GetCompressionType), Priority = -2)]
+    public string Type { get; set; }
+
+    public string[] GetTypeNameT { get; } = [typeof(T).Name];
+
+    [ParamsSource(nameof(GetTypeNameT), Priority = -1)]
+    public string Compressor { get; set; }
+
+    public IEnumerable<object[]> GetArguments()
     {
-        get
+        foreach (var (bytes, size) in Data)
         {
-            yield return new object[] { new CompressorArg(new GZipCompressor()), new CompressedArg(new GZipCompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new DeflateCompressor()), new CompressedArg(new DeflateCompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new BrotliCompressor()), new CompressedArg(new BrotliCompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new LZ4Compressor()), new CompressedArg(new LZ4Compressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new LZMACompressor()), new CompressedArg(new LZMACompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new SnappyCompressor()), new CompressedArg(new SnappyCompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new ZstdCompressor()), new CompressedArg(new ZstdCompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new SnappierCompressor()), new CompressedArg(new SnappierCompressor(), OriginalBytes) };
-            yield return new object[] { new CompressorArg(new ZstdSharpCompressor()), new CompressedArg(new ZstdSharpCompressor(), OriginalBytes) };
+            var compressedArg = new CompressedArg(CompressorInstance, bytes, CompressionType);
+            var compressionRatio = $"{compressedArg.CompressionRatio:N2} %";
+            yield return [size, compressedArg, compressionRatio];
         }
-    }
-
-    public class CompressorArg(ICompressor compressor)
-    {
-        public ICompressor Compressor { get; } = compressor;
-
-        public override string ToString() => Compressor.GetType().Name;
     }
 
     public class CompressedArg
     {
-        private readonly int compressedRatio;
-        private readonly decimal savingPercent;
-        public byte[] CompressedBytes { get; }
-
-        public CompressedArg(ICompressor compressor, byte[] originalBytes)
+        public CompressedArg(ICompressor compressor, byte[] originalBytes, string compressionType)
         {
-            CompressedBytes = compressor.Compress(originalBytes);
-            compressedRatio = originalBytes.Length / CompressedBytes.Length;
-            savingPercent = (originalBytes.Length - CompressedBytes.Length) * 100 / (decimal)originalBytes.Length;
+            OriginalBytes = originalBytes;
+
+            if ((compressionType == "Stream" || compressionType == "StreamAsync") && compressor is LZ4Compressor lz4Compressor)
+            {
+                using var input = new MemoryStream(originalBytes);
+                using var output = new MemoryStream();
+
+                lz4Compressor.Compress(input, output);
+
+                CompressedBytes = output.GetTrimmedBuffer();
+            }
+            else
+            {
+                CompressedBytes = compressor.Compress(originalBytes);
+            }
+
+            CompressionRatio = CompressedBytes.Length * 100 / (decimal)originalBytes.Length;
         }
 
-        public override string ToString() => string.Format("{0} ({1} bytes)", compressedRatio, CompressedBytes.Length);
+        public byte[] OriginalBytes { get; }
+        public byte[] CompressedBytes { get; }
+        public decimal CompressionRatio { get; set; }
+
+        public override string ToString()
+        {
+            return $"{CompressedBytes.Length:N0} bytes";
+        }
+    }
+}
+
+class CustomConfig : ManualConfig
+{
+    public CustomConfig()
+    {
+        SummaryStyle = DefaultConfig.Instance.SummaryStyle.WithMaxParameterColumnWidth(30);
+    }
+}
+
+public static class ActivatorHelper
+{
+    public static T CreateInstanceWithDefaultValues<T>()
+    {
+        return (T)Activator.CreateInstance(typeof(T), BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.Instance | BindingFlags.OptionalParamBinding, null, [Type.Missing], null);
     }
 }
