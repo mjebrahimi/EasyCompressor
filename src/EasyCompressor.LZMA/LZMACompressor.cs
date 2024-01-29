@@ -10,7 +10,9 @@ namespace EasyCompressor;
 /// LZMA compressor
 /// https://gist.github.com/ststeiger/cb9750664952f775a341
 /// </summary>
+#pragma warning disable S101 // Types should be named in PascalCase
 public class LZMACompressor : BaseCompressor
+#pragma warning restore S101 // Types should be named in PascalCase
 {
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.LZMA;

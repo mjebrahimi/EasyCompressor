@@ -118,4 +118,10 @@ public abstract class BaseCompressor : ICompressor
 
         return BaseDecompressAsync(inputStream, outputStream, cancellationToken);
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return GetType().Name;
+    }
 }

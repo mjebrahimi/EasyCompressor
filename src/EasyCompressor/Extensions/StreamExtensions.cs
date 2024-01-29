@@ -21,6 +21,9 @@ public static class StreamExtensions
     /// <returns></returns>
     public static byte[] GetTrimmedBuffer(this MemoryStream stream)
     {
+        //Not inspired, but worth checking out
+        //https://github.com/salarcode/BinaryBuffers
+
         var length = (int)stream.Length;
         var bytes = stream.GetBuffer();
         if (length < bytes.Length)
