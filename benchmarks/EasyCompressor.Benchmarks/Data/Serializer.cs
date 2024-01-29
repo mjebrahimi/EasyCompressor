@@ -4,7 +4,7 @@ using MessagePack;
 using Newtonsoft.Json;
 using System.IO;
 
-namespace EasySerializer.Benchmark;
+namespace EasyCompressor.Benchmarks.Models;
 
 public static class Serializer
 {

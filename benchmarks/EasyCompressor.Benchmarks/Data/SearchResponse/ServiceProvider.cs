@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ProtobufVsMsgPack.Models
+namespace EasyCompressor.Benchmarks.Models
 {
     public enum ServiceProvider
     {

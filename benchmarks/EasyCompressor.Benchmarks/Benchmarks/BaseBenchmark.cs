@@ -1,17 +1,13 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
-using EasyCompressor;
-using EasyCompressor.Benchmark;
-using ProtobufVsMsgPack.Models;
-using System;
+using EasyCompressor.Benchmarks.Models;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 
-namespace EasySerializer.Benchmark;
+namespace EasyCompressor.Benchmarks;
 
 #if RELEASE
-//[ShortRunJob] //Does not achieve accurate results
+//[ShortRunJob]
 [SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
 #else
 [MarkdownExporterAttribute.GitHub]
@@ -19,23 +15,16 @@ namespace EasySerializer.Benchmark;
 //[CategoriesColumn]
 [Config(typeof(CustomConfig))]
 [MemoryDiagnoser(displayGenColumns: false)]
-public abstract class BaseBenchmark<T> where T : BaseCompressor
+public abstract class BaseBenchmark
 {
     public abstract string CompressionType { get; }
-    public string[] GetCompressionType => [CompressionType];
 
+    private static readonly (byte[] Bytes, string Size)[] Data = GetData();
     public static (byte[] Bytes, string Size)[] GetData()
     {
-        var person = PersonGenerator.GeneratePerson();
-        var smallData = Serializer.SerializeMessagePack(person);
-
-        var json1 = File.ReadAllText(@"Data\SpotifyAlbum\SpotifyAlbum.json");
-        var data1 = Serializer.FromJson<SpotifyAlbumArray>(json1);
-        var mediumData = Serializer.SerializeMessagePack(data1);
-
-        var json2 = File.ReadAllText(@"Data\SearchResponse\SearchResponse.json");
-        var data2 = Serializer.FromJson<List<SearchResponse>>(json2);
-        var largeData = Serializer.SerializeMessagePack(data2);
+        var smallData = Person.GetDataBinary();
+        var mediumData = SpotifyAlbumArray.GetDataBinary();
+        var largeData = SearchResponse.GetDataBinary();
 
         return
         [
@@ -45,26 +34,38 @@ public abstract class BaseBenchmark<T> where T : BaseCompressor
         ];
     }
 
-    private static readonly (byte[] Bytes, string Size)[] Data = GetData();
+    private static readonly BaseCompressor[] Compressors =
+    [
+#pragma warning disable CS0618 // Type or member is obsolete
+        new GZipCompressor(),
+        new DeflateCompressor(),
+        new BrotliCompressor(),
+        new BrotliNETCompressor(),
+        new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.LegacyCompatible },
+        new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.StreamCompatible },
+        new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimized },
+        new LZMACompressor(),
+        new SnappyCompressor(),
+        new SnappierCompressor(),
+        new ZstdCompressor(),
+        new ZstdSharpCompressor(),
+#pragma warning restore CS0618 // Type or member is obsolete
+    ];
 
-    public BaseCompressor CompressorInstance { get; } = ActivatorHelper.CreateInstanceWithDefaultValues<T>();
-
-
+    public string[] GetCompressionType => [CompressionType];
     [ParamsSource(nameof(GetCompressionType), Priority = -2)]
     public string Type { get; set; }
 
-    public string[] GetTypeNameT { get; } = [typeof(T).Name];
-
-    [ParamsSource(nameof(GetTypeNameT), Priority = -1)]
-    public string Compressor { get; set; }
-
     public IEnumerable<object[]> GetArguments()
     {
-        foreach (var (bytes, size) in Data)
+        foreach (var compressor in Compressors)
         {
-            var compressedArg = new CompressedArg(CompressorInstance, bytes, CompressionType);
-            var compressionRatio = $"{compressedArg.CompressionRatio:N2} %";
-            yield return [size, compressedArg, compressionRatio];
+            foreach (var (bytes, size) in Data)
+            {
+                var compressedArg = new CompressedArg(compressor, bytes, CompressionType);
+                var compressionRatio = $"{compressedArg.CompressionRatio:N2} %";
+                yield return [compressor, size, compressedArg, compressionRatio];
+            }
         }
     }
 
@@ -107,13 +108,5 @@ class CustomConfig : ManualConfig
     public CustomConfig()
     {
         SummaryStyle = DefaultConfig.Instance.SummaryStyle.WithMaxParameterColumnWidth(30);
-    }
-}
-
-public static class ActivatorHelper
-{
-    public static T CreateInstanceWithDefaultValues<T>()
-    {
-        return (T)Activator.CreateInstance(typeof(T), BindingFlags.CreateInstance | BindingFlags.Public | BindingFlags.Instance | BindingFlags.OptionalParamBinding, null, [Type.Missing], null);
     }
 }

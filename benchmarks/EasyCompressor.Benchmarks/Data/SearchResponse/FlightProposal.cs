@@ -3,7 +3,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace ProtobufVsMsgPack.Models
+namespace EasyCompressor.Benchmarks.Models
 {
     [DataContract]
     public class FlightProposal

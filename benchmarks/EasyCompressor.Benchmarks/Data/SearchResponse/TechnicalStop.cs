@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ProtobufVsMsgPack.Models
+namespace EasyCompressor.Benchmarks.Models
 {
     [DataContract]
     public class TechnicalStop

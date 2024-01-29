@@ -1,13 +1,23 @@
-﻿using Newtonsoft.Json;
+﻿// Ignore Spelling: Spotify
+
+using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Runtime.Serialization;
 
-namespace EasySerializer.Benchmark;
+namespace EasyCompressor.Benchmarks.Models;
 
 [Serializable]
 [DataContract]
 public class SpotifyAlbumArray
 {
+    public static byte[] GetDataBinary()
+    {
+        var json = File.ReadAllText(@"Data\SpotifyAlbum\SpotifyAlbum.json");
+        var data = Serializer.FromJson<SpotifyAlbumArray>(json);
+        return Serializer.SerializeMessagePack(data);
+    }
+
     [DataMember(Order = 1)]
     [JsonProperty("spotify_albums")]
     public SpotifyAlbum[] SpotifyAlbums { get; set; }

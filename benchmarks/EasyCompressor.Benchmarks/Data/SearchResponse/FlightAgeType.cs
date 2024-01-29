@@ -1,4 +1,4 @@
-﻿namespace ProtobufVsMsgPack.Models
+﻿namespace EasyCompressor.Benchmarks.Models
 {
     public enum FlightAgeType
     {

@@ -1,11 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Runtime.Serialization;
 
-namespace ProtobufVsMsgPack.Models
+namespace EasyCompressor.Benchmarks.Models
 {
     [DataContract]
     public class SearchResponse
     {
+        public static byte[] GetDataBinary()
+        {
+            var json = File.ReadAllText(@"Data\SearchResponse\SearchResponse.json");
+            var data = Serializer.FromJson<List<SearchResponse>>(json);
+            return Serializer.SerializeMessagePack(data);
+        }
+
         [DataMember(Order = 1)]
         public long Id { get; set; }
 
