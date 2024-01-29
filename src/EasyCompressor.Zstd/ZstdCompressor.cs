@@ -11,6 +11,9 @@ namespace EasyCompressor;
 /// <summary>
 /// Zstd compressor
 /// </summary>
+#pragma warning disable S1133 // Deprecated code should be removed
+[Obsolete("Instead, use ZstdSharpCompressor in the EasyCompressor.ZstdSharp package.")]
+#pragma warning restore S1133 // Deprecated code should be removed
 public class ZstdCompressor : BaseCompressor
 {
     #region Load libzstd v1.4.4 DLL (No longer needed according to ZstdNet v1.4.5 update)

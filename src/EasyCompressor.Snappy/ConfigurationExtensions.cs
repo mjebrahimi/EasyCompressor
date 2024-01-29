@@ -1,11 +1,15 @@
 ﻿using EasyCompressor;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
 /// Configuration extensions
 /// </summary>
+#pragma warning disable S1133 // Deprecated code should be removed
+[Obsolete("Instead, use SnappierCompressor (AddSnappierCompressor method) in the EasyCompressor.Snappier package.")]
+#pragma warning restore S1133 // Deprecated code should be removed
 public static class ConfigurationExtensions
 {
     /// <summary>

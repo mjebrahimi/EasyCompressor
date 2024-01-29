@@ -1,4 +1,5 @@
 ﻿using Snappy;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,9 +9,11 @@ namespace EasyCompressor;
 /// <summary>
 /// Snappy compressor
 /// </summary>
+#pragma warning disable S1133 // Deprecated code should be removed
+[Obsolete("Instead, use SnappierCompressor in the EasyCompressor.Snappier package.")]
+#pragma warning restore S1133 // Deprecated code should be removed
 public class SnappyCompressor : BaseCompressor
 {
-
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Snappy;
 
