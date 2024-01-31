@@ -96,7 +96,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-		<!--<PackageReference Include="NuGetizer" Version="1.2.0" PrivateAssets="all" />-->
+		<!--<PackageReference Include="NuGetizer" Version="1.2.1" PrivateAssets="all" />-->
 	</ItemGroup>
 
 	<ItemGroup>

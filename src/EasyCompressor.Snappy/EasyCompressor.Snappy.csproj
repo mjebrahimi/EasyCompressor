@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Snappy.Standard" Version="0.2.0" />
+    <PackageReference Include="Snappy.Standard" Version="[0.2.0,)" />
   </ItemGroup>
 
 </Project>
