@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Bogus;
+using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace EasyCompressor.Benchmarks.Models;
@@ -8,45 +10,79 @@ public class Person
 {
     public static byte[] GetDataBinary()
     {
-        var person = Create();
+        var person = CreatePeople();
         return Serializer.SerializeMessagePack(person);
     }
 
-    public static Person Create()
+    public static List<Person> CreatePeople()
     {
-        return new()
+        Randomizer.Seed = new Random(8675309);
+
+        var faker = new Faker<Person>();
+        faker.RuleFor(p => p.Name, f => f.Name.FirstName());
+        faker.RuleFor(p => p.Age, f => f.Random.Int(18, 35));
+        faker.RuleFor(p => p.Gender, f => f.PickRandomParam("Male", "Female"));
+        faker.RuleFor(p => p.DateOfBirth, f => f.Date.Past());
+        faker.RuleFor(p => p.PlaceOfBirth, f => f.Address.State());
+        faker.RuleFor(p => p.Nationality, f => f.Address.Country());
+        faker.RuleFor(p => p.Education, f => f.Random.String2(10, 20));
+        faker.RuleFor(p => p.Residence, f => f.Random.String2(10, 20));
+        faker.RuleFor(p => p.ContactInfo, f => new ContactInformation
         {
-            Name = "John",
-            Age = 25,
-            Gender = "Male",
-#pragma warning disable S6562 // Always set the "DateTimeKind" when creating new "DateTime" instances
-            DateOfBirth = new DateTime(1995, 1, 1),
-#pragma warning restore S6562 // Always set the "DateTimeKind" when creating new "DateTime" instances
-            PlaceOfBirth = "City, Country",
-            Nationality = "Nationality",
-            Occupation = "Occupation",
-            Education = "Education",
-            Residence = "Residence",
-            ContactInfo = new()
-            {
-                PhoneNumber = "1234567890",
-                Email = "example@example.com"
-            },
-            PhysicalDescription = new()
-            {
-                Height = 170,
-                Weight = 60,
-                HairColor = "Black",
-                EyeColor = "Brown"
-            },
-            Family = new()
-            {
-                Parents = ["Parent 1", "Parent 2"],
-                Siblings = ["Sibling 1", "Sibling 2"],
-                Spouse = "Spouse"
-            }
-        };
+            Email = f.Internet.Email(),
+            PhoneNumber = f.Phone.PhoneNumber()
+        });
+        faker.RuleFor(p => p.PhysicalDescription, f => new PhysicalDescription
+        {
+            HairColor = f.PickRandomParam("Black", "Brown", "Blonde", "Red", "Gray"),
+            EyeColor = f.PickRandomParam("Brown", "Blue", "Green", "Hazel"),
+            Height = f.Random.Int(150, 190),
+            Weight = f.Random.Int(50, 90)
+        });
+        faker.RuleFor(p => p.Family, f => new FamilyInfo
+        {
+            Parents = f.Lorem.Words(2),
+            Siblings = f.Lorem.Words(3),
+            Spouse = f.Random.String2(10, 20)
+        });
+
+        return faker.Generate(10);
+
+        //Example
+        //        var person = new Person()
+        //        {
+        //            Name = "John",
+        //            Age = 25,
+        //            Gender = "Male",
+        //#pragma warning disable S6562 // Always set the "DateTimeKind" when creating new "DateTime" instances
+        //            DateOfBirth = new DateTime(1995, 1, 1),
+        //#pragma warning restore S6562 // Always set the "DateTimeKind" when creating new "DateTime" instances
+        //            PlaceOfBirth = "City, Country",
+        //            Nationality = "Nationality",
+        //            Occupation = "Occupation",
+        //            Education = "Education",
+        //            Residence = "Residence",
+        //            ContactInfo = new()
+        //            {
+        //                PhoneNumber = "1234567890",
+        //                Email = "example@example.com"
+        //            },
+        //            PhysicalDescription = new()
+        //            {
+        //                Height = 170,
+        //                Weight = 60,
+        //                HairColor = "Black",
+        //                EyeColor = "Brown"
+        //            },
+        //            Family = new()
+        //            {
+        //                Parents = ["Parent 1", "Parent 2"],
+        //                Siblings = ["Sibling 1", "Sibling 2"],
+        //                Spouse = "Spouse"
+        //            }
+        //        };
     }
+
 
     [DataMember(Order = 1)]
     public string Name { get; set; }
