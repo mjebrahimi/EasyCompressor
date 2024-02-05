@@ -12,14 +12,27 @@ namespace EasyCompressor;
 /// </summary>
 public class SnappierCompressor : BaseCompressor
 {
+    /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static SnappierCompressor Shared { get; } = new(name: "shared");
+
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Snappy;
 
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="SnappierCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    public SnappierCompressor(string name = null)
+    public SnappierCompressor()
+        : this(null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SnappierCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public SnappierCompressor(string name)
     {
         Name = name;
     }
@@ -79,7 +92,7 @@ public class SnappierCompressor : BaseCompressor
     /// <inheritdoc/>
     protected override void BaseDecompress(Stream inputStream, Stream outputStream)
     {
-        using (var snappyStream = new SnappyStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
+        using (var snappyStream = new SnappyStream(inputStream, CompressionMode.Decompress))
         {
             snappyStream.CopyTo(outputStream);
 

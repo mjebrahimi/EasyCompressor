@@ -9,7 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class ConfigurationExtensions
 {
     /// <summary>
-    /// Add SnappierCompressor to services
+    /// Add SnappierCompressor to services.
     /// </summary>
     /// <param name="services">services</param>
     /// <returns>IServiceCollection</returns>
@@ -19,7 +19,7 @@ public static class ConfigurationExtensions
     }
 
     /// <summary>
-    /// Add SnappierCompressor to services with specified name
+    /// Add SnappierCompressor to services with specified <paramref name="name"/>.
     /// </summary>
     /// <param name="services">services</param>
     /// <param name="name">Name</param>
