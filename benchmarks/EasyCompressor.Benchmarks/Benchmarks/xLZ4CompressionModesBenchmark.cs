@@ -26,7 +26,7 @@ public class xLZ4CompressionModesBenchmark
 {
     private static readonly LZ4Compressor legacyCompatibleCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.LegacyCompatible };
     private static readonly LZ4Compressor streamCompatibleCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.StreamCompatible };
-    private static readonly LZ4Compressor optimizedCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimal };
+    private static readonly LZ4Compressor optimalCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimal };
     private static readonly Iron ironLZ4Native = new();
 
     private static readonly (byte[] Bytes, string Size)[] Data = GetData();
@@ -62,11 +62,11 @@ public class xLZ4CompressionModesBenchmark
         }
     }
 
-    public IEnumerable<object[]> GetArgumentsOptimized()
+    public IEnumerable<object[]> GetArgumentsOptimal()
     {
         foreach (var (bytes, size) in Data)
         {
-            var compressedBytes = optimizedCompressor.Compress(bytes);
+            var compressedBytes = optimalCompressor.Compress(bytes);
             yield return [new CompressedArg(bytes, compressedBytes), size];
         }
     }
@@ -118,48 +118,48 @@ public class xLZ4CompressionModesBenchmark
     #region StreamCompatible
     [ArgumentsSource(nameof(GetArgumentsStreamCompatible))]
     [Benchmark(Description = "Compress"), BenchmarkCategory("StreamCompatible")]
-    public byte[] CompressOptimal(CompressedArg arg, string Size)
+    public byte[] CompressStreamCompatible(CompressedArg arg, string Size)
     {
         return streamCompatibleCompressor.Compress(arg.OriginalBytes);
     }
 
     [ArgumentsSource(nameof(GetArgumentsStreamCompatible))]
     [Benchmark(Description = "Decompress"), BenchmarkCategory("StreamCompatible")]
-    public byte[] DecompressOptimal(CompressedArg arg, string Size)
+    public byte[] DecompressStreamCompatible(CompressedArg arg, string Size)
     {
         return streamCompatibleCompressor.Decompress(arg.CompressedBytes);
     }
 
     [ArgumentsSource(nameof(GetArgumentsStreamCompatible))]
     [Benchmark(Description = "CompressAndDecompress"), BenchmarkCategory("StreamCompatible")]
-    public byte[] CompressAndDecompressOptimal(CompressedArg arg, string Size)
+    public byte[] CompressAndDecompressStreamCompatible(CompressedArg arg, string Size)
     {
         var compressedBytes = streamCompatibleCompressor.Compress(arg.OriginalBytes);
         return streamCompatibleCompressor.Decompress(compressedBytes);
     }
     #endregion
 
-    #region Optimized
-    [ArgumentsSource(nameof(GetArgumentsOptimized))]
-    [Benchmark(Description = "Compress"), BenchmarkCategory("Optimized")]
-    public byte[] CompressOptimized(CompressedArg arg, string Size)
+    #region Optimal
+    [ArgumentsSource(nameof(GetArgumentsOptimal))]
+    [Benchmark(Description = "Compress"), BenchmarkCategory("Optimal")]
+    public byte[] CompressOptimal(CompressedArg arg, string Size)
     {
-        return optimizedCompressor.Compress(arg.OriginalBytes);
+        return optimalCompressor.Compress(arg.OriginalBytes);
     }
 
-    [ArgumentsSource(nameof(GetArgumentsOptimized))]
-    [Benchmark(Description = "Decompress"), BenchmarkCategory("Optimized")]
-    public byte[] DecompressOptimized(CompressedArg arg, string Size)
+    [ArgumentsSource(nameof(GetArgumentsOptimal))]
+    [Benchmark(Description = "Decompress"), BenchmarkCategory("Optimal")]
+    public byte[] DecompressOptimal(CompressedArg arg, string Size)
     {
-        return optimizedCompressor.Decompress(arg.CompressedBytes);
+        return optimalCompressor.Decompress(arg.CompressedBytes);
     }
 
-    [ArgumentsSource(nameof(GetArgumentsOptimized))]
-    [Benchmark(Description = "CompressAndDecompress"), BenchmarkCategory("Optimized")]
-    public byte[] CompressAndDecompressOptimized(CompressedArg arg, string Size)
+    [ArgumentsSource(nameof(GetArgumentsOptimal))]
+    [Benchmark(Description = "CompressAndDecompress"), BenchmarkCategory("Optimal")]
+    public byte[] CompressAndDecompressOptimal(CompressedArg arg, string Size)
     {
-        var compressedBytes = optimizedCompressor.Compress(arg.OriginalBytes);
-        return optimizedCompressor.Decompress(compressedBytes);
+        var compressedBytes = optimalCompressor.Compress(arg.OriginalBytes);
+        return optimalCompressor.Decompress(compressedBytes);
     }
     #endregion
 

@@ -76,17 +76,17 @@ public abstract class BaseBenchmark
         //new BrotliNETCompressor(null, quality: 10),
         //new BrotliNETCompressor(null, quality: 11),
 
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L00_FAST, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L03_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L04_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L05_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L06_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L07_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L08_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L09_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L10_OPT, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L11_OPT, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
-        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L12_MAX, binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L00_FAST, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L03_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L04_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L05_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L06_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L07_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L08_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L09_HC, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L10_OPT, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L11_OPT, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
+        //new LZ4Compressor(level: K4os.Compression.LZ4.LZ4Level.L12_MAX, binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
 
         //new LZMACompressor(speed: LZMASpeed.Fastest, dictionarySize: DictionarySize.VerySmall),
         //new LZMACompressor(speed: LZMASpeed.Fastest, dictionarySize: DictionarySize.Small),
@@ -206,7 +206,7 @@ public abstract class BaseBenchmark
         new LZ4Compressor(name: "LZ4Compressor"),
         //new LZ4Compressor(name: "LZ4Compressor-LegacyCompatible", binaryCompressionMode: LZ4BinaryCompressionMode.LegacyCompatible),
         //new LZ4Compressor(name: "LZ4Compressor-StreamCompatible", binaryCompressionMode: LZ4BinaryCompressionMode.StreamCompatible),
-        //new LZ4Compressor(name: "LZ4Compressor-Optimized", binaryCompressionMode: LZ4BinaryCompressionMode.Optimized),
+        //new LZ4Compressor(name: "LZ4Compressor-Optimal", binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
         new LZMACompressor(name: "LZMACompressor"),
         new SnappyCompressor(name: "SnappyCompressor (deprecated)"),
         new SnappierCompressor(name: "SnappierCompressor"),
@@ -382,9 +382,9 @@ ZLibCompressor same as DeflateCompressor - DeflateCompressor is a bit better for
 BrotliCompressor is faster but not GC efficient than GZip/ZLib/Deflate with Fastest option
 
 ========================================== LZ4Compressor ==========================================
-LZ4Compressor(L00_FAST,Optimized)       Fastest - **BEST**✔️
-LZ4Compressor(L03..L09,Optimized)       Slow
-LZ4Compressor(L10..L12,Optimized)       Very Slow
+LZ4Compressor(L00_FAST,Optimal)         Fastest - **BEST**✔️
+LZ4Compressor(L03..L09,Optimal)         Slow
+LZ4Compressor(L10..L12,Optimal)         Very Slow
 
 ========================================== LZMACompressor ==========================================
 LZMACompressor(UltraFast-Smallest_64KB)     Faster and More GC Efficient (**BEST**)✔️

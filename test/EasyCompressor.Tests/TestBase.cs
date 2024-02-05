@@ -30,7 +30,7 @@ public class TestBase(ICompressor compressor)
             yield return new TestFixtureData(new BrotliNETCompressor()).SetArgDisplayNames(" BrotliNET ");
             yield return new TestFixtureData(new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.LegacyCompatible }).SetArgDisplayNames(" LZ4-LegacyCompatible ");
             yield return new TestFixtureData(new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.StreamCompatible }).SetArgDisplayNames(" LZ4-StreamCompatible ");
-            yield return new TestFixtureData(new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimized }).SetArgDisplayNames(" LZ4-Optimized ");
+            yield return new TestFixtureData(new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimal }).SetArgDisplayNames(" LZ4-Optimal ");
             yield return new TestFixtureData(new LZMACompressor()).SetArgDisplayNames(" LZMA ");
             yield return new TestFixtureData(new SnappyCompressor()).SetArgDisplayNames(" Snappy ");
             yield return new TestFixtureData(new ZstdCompressor()).SetArgDisplayNames(" Zstd ");
