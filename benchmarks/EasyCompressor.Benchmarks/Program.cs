@@ -1,11 +1,22 @@
 ﻿using BenchmarkDotNetVisualizer;
+using BenchmarkDotNetVisualizer.Utilities;
 using System.Linq;
 using System.Threading.Tasks;
 
-#region Create reports from artifacts
-//var directory = System.IO.Path.Combine(DirectoryHelper.GetProjectBenchmarkArtifactsDirectory(), "results-ShortRunJob");
+#region Create images from html files
+//var reportsDir = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports");
+//foreach (var fileName in Directory.GetFiles(reportsDir, searchPattern: "*.html"))
+//{
+//    var imgPath = fileName.Replace(".html", ".png");
+//    var html = File.ReadAllText(fileName);
+//    await HtmlHelper.RenderHtmlToImageAsync(html, imgPath);
+//}
+//return;
+#endregion
 
-//var benchmarkInfo1 = BenchmarkInfo.CreateFromDirectory(directory, searchPattern: "*-report-github.md").ToArray();
+#region Create reports from artifacts
+//var dir = System.IO.Path.Combine(DirectoryHelper.GetProjectBenchmarkArtifactsDirectory(), "results (final)");
+//var benchmarkInfo1 = BenchmarkInfo.CreateFromDirectory(dir).ToArray();
 //await VisualizeBenchmarks(benchmarkInfo1);
 //return;
 #endregion
@@ -15,8 +26,7 @@ var benchmarkInfo = BenchmarkAutoRunner.SwitcherRun(typeof(Program).Assembly).Ge
 DirectoryHelper.MoveBenchmarkArtifactsToProjectDirectory();
 
 #region Create reports from summaries
-//var benchmarkInfo2 = System.Array.FindAll(benchmarkInfo, p => p.BenchmarkType.GetGenericTypeDefinition() == typeof(EasyCompressor.Benchmarks.BinaryBenchmark<>));
-//await VisualizeBenchmarks(benchmarkInfo2);
+//await VisualizeBenchmarks(benchmarkInfo);
 #endregion
 
 #region Visualizer Customization
@@ -25,68 +35,86 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
     if (benchmarkInfo is not { Length: > 0 })
         return;
 
-    //ChangeColorAndNameOfBigOColumn(benchmarkInfo);
-
-    var options = new JoinReportHtmlOptions()
+    var lz4Benchmark = benchmarkInfo.SingleOrDefault(p => p.DisplayName == "EasyCompressor.Benchmarks.xLZ4CompressionModesBenchmark");
+    if (lz4Benchmark is not null)
     {
-        Title = null!, //Set per case
-        MainColumn = "Compressor",
-        GroupByColumns = ["Type", "Data"],
-        PivotProperty = "Method",
-        StatisticColumns = null!, //Set per case
-        ColumnsOrder = ["Compress", "Decompress", "CompressAndDecompress"],
-        SpectrumStatisticColumn = true,
-        OtherColumnsToSelect = ["Compressed", "CompressionRatio"],
-        HighlightGroups = true,
-        DividerMode = RenderTableDividerMode.SeparateTables,
-        HtmlWrapMode = HtmlDocumentWrapMode.RichDataTables,
-    };
+        lz4Benchmark.GroupName = lz4Benchmark.DisplayName;
+        BenchmarkReportProcessor.GetMaximumFunc = (string _, decimal[] values) =>
+        {
+            var max = values.OrderBy(p => p).SkipLast(1).Last();
+            return max * 2;
+        };
 
-    options.Title = "Benchmark of Binary Compressors in terms of Execution Time (Mean)";
-    options.StatisticColumns = ["Mean"];
-    await benchmarkInfo.JoinReportsAndSaveAsHtmlAndImageAsync(
-        htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory("docs\\Benchmark-XXX3-Mean.html"),
-        imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory("docs\\Benchmark-XXX3-Mean.webp"),
-        options: options);
+        var options = new JoinReportHtmlOptions()
+        {
+            Title = null!, //Set per case
+            MainColumn = "Categories",
+            GroupByColumns = ["Size"],
+            PivotProperty = "Method",
+            StatisticColumns = null!, //Set per case
+            ColumnsOrder = ["Compress", "Decompress", "CompressAndDecompress"],
+            SpectrumStatisticColumn = true,
+            HighlightGroups = true,
+            DividerMode = RenderTableDividerMode.SeparateTables,
+            HtmlWrapMode = HtmlDocumentWrapMode.RichDataTables,
+        };
 
-    options.Title = "Benchmark of Binary Compressors in terms of Allocation Size";
-    options.StatisticColumns = ["Allocated"];
-    await benchmarkInfo.JoinReportsAndSaveAsHtmlAndImageAsync(
-        htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory("docs\\Benchmark-XXX3-Allocated.html"),
-        imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory("docs\\Benchmark-XXX3-Allocated.webp"),
-        options: options);
+        options.Title = $"Benchmark of different LZ4 Compressors";
+        options.StatisticColumns = ["Mean", "Allocated"];
+        await lz4Benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
+            htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-LZ4.html"),
+            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-LZ4.webp"),
+            options: options);
+    }
+
+    foreach (var benchmark in benchmarkInfo.Where(p => p.DisplayName != "EasyCompressor.Benchmarks.xLZ4CompressionModesBenchmark"))
+    {
+        var title = benchmark.Table.First().GetProperty("Type").ToString().RemoveMarkdownBold();
+
+        BenchmarkReportProcessor.GetMaximumFunc = (string _, decimal[] values) =>
+        {
+            var max = values.OrderBy(p => p).SkipLast(1).Last();
+            return max * 2;
+        };
+
+        benchmark.Table = benchmark.Table.SplitByGroupAndSpectrumColumns(["Data"], ["CompressionRatio"], boldEntireRowOfLowestValue: true);
+
+        var options = new JoinReportHtmlOptions()
+        {
+            Title = null!, //Set per case
+            MainColumn = "Compressor",
+            GroupByColumns = ["Data"],
+            PivotProperty = "Method",
+            StatisticColumns = null!, //Set per case
+            ColumnsOrder = ["Compress", "Decompress", "CompressAndDecompress"],
+            SpectrumStatisticColumn = true,
+            OtherColumnsToSelect = ["CompressionRatio"],
+            HighlightGroups = true,
+            DividerMode = RenderTableDividerMode.SeparateTables,
+            HtmlWrapMode = HtmlDocumentWrapMode.RichDataTables,
+        };
+
+        options.Title = $"Benchmark of {title} Compressors in terms of Execution Time";
+        options.StatisticColumns = ["Mean"];
+        await benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
+            htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Mean.html"),
+            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Mean.webp"),
+            options: options);
+
+        BenchmarkReportProcessor.GetMaximumFunc = (string spectrumColumn, decimal[] values) =>
+        {
+            if (spectrumColumn == "Decompress")
+                return values.Max();
+            var max = values.OrderBy(p => p).SkipLast(1).Last();
+            return max * 2;
+        };
+
+        options.Title = $"Benchmark of {title} Compressors in terms of Allocation Size";
+        options.StatisticColumns = ["Allocated"];
+        await benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
+            htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Allocated.html"),
+            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Allocated.webp"),
+            options: options);
+    }
 }
-
-//static void ChangeColorAndNameOfBigOColumn(BenchmarkInfo[] benchmarkInfo)
-//{
-//    const string srcPropertyName = "Categories";
-//    const string destPropertyName = "Big O";
-
-//    foreach (var item in benchmarkInfo)
-//    {
-//        item.Table = item.Table.Select(expando =>
-//        {
-//            if (expando is not null)
-//            {
-//                expando.ChangePropertyName(srcPropertyName, destPropertyName);
-//                expando.TransferColumnOrder(srcPropertyName, destPropertyName);
-//                var value = expando.GetProperty(destPropertyName).ToString().RemoveMarkdownBold();
-//                var color = GetColor(value);
-//                expando.SetMetaProperty($"{destPropertyName}.background-color", color);
-//            }
-//            return expando;
-//        });
-//    }
-
-//    static string GetColor(string value)
-//    {
-//        return value switch
-//        {
-//            "O(1)" => "#99FF99",
-//            "O(log(N))" => "#FFFF99",
-//            "O(N)" => "#FF9999",
-//            _ => throw new ArgumentOutOfRangeException()
-//        };
-//    }
-//}
 #endregion
