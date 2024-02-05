@@ -9,8 +9,8 @@ using System.IO.Compression;
 namespace EasyCompressor.Benchmarks;
 
 #if RELEASE
-//[ShortRunJob]
-[SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
+[ShortRunJob]
+//[SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
 #else
 [MarkdownExporterAttribute.GitHub]
 #endif
@@ -26,7 +26,7 @@ public class xLZ4CompressionModesBenchmark
 {
     private static readonly LZ4Compressor legacyCompatibleCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.LegacyCompatible };
     private static readonly LZ4Compressor streamCompatibleCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.StreamCompatible };
-    private static readonly LZ4Compressor optimizedCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimized };
+    private static readonly LZ4Compressor optimizedCompressor = new() { BinaryCompressionMode = LZ4BinaryCompressionMode.Optimal };
     private static readonly Iron ironLZ4Native = new();
 
     private static readonly (byte[] Bytes, string Size)[] Data = GetData();
@@ -38,7 +38,7 @@ public class xLZ4CompressionModesBenchmark
 
         return
         [
-            (smallData, "Small (190 B)"),
+            (smallData, "Small (2 KB)"),
             (mediumData, "Medium (10 KB)"),
             (largeData, "Large (20 KB)")
         ];
@@ -193,32 +193,32 @@ public class xLZ4CompressionModesBenchmark
     #endregion
 
     #region Native-SmallestSize (IronCompress)
-    [ArgumentsSource(nameof(GetArgumentsNativeSmallestSize))]
-    [Benchmark(Description = "Compress"), BenchmarkCategory("Native-SmallestSize")]
-    public byte[] CompressNativeSmallestSize(CompressedArg arg, string Size)
-    {
-        using IronCompressResult compressed = ironLZ4Native.Compress(Codec.LZ4, arg.OriginalBytes, compressionLevel: CompressionLevel.SmallestSize);
-        return compressed.AsSpan().ToArray();
-    }
+    //[ArgumentsSource(nameof(GetArgumentsNativeSmallestSize))]
+    //[Benchmark(Description = "Compress"), BenchmarkCategory("Native-SmallestSize")]
+    //public byte[] CompressNativeSmallestSize(CompressedArg arg, string Size)
+    //{
+    //    using IronCompressResult compressed = ironLZ4Native.Compress(Codec.LZ4, arg.OriginalBytes, compressionLevel: CompressionLevel.SmallestSize);
+    //    return compressed.AsSpan().ToArray();
+    //}
 
-    [ArgumentsSource(nameof(GetArgumentsNativeSmallestSize))]
-    [Benchmark(Description = "Decompress"), BenchmarkCategory("Native-SmallestSize")]
-    public byte[] DecompressNativeSmallestSize(CompressedArg arg, string Size)
-    {
-        using IronCompressResult uncompressed = ironLZ4Native.Decompress(Codec.LZ4, arg.CompressedBytes, arg.OriginalBytes.Length);
-        return uncompressed.AsSpan().ToArray();
-    }
+    //[ArgumentsSource(nameof(GetArgumentsNativeSmallestSize))]
+    //[Benchmark(Description = "Decompress"), BenchmarkCategory("Native-SmallestSize")]
+    //public byte[] DecompressNativeSmallestSize(CompressedArg arg, string Size)
+    //{
+    //    using IronCompressResult uncompressed = ironLZ4Native.Decompress(Codec.LZ4, arg.CompressedBytes, arg.OriginalBytes.Length);
+    //    return uncompressed.AsSpan().ToArray();
+    //}
 
-    [ArgumentsSource(nameof(GetArgumentsNativeSmallestSize))]
-    [Benchmark(Description = "CompressAndDecompress"), BenchmarkCategory("Native-SmallestSize")]
-    public byte[] CompressAndDecompressNativeSmallestSize(CompressedArg arg, string Size)
-    {
-        using IronCompressResult compressed = ironLZ4Native.Compress(Codec.LZ4, arg.OriginalBytes, compressionLevel: CompressionLevel.SmallestSize);
-        var compressedBytes = compressed.AsSpan().ToArray();
+    //[ArgumentsSource(nameof(GetArgumentsNativeSmallestSize))]
+    //[Benchmark(Description = "CompressAndDecompress"), BenchmarkCategory("Native-SmallestSize")]
+    //public byte[] CompressAndDecompressNativeSmallestSize(CompressedArg arg, string Size)
+    //{
+    //    using IronCompressResult compressed = ironLZ4Native.Compress(Codec.LZ4, arg.OriginalBytes, compressionLevel: CompressionLevel.SmallestSize);
+    //    var compressedBytes = compressed.AsSpan().ToArray();
 
-        using IronCompressResult uncompressed = ironLZ4Native.Decompress(Codec.LZ4, compressedBytes, arg.OriginalBytes.Length);
-        return uncompressed.AsSpan().ToArray();
-    }
+    //    using IronCompressResult uncompressed = ironLZ4Native.Decompress(Codec.LZ4, compressedBytes, arg.OriginalBytes.Length);
+    //    return uncompressed.AsSpan().ToArray();
+    //}
     #endregion
 
     #region Stream Sync and Async
