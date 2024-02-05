@@ -16,50 +16,80 @@ namespace EasyCompressor;
 #pragma warning restore S1133 // Deprecated code should be removed
 public class ZstdCompressor : BaseCompressor
 {
-    #region Load libzstd v1.4.4 DLL (No longer needed according to ZstdNet v1.4.5 update)
-    //static ZstdCompressor()
-    //{
-    //    //Workaround to fix "System.DllNotFoundException: Unable to load DLL 'libzstd' or one of its dependencies: The specified module could not be found."
-    //
-    //    if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-    //        return;
-    //
-    //    var bit = Environment.Is64BitProcess ? "x64" : "x86";
-    //    var folder = Path.Combine(Path.GetTempPath(), "zstd-v1.4.4", bit);
-    //    Directory.CreateDirectory(folder);
-    //
-    //    var fileName = Path.Combine(folder, "libzstd.dll");
-    //    if (!File.Exists(fileName))
-    //    {
-    //        using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"libzstd.{bit}.dll"))
-    //        using (var file = File.Open(fileName, FileMode.Create, FileAccess.Write, FileShare.None))
-    //            stream.CopyTo(file);
-    //    }
-    //
-    //    var type = typeof(Compressor).Assembly.GetType("ZstdNet.ExternMethods");
-    //    var method = type.GetMethod("SetDllDirectory", BindingFlags.NonPublic | BindingFlags.Static);
-    //    method.Invoke(null, new[] { folder });
-    //}
-    #endregion
+    /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static ZstdCompressor Shared { get; } = new(name: "shared");
 
     /// <summary>
     /// Compression level
     /// </summary>
-    protected readonly int Level;
+    public int Level { get; set; }
 
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Zstd;
 
+    #region Constructors
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="ZstdCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    /// <param name="level">Compression level (Defaults to <c>3</c>)</param>
-    public ZstdCompressor(string name = null, int level = 3)
+    public ZstdCompressor()
+        : this(null, ZstdCompressionLevel.Fast)
     {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdCompressor"/> class.
+    /// </summary>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="ZstdCompressionLevel.Fast"/>)</param>
+    public ZstdCompressor(ZstdCompressionLevel compressionLevel)
+        : this((int)compressionLevel)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdCompressor"/> class.
+    /// </summary>
+    /// <param name="level">Compression level. (Defaults to <see cref="ZstdUtils.Level_Default"/> <c>-1</c>)</param>
+    public ZstdCompressor(int level)
+        : this(null, level)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public ZstdCompressor(string name)
+        : this(name, ZstdCompressionLevel.Fast)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="ZstdCompressionLevel.Fast"/>)</param>
+    public ZstdCompressor(string name, ZstdCompressionLevel compressionLevel)
+        : this(name, (int)compressionLevel)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="level">Compression level. (Defaults to <see cref="ZstdUtils.Level_Default"/> <c>-1</c>)</param>
+    public ZstdCompressor(string name, int level)
+    {
+#pragma warning disable S3236 // Caller information arguments should not be provided explicitly
+        ZstdUtils.ThrowIfLevelIsNotValid(level, nameof(level));
+#pragma warning restore S3236 // Caller information arguments should not be provided explicitly
+
         Name = name;
         Level = level;
     }
+    #endregion
 
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
@@ -122,5 +152,11 @@ public class ZstdCompressor : BaseCompressor
         await outputStream.WriteAllBytesAsync(bytes, cancellationToken).ConfigureAwait(false);
 
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Name ?? $"{GetType().Name}(Level:{Level})";
     }
 }
