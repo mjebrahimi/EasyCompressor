@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 #region Create images from html files
-//var reportsDir = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports");
+//var reportsDir = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\SimpleJob-Throughput");
 //foreach (var fileName in Directory.GetFiles(reportsDir, searchPattern: "*.html"))
 //{
 //    var imgPath = fileName.Replace(".html", ".png");
@@ -63,7 +63,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
         options.StatisticColumns = ["Mean", "Allocated"];
         await lz4Benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
             htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-LZ4.html"),
-            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-LZ4.webp"),
+            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-LZ4.png"),
             options: options);
     }
 
@@ -98,7 +98,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
         options.StatisticColumns = ["Mean"];
         await benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
             htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Mean.html"),
-            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Mean.webp"),
+            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Mean.png"),
             options: options);
 
         BenchmarkReportProcessor.GetMaximumFunc = (string spectrumColumn, decimal[] values) =>
@@ -113,7 +113,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
         options.StatisticColumns = ["Allocated"];
         await benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
             htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Allocated.html"),
-            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Allocated.webp"),
+            imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Allocated.png"),
             options: options);
     }
 }
