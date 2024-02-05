@@ -8,15 +8,17 @@ namespace EasyCompressor;
 public enum LZ4BinaryCompressionMode
 {
     /// <summary>
-    /// Legacy compatibility with old/legacy versions. (NOT compatible with other modes neither StreamCompatible nor Fastest modes).
-    /// It's a bit faster than StreamCompatible but less efficient in memory allocation specially for large arrays
-    /// Note: It prepends 4 bytes to the beginning of the array to define the original array length.
+    /// Legacy compatibility with old/legacy versions. (NOT compatible with other modes neither StreamCompatible nor Optimal modes)
+    /// It's fastest mode (a bit faster than Optimal) but less efficient in memory allocation. (Fast_GCInefficient)
+    /// Note:
+    /// It prepends 4 bytes to the beginning of the array to define the original array length.
+    /// It applies only to binary Compress/Decompress and have no effect on Stream/Stream[Async] methods.
     /// </summary>
     LegacyCompatible,
 
     /// <summary>
-    /// Default compression mode which is compatible with Stream's output. (NOT compatible with other modes neither LegacyCompatible nor Fastest modes).
-    /// It's a bit slower than LegacyCompatible but more efficient in memory allocation specially for large arrays.
+    /// StreamCompatible which is compatible with Stream's output. (NOT compatible with other modes neither LegacyCompatible nor Optimal modes)
+    /// It's slower than other modes but moderate in memory allocation. (Slow_GCModerated)
     /// </summary>
     /// <remarks>
     /// More info: https://github.com/MiloszKrajewski/K4os.Compression.LZ4#other-stream-like-data-structures
@@ -24,11 +26,13 @@ public enum LZ4BinaryCompressionMode
     StreamCompatible,
 
     /// <summary>
-    /// The optimized mode. (NOT compatible with other modes neither LegacyCompatible nor StreamCompatible modes)
-    /// But it's the fastest and most efficient in memory allocation.
+    /// Default compression mode. (NOT compatible with other modes neither LegacyCompatible nor StreamCompatible modes)
+    /// But it's fast and most efficient in memory allocation. (Best Performance overall - Fast_GCEfficient)
+    /// Note:
+    /// It applies only to binary Compress/Decompress and have no effect on Stream/Stream[Async] methods.
     /// </summary>
     /// <remarks>
     /// More info: https://github.com/MiloszKrajewski/K4os.Compression.LZ4#pickler
     /// </remarks>
-    Optimized
+    Optimal,
 }
