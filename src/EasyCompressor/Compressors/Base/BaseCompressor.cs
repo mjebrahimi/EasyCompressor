@@ -1,5 +1,4 @@
-﻿using EasyCompressor.Internal;
-using System.IO;
+﻿using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,11 +9,6 @@ namespace EasyCompressor;
 /// </summary>
 public abstract class BaseCompressor : ICompressor
 {
-    /// <summary>
-    /// Default buffer size
-    /// </summary>
-    protected const int DefaultBufferSize = 81920;
-
     /// <inheritdoc/>
     public string Name { get; protected set; }
 
@@ -122,6 +116,6 @@ public abstract class BaseCompressor : ICompressor
     /// <inheritdoc/>
     public override string ToString()
     {
-        return GetType().Name;
+        return Name ?? GetType().Name;
     }
 }

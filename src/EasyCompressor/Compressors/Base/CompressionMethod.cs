@@ -21,6 +21,11 @@ public enum CompressionMethod
     Brotli,
 
     /// <summary>
+    /// ZLib
+    /// </summary>
+    ZLib,
+
+    /// <summary>
     /// LZ4
     /// </summary>
     LZ4,

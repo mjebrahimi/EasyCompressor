@@ -11,23 +11,56 @@ namespace EasyCompressor;
 public class DeflateCompressor : BaseCompressor
 {
     /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static DeflateCompressor Shared { get; } = new(name: "shared");
+
+    /// <summary>
     /// Compression level
     /// </summary>
-    protected readonly CompressionLevel Level;
+    public CompressionLevel Level { get; set; }
 
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Deflate;
 
+    #region Constructors
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="DeflateCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    /// <param name="level">Compression level</param>
-    public DeflateCompressor(string name = null, CompressionLevel level = CompressionLevel.Optimal)
+    public DeflateCompressor()
+        : this(name: null, level: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeflateCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public DeflateCompressor(string name)
+        : this(name: name, level: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeflateCompressor"/> class.
+    /// </summary>
+    /// <param name="level">Compression level (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public DeflateCompressor(CompressionLevel level)
+        : this(name: null, level: level)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DeflateCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="level">Compression level (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public DeflateCompressor(string name, CompressionLevel level)
     {
         Name = name;
         Level = level;
     }
+    #endregion
 
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
@@ -105,5 +138,11 @@ public class DeflateCompressor : BaseCompressor
             //await deflateStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Name ?? $"{GetType().Name}(Level:{Level})";
     }
 }

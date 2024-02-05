@@ -56,23 +56,56 @@ StringReader (TextReader): read from string
 public class GZipCompressor : BaseCompressor
 {
     /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static GZipCompressor Shared { get; } = new(name: "shared");
+
+    /// <summary>
     /// Compression level
     /// </summary>
-    protected readonly CompressionLevel Level;
+    public CompressionLevel Level { get; set; }
 
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.GZip;
 
+    #region Constructors
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="GZipCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    /// <param name="level">Compression level</param>
-    public GZipCompressor(string name = null, CompressionLevel level = CompressionLevel.Optimal)
+    public GZipCompressor()
+        : this(name: null, level: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GZipCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public GZipCompressor(string name)
+        : this(name: name, level: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GZipCompressor"/> class.
+    /// </summary>
+    /// <param name="level">Compression level (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public GZipCompressor(CompressionLevel level)
+        : this(name: null, level: level)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GZipCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="level">Compression level (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public GZipCompressor(string name, CompressionLevel level)
     {
         Name = name;
         Level = level;
     }
+    #endregion
 
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
@@ -150,5 +183,11 @@ public class GZipCompressor : BaseCompressor
             //await gZipStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Name ?? $"{GetType().Name}(Level:{Level})";
     }
 }

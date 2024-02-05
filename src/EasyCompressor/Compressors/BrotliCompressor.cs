@@ -1,7 +1,6 @@
 ﻿#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
 // Ignore Spelling: Brotli
 
-using System;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
@@ -15,23 +14,56 @@ namespace EasyCompressor;
 public class BrotliCompressor : BaseCompressor
 {
     /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static BrotliCompressor Shared { get; } = new(name: "shared");
+
+    /// <summary>
     /// Compression level
     /// </summary>
-    protected readonly CompressionLevel Level;
+    public CompressionLevel Level { get; set; }
 
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Brotli;
 
+    #region Constructors
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="BrotliCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    /// <param name="level">Compression level</param>
-    public BrotliCompressor(string name = null, CompressionLevel level = CompressionLevel.Optimal)
+    public BrotliCompressor()
+        : this(name: null, level: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public BrotliCompressor(string name)
+        : this(name: name, level: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliCompressor"/> class.
+    /// </summary>
+    /// <param name="level">Compression level (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public BrotliCompressor(CompressionLevel level)
+        : this(name: null, level: level)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="level">Compression level (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public BrotliCompressor(string name, CompressionLevel level)
     {
         Name = name;
         Level = level;
     }
+    #endregion
 
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
@@ -103,6 +135,12 @@ public class BrotliCompressor : BaseCompressor
             //await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Name ?? $"{GetType().Name}(Level:{Level})";
     }
 }
 #endif
