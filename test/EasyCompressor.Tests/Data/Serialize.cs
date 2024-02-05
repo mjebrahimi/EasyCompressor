@@ -32,7 +32,7 @@ public static class Serializer
     {
         using var stream = new MemoryStream();
         ProtoBuf.Serializer.Serialize<T>(stream, value);
-        return stream.ToArray();
+        return stream.GetTrimmedBuffer();
     }
 
     public static T DeserializeProtobuf<T>(byte[] bytes)

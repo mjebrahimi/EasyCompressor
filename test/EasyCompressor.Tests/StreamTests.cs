@@ -90,7 +90,7 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
 
         Compressor.Compress(inputStream, compressedStream);
 
-        var compressedBytes = compressedStream.ToArray();
+        var compressedBytes = compressedStream.GetTrimmedBuffer();
 
         Assert.That(compressedBytes, Is.Not.Null);
         Assert.That(compressedBytes, Is.Not.Empty);
@@ -103,7 +103,7 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
         using var outputStream = new MemoryStream();
 
         Compressor.Compress(inputStream, outputStream);
-        var compressedBytes = outputStream.ToArray();
+        var compressedBytes = outputStream.GetTrimmedBuffer();
 
         using var inputStream2 = new MemoryStream(compressedBytes);
         using var outputStream2 = new MemoryStream();
@@ -120,13 +120,13 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
         using var outputStream = new MemoryStream();
 
         Compressor.Compress(inputStream, outputStream);
-        var compressedBytes = outputStream.ToArray();
+        var compressedBytes = outputStream.GetTrimmedBuffer();
 
         using var inputStream2 = new MemoryStream(compressedBytes);
         using var outputStream2 = new MemoryStream();
 
         Compressor.Decompress(inputStream2, outputStream2);
-        var decompressedBytes = outputStream2.ToArray();
+        var decompressedBytes = outputStream2.GetTrimmedBuffer();
 
         Assert.That(decompressedBytes, Is.Not.Null);
         Assert.That(decompressedBytes, Is.Not.Empty);
@@ -139,13 +139,13 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
         using var outputStream = new MemoryStream();
 
         Compressor.Compress(inputStream, outputStream);
-        var compressedBytes = outputStream.ToArray();
+        var compressedBytes = outputStream.GetTrimmedBuffer();
 
         using var inputStream2 = new MemoryStream(compressedBytes);
         using var outputStream2 = new MemoryStream();
 
         Compressor.Decompress(inputStream2, outputStream2);
-        var decompressedBytes = outputStream2.ToArray();
+        var decompressedBytes = outputStream2.GetTrimmedBuffer();
 
         Assert.That(decompressedBytes.SequenceEqual(ObjectBytes), Is.True);
     }
