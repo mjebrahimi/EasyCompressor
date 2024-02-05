@@ -11,7 +11,7 @@ namespace EasyCompressor;
 public static class StreamExtensions
 {
     /// <summary>
-    /// Gets the trimmed buffer of the specified <see cref="MemoryStream"/> (regardless of the current <see cref="MemoryStream.Position"/>).
+    /// Gets the trimmed buffer of the specified <see cref="MemoryStream"/> (regardless of the current <see cref="MemoryStream.Position"/>), without moving the <see cref="MemoryStream.Position"/>.
     /// </summary>
     /// <param name="stream">The stream.</param>
     /// <remarks>
@@ -26,6 +26,15 @@ public static class StreamExtensions
 
         var length = (int)stream.Length;
         var bytes = stream.GetBuffer();
+
+        //Similar performance and memory allocation to the ReadAllBytes method but it doesn't advance the position (on the contrary)
+        //However, the purpose of this method is read internal buffer without allocating a new array, regardless of the current Position
+        //Bellow code allocates a new array to the specified length by Slice method and read from current Position to the end.
+
+        //var position = (int)stream.Position;
+        //if (position != 0)
+        //    return ((ReadOnlySpan<byte>)bytes).Slice(position, length - position).ToArray();
+
         if (length < bytes.Length)
             Array.Resize(ref bytes, length);
         return bytes;
