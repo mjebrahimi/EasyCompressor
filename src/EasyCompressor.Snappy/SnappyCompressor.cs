@@ -14,14 +14,27 @@ namespace EasyCompressor;
 #pragma warning restore S1133 // Deprecated code should be removed
 public class SnappyCompressor : BaseCompressor
 {
+    /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static SnappyCompressor Shared { get; } = new(name: "shared");
+
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Snappy;
 
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="SnappyCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    public SnappyCompressor(string name = null)
+    public SnappyCompressor()
+        : this(null)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="SnappyCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public SnappyCompressor(string name)
     {
         Name = name;
     }
