@@ -14,23 +14,79 @@ namespace EasyCompressor;
 public class ZstdSharpCompressor : BaseCompressor
 {
     /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static ZstdSharpCompressor Shared { get; } = new(name: "shared");
+
+    /// <summary>
     /// Compression level
     /// </summary>
-    protected readonly int Level;
+    public int Level { get; set; }
 
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Zstd;
 
+    #region Constructors
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="ZstdSharpCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    /// <param name="level">Compression level (Defaults to <c>3</c>)</param>
-    public ZstdSharpCompressor(string name = null, int level = 3)
+    public ZstdSharpCompressor()
+        : this(null, ZstdCompressionLevel.Fast)
     {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdSharpCompressor"/> class.
+    /// </summary>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="ZstdCompressionLevel.Fast"/>)</param>
+    public ZstdSharpCompressor(ZstdCompressionLevel compressionLevel)
+        : this((int)compressionLevel)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdSharpCompressor"/> class.
+    /// </summary>
+    /// <param name="level">Compression level. (Defaults to <c>-1</c> - <see cref="ZstdUtils.Level_Default"/>)</param>
+    public ZstdSharpCompressor(int level)
+        : this(null, level)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdSharpCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public ZstdSharpCompressor(string name)
+        : this(name, ZstdCompressionLevel.Fast)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdSharpCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="ZstdCompressionLevel.Fast"/>)</param>
+    public ZstdSharpCompressor(string name, ZstdCompressionLevel compressionLevel)
+        : this(name, (int)compressionLevel)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="ZstdSharpCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="level">Compression level. (Defaults to <c>-1</c> - <see cref="ZstdUtils.Level_Default"/>)</param>
+    public ZstdSharpCompressor(string name, int level)
+    {
+#pragma warning disable S3236 // Caller information arguments should not be provided explicitly
+        ZstdUtils.ThrowIfLevelIsNotValid(level, nameof(level));
+#pragma warning restore S3236 // Caller information arguments should not be provided explicitly
+
         Name = name;
         Level = level;
     }
+    #endregion
 
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
@@ -117,5 +173,11 @@ public class ZstdSharpCompressor : BaseCompressor
             //await decompressionStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's not necessary based on my experiments
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Name ?? $"{GetType().Name}(Level:{Level})";
     }
 }
