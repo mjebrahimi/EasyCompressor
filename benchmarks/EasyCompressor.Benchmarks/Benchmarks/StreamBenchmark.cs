@@ -37,7 +37,7 @@ public class StreamBenchmark : BaseBenchmark
         using var outputStream = new MemoryStream();
 
         Compressor.Compress(inputStream, outputStream);
-        var compressedBytes = outputStream.ToArray();
+        var compressedBytes = outputStream.GetTrimmedBuffer();
 
         using var inputStream2 = new MemoryStream(compressedBytes);
         using var outputStream2 = new MemoryStream();

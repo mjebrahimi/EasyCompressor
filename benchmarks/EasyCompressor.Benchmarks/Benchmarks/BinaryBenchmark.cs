@@ -10,23 +10,23 @@ public class BinaryBenchmark : BaseBenchmark
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public byte[] Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
     {
-        Compressor.Compress(Compressed.OriginalBytes);
+        return Compressor.Compress(Compressed.OriginalBytes);
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void Decompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public byte[] Decompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
     {
-        Compressor.Decompress(Compressed.CompressedBytes);
+        return Compressor.Decompress(Compressed.CompressedBytes);
     }
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void CompressAndDecompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public byte[] CompressAndDecompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
     {
         var compressedBytes = Compressor.Compress(Compressed.OriginalBytes);
-        Compressor.Decompress(compressedBytes);
+        return Compressor.Decompress(compressedBytes);
     }
 }
