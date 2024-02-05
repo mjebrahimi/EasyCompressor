@@ -92,7 +92,7 @@ public class SnappierCompressor : BaseCompressor
     /// <inheritdoc/>
     protected override void BaseDecompress(Stream inputStream, Stream outputStream)
     {
-        using (var snappyStream = new SnappyStream(inputStream, CompressionMode.Decompress))
+        using (var snappyStream = new SnappyStream(inputStream, CompressionMode.Decompress, leaveOpen: true))
         {
             snappyStream.CopyTo(outputStream);
 
