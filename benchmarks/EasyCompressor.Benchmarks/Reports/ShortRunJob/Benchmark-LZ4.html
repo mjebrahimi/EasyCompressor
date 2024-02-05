@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Benchmark of different LZ4 Compressors</title>
+<style type="text/css">
+    body { font-family: system-ui; padding: 0 30px 30px 30px; width: min-content; display: inline-block; }
+    h1, h2 { border-bottom: solid 1px #D8DEE4;}
+    h1, h2, h3 { padding-bottom: 0.3em; }
+    table { border-collapse: collapse !important; margin-top: 3px !important; width: 100%; display: inline-table; margin-bottom: 20px !important; }
+    td, th { padding: 6px 13px; border: 1px solid #CCC; text-align: right; white-space: nowrap; }
+    tr { background-color: #FFF !important; border-top: 1px solid #CCC; }
+    tr:nth-child(even):not(.divider) { background: #F8F8F8 !important; }
+    tr.divider { border: 0; font-size: 10px; }
+    tr.divider td { padding: 0; border: 0; }
+    pre { background: #EFEFEF; padding: 0 1em; }
+    thead th { background-color: #EFEFEF; }
+    tbody tr:not(.divider):hover { background-color: #EFEFEF !important; border: 2px solid #ADADAD; }
+    .powered-by { text-align: center; margin-bottom: -20px !important; font-weight: bold; }
+</style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.4/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<style type="text/css">
+    input[type="search"] { font-size: 1em !important; padding: 9px 12px !important; }
+    thead th:hover { background-color: #E0E0E0; }
+</style>
+</head>
+<body>
+<h1>Benchmark of different LZ4 Compressors</h1>
+<pre>
+<code>
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3085/23H2/2023Update/SunValley3)
+AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 8.0.101
+  [Host]   : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  ShortRun : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+
+Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  arg=EasyC(...)edArg [69]
+</code>
+</pre>
+<h2>EasyCompressor.Benchmarks.xLZ4CompressionModesBenchmark</h2>
+<h3>Comparison: Mean</h3>
+<table>
+<thead>
+<tr>
+<th>Categories</th><th>Size</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Native-Optimal</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #99FF99"><strong>8,686.3 ns</strong></td>
+<td style="background-color: #B2FF99">3,782.1 ns</td>
+<td style="background-color: #99FF99"><strong>13,478.5 ns</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">Optimized</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #E0FF99">12,725.6 ns</td>
+<td style="background-color: #CEFF99">4,218.6 ns</td>
+<td style="background-color: #DCFF99">18,212.9 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">LegacyCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #E7FF99">13,263.3 ns</td>
+<td style="background-color: #99FF99"><strong>3,452.3 ns</strong></td>
+<td style="background-color: #CEFF99">17,027.5 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">StreamCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #F6FF99">14,983.6 ns</td>
+<td style="background-color: #FF9999">10,043.9 ns</td>
+<td style="background-color: #FFFD99">25,288.7 ns</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Categories</th><th>Size</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Native-Optimal</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #99FF99"><strong>1,714.6 ns</strong></td>
+<td style="background-color: #E5FF99">1,226.5 ns</td>
+<td style="background-color: #99FF99"><strong>3,000.4 ns</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">Optimized</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #DFFF99">2,972.8 ns</td>
+<td style="background-color: #C2FF99">1,009.6 ns</td>
+<td style="background-color: #E9FF99">4,782.1 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">StreamCompatible</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #F5FF99">3,689.9 ns</td>
+<td style="background-color: #FF9999">3,613.0 ns</td>
+<td style="background-color: #FFF199">7,144.9 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">LegacyCompatible</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #F9FF99">3,840.2 ns</td>
+<td style="background-color: #99FF99"><strong>822.3 ns</strong></td>
+<td style="background-color: #E4FF99">4,606.0 ns</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Categories</th><th>Size</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Native-Optimal</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99"><strong>1,774.9 ns</strong></td>
+<td style="background-color: #C1FF99">429.8 ns</td>
+<td style="background-color: #99FF99"><strong>2,317.3 ns</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">LegacyCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #F7FF99">4,797.2 ns</td>
+<td style="background-color: #99FF99"><strong>376.3 ns</strong></td>
+<td style="background-color: #F7FF99">5,260.1 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">Optimized</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #FAFF99">5,054.7 ns</td>
+<td style="background-color: #B1FF99">407.5 ns</td>
+<td style="background-color: #F6FF99">5,219.1 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">StreamCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #FEFF99">5,605.7 ns</td>
+<td style="background-color: #FF9999">1,332.5 ns</td>
+<td style="background-color: #FFF899">6,966.9 ns</td>
+</tr>
+</tbody>
+</table>
+<h3>Comparison: Allocated</h3>
+<table>
+<thead>
+<tr>
+<th>Categories</th><th>Size</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Optimized</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #99FF99"><strong>4384 B</strong></td>
+<td style="background-color: #99FF99"><strong>20704 B</strong></td>
+<td style="background-color: #99FF99"><strong>25088 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">Native-Optimal</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #A0FF99">4672 B</td>
+<td style="background-color: #9AFF99">20752 B</td>
+<td style="background-color: #9DFF99">25424 B</td>
+</tr>
+<tr>
+<td style="text-align: left">StreamCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #F7FF99">9848 B</td>
+<td style="background-color: #A4FF99">21280 B</td>
+<td style="background-color: #D0FF99">31128 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LegacyCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #FF9999">25216 B</td>
+<td style="background-color: #99FF99"><strong>20704 B</strong></td>
+<td style="background-color: #FFF999">45920 B</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Categories</th><th>Size</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Optimized</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #99FF99"><strong>944 B</strong></td>
+<td style="background-color: #99FF99"><strong>9976 B</strong></td>
+<td style="background-color: #99FF99"><strong>10920 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">Native-Optimal</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #A7FF99">1128 B</td>
+<td style="background-color: #9BFF99">10024 B</td>
+<td style="background-color: #9FFF99">11152 B</td>
+</tr>
+<tr>
+<td style="text-align: left">StreamCompatible</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #FBFF99">2928 B</td>
+<td style="background-color: #AFFF99">10552 B</td>
+<td style="background-color: #CFFF99">13480 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LegacyCompatible</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #FF9999">11016 B</td>
+<td style="background-color: #99FF99"><strong>9976 B</strong></td>
+<td style="background-color: #FFF199">20992 B</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Categories</th><th>Size</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">Optimized</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99"><strong>1776 B</strong></td>
+<td style="background-color: #99FF99"><strong>2040 B</strong></td>
+<td style="background-color: #99FF99"><strong>3816 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">Native-Optimal</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #9DFF99">1832 B</td>
+<td style="background-color: #A2FF99">2088 B</td>
+<td style="background-color: #9EFF99">3920 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LegacyCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #F6FF99">3872 B</td>
+<td style="background-color: #99FF99"><strong>2040 B</strong></td>
+<td style="background-color: #E8FF99">5912 B</td>
+</tr>
+<tr>
+<td style="text-align: left">StreamCompatible</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #FFFF99">4608 B</td>
+<td style="background-color: #E9FF99">2616 B</td>
+<td style="background-color: #FDFF99">7224 B</td>
+</tr>
+</tbody>
+</table>
+<div class="powered-by">Powered by <a href="https://github.com/mjebrahimi/BenchmarkDotNetVisualizer">https://github.com/mjebrahimi/BenchmarkDotNetVisualizer</a></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.4/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+</body>
+<script>
+    $(document).ready( function () {
+        DataTable.ext.type.order['custom-orderer-pre'] = function (d) {
+            d = d.replace(/(<([^>]+)>)/gi, ""); //remove html tags
+            if (!d.match(/^\d/)) //if not started with number
+                return d;
+            var regex = /[\d,]+(?:\.\d+)?/;
+            var number = d.match(regex)[0].replace(/,/g, ""); //extract number
+            return parseFloat(number); //Number
+        };
+        $('table').DataTable({
+            info: false,
+            paging: false,
+            colReorder: true,
+            order: [], //remove default order
+            columnDefs: [
+                {
+                    type: 'custom-orderer',
+                    targets: '_all'
+                }
+            ],
+            dom: 'Bfrtip',
+            buttons: ['colvis']
+        });
+    });
+</script>
+</html>

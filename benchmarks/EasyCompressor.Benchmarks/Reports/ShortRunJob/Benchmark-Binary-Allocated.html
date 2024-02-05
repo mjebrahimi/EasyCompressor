@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Benchmark of Binary Compressors in terms of Allocation Size</title>
+<style type="text/css">
+    body { font-family: system-ui; padding: 0 30px 30px 30px; width: min-content; display: inline-block; }
+    h1, h2 { border-bottom: solid 1px #D8DEE4;}
+    h1, h2, h3 { padding-bottom: 0.3em; }
+    table { border-collapse: collapse !important; margin-top: 3px !important; width: 100%; display: inline-table; margin-bottom: 20px !important; }
+    td, th { padding: 6px 13px; border: 1px solid #CCC; text-align: right; white-space: nowrap; }
+    tr { background-color: #FFF !important; border-top: 1px solid #CCC; }
+    tr:nth-child(even):not(.divider) { background: #F8F8F8 !important; }
+    tr.divider { border: 0; font-size: 10px; }
+    tr.divider td { padding: 0; border: 0; }
+    pre { background: #EFEFEF; padding: 0 1em; }
+    thead th { background-color: #EFEFEF; }
+    tbody tr:not(.divider):hover { background-color: #EFEFEF !important; border: 2px solid #ADADAD; }
+    .powered-by { text-align: center; margin-bottom: -20px !important; font-weight: bold; }
+</style>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/colreorder/1.5.4/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+<style type="text/css">
+    input[type="search"] { font-size: 1em !important; padding: 9px 12px !important; }
+    thead th:hover { background-color: #E0E0E0; }
+</style>
+</head>
+<body>
+<h1>Benchmark of Binary Compressors in terms of Allocation Size</h1>
+<pre>
+<code>
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3085/23H2/2023Update/SunValley3)
+AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 8.0.101
+  [Host]   : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  ShortRun : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+
+Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+CompressedArg
+</code>
+</pre>
+<h2>Comparison: Allocated</h2>
+<table>
+<thead>
+<tr>
+<th>Compressor</th><th>CompressionRatio</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">ZstdCompressor (deprecated)</td>
+<td style="background-color: #C2FF99">3,622 bytes (17.52 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #99FF99"><strong>3752 B</strong></td>
+<td style="background-color: #99FF99">20776 B</td>
+<td style="background-color: #99FF99"><strong>24528 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">DeflateCompressor</td>
+<td style="background-color: #BFFF99">3,573 bytes (17.28 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #99FF99">3872 B</td>
+<td style="background-color: #9BFF99">21112 B</td>
+<td style="background-color: #99FF99">24984 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZLibCompressor</td>
+<td style="background-color: #C0FF99">3,579 bytes (17.31 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #9AFF99">4192 B</td>
+<td style="background-color: #9BFF99">21144 B</td>
+<td style="background-color: #9AFF99">25336 B</td>
+</tr>
+<tr>
+<td style="text-align: left">GZipCompressor</td>
+<td style="background-color: #C1FF99">3,591 bytes (17.37 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #9AFF99">4200 B</td>
+<td style="background-color: #9BFF99">21144 B</td>
+<td style="background-color: #9AFF99">25344 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LZ4Compressor</td>
+<td style="background-color: #E0FF99">4,356 bytes (21.07 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #9BFF99">4384 B</td>
+<td style="background-color: #99FF99"><strong>20704 B</strong></td>
+<td style="background-color: #99FF99">25088 B</td>
+</tr>
+<tr>
+<td style="text-align: left">SnappierCompressor</td>
+<td style="background-color: #ECFF99">4,751 bytes (22.98 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #9CFF99">4864 B</td>
+<td style="background-color: #99FF99">20784 B</td>
+<td style="background-color: #9AFF99">25648 B</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliCompressor</td>
+<td style="background-color: #C3FF99">3,650 bytes (17.66 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #B3FF99">14880 B</td>
+<td style="background-color: #9AFF99">20961 B</td>
+<td style="background-color: #A5FF99">35842 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdSharpCompressor</td>
+<td style="background-color: #C2FF99">3,622 bytes (17.52 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #C7FF99">24512 B</td>
+<td style="background-color: #99FF99">20728 B</td>
+<td style="background-color: #AFFF99">45240 B</td>
+</tr>
+<tr>
+<td style="text-align: left">SnappyCompressor (deprecated)</td>
+<td style="background-color: #ECFF99">4,755 bytes (23.00 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #CFFF99">28960 B</td>
+<td style="background-color: #99FF99"><strong>20704 B</strong></td>
+<td style="background-color: #B3FF99">49664 B</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliNETCompressor (deprecated)</td>
+<td style="background-color: #C3FF99">3,650 bytes (17.66 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #FFFF99">81713 B</td>
+<td style="background-color: #FFC899">108793 B</td>
+<td style="background-color: #FEFF99">190505 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LZMACompressor</td>
+<td style="background-color: #99FF99">2,866 bytes (13.86 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #FF9999">1542791 B</td>
+<td style="background-color: #FF9999">119441 B</td>
+<td style="background-color: #FF9999">1662268 B</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Compressor</th><th>CompressionRatio</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">LZ4Compressor</td>
+<td style="background-color: #BCFF99">914 bytes (9.19 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #99FF99"><strong>944 B</strong></td>
+<td style="background-color: #99FF99"><strong>9976 B</strong></td>
+<td style="background-color: #99FF99"><strong>10920 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdCompressor (deprecated)</td>
+<td style="background-color: #B1FF99">860 bytes (8.64 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #99FF99">968 B</td>
+<td style="background-color: #99FF99">10048 B</td>
+<td style="background-color: #99FF99">11016 B</td>
+</tr>
+<tr>
+<td style="text-align: left">DeflateCompressor</td>
+<td style="background-color: #B4FF99">875 bytes (8.79 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #99FF99">1176 B</td>
+<td style="background-color: #9BFF99">10384 B</td>
+<td style="background-color: #9AFF99">11560 B</td>
+</tr>
+<tr>
+<td style="text-align: left">SnappierCompressor</td>
+<td style="background-color: #EEFF99">1,289 bytes (12.95 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #9AFF99">1408 B</td>
+<td style="background-color: #99FF99">10056 B</td>
+<td style="background-color: #99FF99">11464 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZLibCompressor</td>
+<td style="background-color: #B5FF99">881 bytes (8.85 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #9BFF99">1496 B</td>
+<td style="background-color: #9BFF99">10416 B</td>
+<td style="background-color: #9AFF99">11912 B</td>
+</tr>
+<tr>
+<td style="text-align: left">GZipCompressor</td>
+<td style="background-color: #B8FF99">893 bytes (8.97 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #9BFF99">1504 B</td>
+<td style="background-color: #9BFF99">10416 B</td>
+<td style="background-color: #9AFF99">11920 B</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliCompressor</td>
+<td style="background-color: #A4FF99">794 bytes (7.98 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #A0FF99">3456 B</td>
+<td style="background-color: #9AFF99">10232 B</td>
+<td style="background-color: #9DFF99">13689 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdSharpCompressor</td>
+<td style="background-color: #B1FF99">860 bytes (8.64 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #B4FF99">10992 B</td>
+<td style="background-color: #99FF99">10000 B</td>
+<td style="background-color: #A6FF99">20992 B</td>
+</tr>
+<tr>
+<td style="text-align: left">SnappyCompressor (deprecated)</td>
+<td style="background-color: #EDFF99">1,270 bytes (12.76 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #B9FF99">12968 B</td>
+<td style="background-color: #99FF99"><strong>9976 B</strong></td>
+<td style="background-color: #A8FF99">22944 B</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliNETCompressor (deprecated)</td>
+<td style="background-color: #A4FF99">794 bytes (7.98 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #FFFF99">70288 B</td>
+<td style="background-color: #FFDC99">87336 B</td>
+<td style="background-color: #FFFF99">157625 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LZMACompressor</td>
+<td style="background-color: #99FF99">741 bytes (7.45 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #FF9999">1534304 B</td>
+<td style="background-color: #FF9999">108712 B</td>
+<td style="background-color: #FF9999">1643063 B</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Compressor</th><th>CompressionRatio</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left">DeflateCompressor</td>
+<td style="background-color: #A1FF99">1,386 bytes (68.96 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99"><strong>1696 B</strong></td>
+<td style="background-color: #9BFF99">2448 B</td>
+<td style="background-color: #99FF99">4136 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LZ4Compressor</td>
+<td style="background-color: #D4FF99">1,747 bytes (86.92 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99">1776 B</td>
+<td style="background-color: #99FF99"><strong>2040 B</strong></td>
+<td style="background-color: #99FF99"><strong>3816 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdCompressor (deprecated)</td>
+<td style="background-color: #CDFF99">1,687 bytes (83.93 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99">1792 B</td>
+<td style="background-color: #99FF99">2112 B</td>
+<td style="background-color: #99FF99">3904 B</td>
+</tr>
+<tr>
+<td style="text-align: left">SnappierCompressor</td>
+<td style="background-color: #DBFF99">1,813 bytes (90.20 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99">1928 B</td>
+<td style="background-color: #99FF99">2120 B</td>
+<td style="background-color: #99FF99">4040 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZLibCompressor</td>
+<td style="background-color: #A1FF99">1,392 bytes (69.25 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #9AFF99">2000 B</td>
+<td style="background-color: #9BFF99">2480 B</td>
+<td style="background-color: #9AFF99">4488 B</td>
+</tr>
+<tr>
+<td style="text-align: left">GZipCompressor</td>
+<td style="background-color: #A3FF99">1,404 bytes (69.85 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #9AFF99">2024 B</td>
+<td style="background-color: #9BFF99">2480 B</td>
+<td style="background-color: #9AFF99">4496 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdSharpCompressor</td>
+<td style="background-color: #CDFF99">1,687 bytes (83.93 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #9FFF99">3848 B</td>
+<td style="background-color: #99FF99">2064 B</td>
+<td style="background-color: #9CFF99">5912 B</td>
+</tr>
+<tr>
+<td style="text-align: left">SnappyCompressor (deprecated)</td>
+<td style="background-color: #D7FF99">1,770 bytes (88.06 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #A0FF99">4200 B</td>
+<td style="background-color: #99FF99"><strong>2040 B</strong></td>
+<td style="background-color: #9CFF99">6240 B</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliCompressor</td>
+<td style="background-color: #B0FF99">1,478 bytes (73.53 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #A5FF99">6208 B</td>
+<td style="background-color: #9AFF99">2296 B</td>
+<td style="background-color: #9FFF99">8480 B</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliNETCompressor (deprecated)</td>
+<td style="background-color: #B0FF99">1,478 bytes (73.53 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #FFFF99">73072 B</td>
+<td style="background-color: #FFE799">71456 B</td>
+<td style="background-color: #FFFF99">144472 B</td>
+</tr>
+<tr>
+<td style="text-align: left">LZMACompressor</td>
+<td style="background-color: #99FF99">1,342 bytes (66.77 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #FF9999">1536455 B</td>
+<td style="background-color: #FF9999">100777 B</td>
+<td style="background-color: #FF9999">1637552 B</td>
+</tr>
+</tbody>
+</table>
+<div class="powered-by">Powered by <a href="https://github.com/mjebrahimi/BenchmarkDotNetVisualizer">https://github.com/mjebrahimi/BenchmarkDotNetVisualizer</a></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.4/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.colVis.min.js"></script>
+</body>
+<script>
+    $(document).ready( function () {
+        DataTable.ext.type.order['custom-orderer-pre'] = function (d) {
+            d = d.replace(/(<([^>]+)>)/gi, ""); //remove html tags
+            if (!d.match(/^\d/)) //if not started with number
+                return d;
+            var regex = /[\d,]+(?:\.\d+)?/;
+            var number = d.match(regex)[0].replace(/,/g, ""); //extract number
+            return parseFloat(number); //Number
+        };
+        $('table').DataTable({
+            info: false,
+            paging: false,
+            colReorder: true,
+            order: [], //remove default order
+            columnDefs: [
+                {
+                    type: 'custom-orderer',
+                    targets: '_all'
+                }
+            ],
+            dom: 'Bfrtip',
+            buttons: ['colvis']
+        });
+    });
+</script>
+</html>

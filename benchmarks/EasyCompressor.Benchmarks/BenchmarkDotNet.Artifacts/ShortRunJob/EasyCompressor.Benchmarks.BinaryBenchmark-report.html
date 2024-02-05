@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>EasyCompressor.Benchmarks.BinaryBenchmark-20240204-223022</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3085/23H2/2023Update/SunValley3)
+AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 8.0.101
+  [Host]   : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  ShortRun : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+</code></pre>
+<pre><code>Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+CompressedArg  
+</code></pre>
+
+<table>
+<thead><tr><th>Method         </th><th>Type</th><th>Compressor                </th><th>Data    </th><th>CompressionRatio</th><th>Mean    </th><th>Error  </th><th>StdDev</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>Compress</td><td>Binary</td><td>BrotliCompressor</td><td>Large (20 KB)</td><td>3,650 bytes (17.66 %)</td><td>38,513.6 ns</td><td>3,437.92 ns</td><td>188.44 ns</td><td>14880 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>BrotliCompressor</td><td>Large (20 KB)</td><td>3,650 bytes (17.66 %)</td><td>69,393.7 ns</td><td>4,746.06 ns</td><td>260.15 ns</td><td>35842 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>BrotliCompressor</td><td>Large (20 KB)</td><td>3,650 bytes (17.66 %)</td><td>30,382.5 ns</td><td>2,303.90 ns</td><td>126.28 ns</td><td>20961 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Large (20 KB)</td><td>3,650 bytes (17.66 %)</td><td>67,087.8 ns</td><td>29,377.78 ns</td><td>1,610.30 ns</td><td>81713 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Large (20 KB)</td><td>3,650 bytes (17.66 %)</td><td>125,899.0 ns</td><td>8,426.55 ns</td><td>461.89 ns</td><td>190505 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Large (20 KB)</td><td>3,650 bytes (17.66 %)</td><td>60,820.6 ns</td><td>20,717.54 ns</td><td>1,135.60 ns</td><td>108793 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>DeflateCompressor</td><td>Large (20 KB)</td><td>3,573 bytes (17.28 %)</td><td>62,880.6 ns</td><td>23,331.03 ns</td><td>1,278.85 ns</td><td>3872 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>DeflateCompressor</td><td>Large (20 KB)</td><td>3,573 bytes (17.28 %)</td><td>86,682.1 ns</td><td>13,359.21 ns</td><td>732.26 ns</td><td>24984 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>DeflateCompressor</td><td>Large (20 KB)</td><td>3,573 bytes (17.28 %)</td><td>19,595.6 ns</td><td>3,092.48 ns</td><td>169.51 ns</td><td>21112 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>GZipCompressor</td><td>Large (20 KB)</td><td>3,591 bytes (17.37 %)</td><td>62,950.8 ns</td><td>13,693.90 ns</td><td>750.61 ns</td><td>4200 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>GZipCompressor</td><td>Large (20 KB)</td><td>3,591 bytes (17.37 %)</td><td>90,293.9 ns</td><td>7,192.39 ns</td><td>394.24 ns</td><td>25344 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>GZipCompressor</td><td>Large (20 KB)</td><td>3,591 bytes (17.37 %)</td><td>20,660.6 ns</td><td>4,187.29 ns</td><td>229.52 ns</td><td>21144 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>LZ4Compressor</td><td>Large (20 KB)</td><td>4,356 bytes (21.07 %)</td><td>13,107.8 ns</td><td>2,362.26 ns</td><td>129.48 ns</td><td>4384 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>LZ4Compressor</td><td>Large (20 KB)</td><td>4,356 bytes (21.07 %)</td><td>18,069.8 ns</td><td>1,852.87 ns</td><td>101.56 ns</td><td>25088 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>LZ4Compressor</td><td>Large (20 KB)</td><td>4,356 bytes (21.07 %)</td><td>4,278.2 ns</td><td>3,955.13 ns</td><td>216.79 ns</td><td>20704 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>LZMACompressor</td><td>Large (20 KB)</td><td>2,866 bytes (13.86 %)</td><td>4,064,055.3 ns</td><td>520,991.69 ns</td><td>28,557.31 ns</td><td>1542791 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>LZMACompressor</td><td>Large (20 KB)</td><td>2,866 bytes (13.86 %)</td><td>4,743,787.0 ns</td><td>648,290.62 ns</td><td>35,535.00 ns</td><td>1662268 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>LZMACompressor</td><td>Large (20 KB)</td><td>2,866 bytes (13.86 %)</td><td>594,430.6 ns</td><td>149,268.55 ns</td><td>8,181.91 ns</td><td>119441 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>SnappierCompressor</td><td>Large (20 KB)</td><td>4,751 bytes (22.98 %)</td><td>8,933.8 ns</td><td>2,828.27 ns</td><td>155.03 ns</td><td>4864 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>SnappierCompressor</td><td>Large (20 KB)</td><td>4,751 bytes (22.98 %)</td><td>15,366.9 ns</td><td>3,653.71 ns</td><td>200.27 ns</td><td>25648 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>SnappierCompressor</td><td>Large (20 KB)</td><td>4,751 bytes (22.98 %)</td><td>5,456.1 ns</td><td>1,269.61 ns</td><td>69.59 ns</td><td>20784 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Large (20 KB)</td><td>4,755 bytes (23.00 %)</td><td>12,844.7 ns</td><td>3,934.02 ns</td><td>215.64 ns</td><td>28960 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Large (20 KB)</td><td>4,755 bytes (23.00 %)</td><td>19,995.3 ns</td><td>10,455.03 ns</td><td>573.08 ns</td><td>49664 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Large (20 KB)</td><td>4,755 bytes (23.00 %)</td><td>6,928.9 ns</td><td>2,700.65 ns</td><td>148.03 ns</td><td>20704 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZLibCompressor</td><td>Large (20 KB)</td><td>3,579 bytes (17.31 %)</td><td>68,568.5 ns</td><td>20,949.07 ns</td><td>1,148.29 ns</td><td>4192 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZLibCompressor</td><td>Large (20 KB)</td><td>3,579 bytes (17.31 %)</td><td>99,510.0 ns</td><td>20,063.44 ns</td><td>1,099.75 ns</td><td>25336 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZLibCompressor</td><td>Large (20 KB)</td><td>3,579 bytes (17.31 %)</td><td>25,156.2 ns</td><td>2,464.18 ns</td><td>135.07 ns</td><td>21144 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Large (20 KB)</td><td>3,622 bytes (17.52 %)</td><td>20,191.4 ns</td><td>5,621.11 ns</td><td>308.11 ns</td><td>3752 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Large (20 KB)</td><td>3,622 bytes (17.52 %)</td><td>31,622.1 ns</td><td>1,633.87 ns</td><td>89.56 ns</td><td>24528 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Large (20 KB)</td><td>3,622 bytes (17.52 %)</td><td>9,490.4 ns</td><td>5,814.19 ns</td><td>318.70 ns</td><td>20776 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Large (20 KB)</td><td>3,622 bytes (17.52 %)</td><td>19,161.6 ns</td><td>5,808.41 ns</td><td>318.38 ns</td><td>24512 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Large (20 KB)</td><td>3,622 bytes (17.52 %)</td><td>30,203.2 ns</td><td>5,555.92 ns</td><td>304.54 ns</td><td>45240 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Large (20 KB)</td><td>3,622 bytes (17.52 %)</td><td>9,875.0 ns</td><td>3,496.37 ns</td><td>191.65 ns</td><td>20728 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>BrotliCompressor</td><td>Medium (10 KB)</td><td>794 bytes (7.98 %)</td><td>11,744.9 ns</td><td>1,545.99 ns</td><td>84.74 ns</td><td>3456 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>BrotliCompressor</td><td>Medium (10 KB)</td><td>794 bytes (7.98 %)</td><td>29,481.9 ns</td><td>5,493.49 ns</td><td>301.12 ns</td><td>13689 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>BrotliCompressor</td><td>Medium (10 KB)</td><td>794 bytes (7.98 %)</td><td>16,269.5 ns</td><td>3,302.59 ns</td><td>181.03 ns</td><td>10232 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Medium (10 KB)</td><td>794 bytes (7.98 %)</td><td>32,443.5 ns</td><td>18,839.17 ns</td><td>1,032.64 ns</td><td>70288 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Medium (10 KB)</td><td>794 bytes (7.98 %)</td><td>79,219.4 ns</td><td>45,302.31 ns</td><td>2,483.17 ns</td><td>157625 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Medium (10 KB)</td><td>794 bytes (7.98 %)</td><td>43,257.1 ns</td><td>12,515.63 ns</td><td>686.02 ns</td><td>87336 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>DeflateCompressor</td><td>Medium (10 KB)</td><td>875 bytes (8.79 %)</td><td>20,986.7 ns</td><td>3,071.51 ns</td><td>168.36 ns</td><td>1176 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>DeflateCompressor</td><td>Medium (10 KB)</td><td>875 bytes (8.79 %)</td><td>30,872.8 ns</td><td>4,755.03 ns</td><td>260.64 ns</td><td>11560 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>DeflateCompressor</td><td>Medium (10 KB)</td><td>875 bytes (8.79 %)</td><td>7,580.1 ns</td><td>2,675.37 ns</td><td>146.65 ns</td><td>10384 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>GZipCompressor</td><td>Medium (10 KB)</td><td>893 bytes (8.97 %)</td><td>21,938.7 ns</td><td>7,947.83 ns</td><td>435.65 ns</td><td>1504 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>GZipCompressor</td><td>Medium (10 KB)</td><td>893 bytes (8.97 %)</td><td>32,303.3 ns</td><td>6,517.83 ns</td><td>357.26 ns</td><td>11920 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>GZipCompressor</td><td>Medium (10 KB)</td><td>893 bytes (8.97 %)</td><td>8,238.7 ns</td><td>888.57 ns</td><td>48.71 ns</td><td>10416 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>LZ4Compressor</td><td>Medium (10 KB)</td><td>914 bytes (9.19 %)</td><td>3,007.4 ns</td><td>335.39 ns</td><td>18.38 ns</td><td>944 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>LZ4Compressor</td><td>Medium (10 KB)</td><td>914 bytes (9.19 %)</td><td>4,954.7 ns</td><td>753.24 ns</td><td>41.29 ns</td><td>10920 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>LZ4Compressor</td><td>Medium (10 KB)</td><td>914 bytes (9.19 %)</td><td>1,041.0 ns</td><td>1,816.53 ns</td><td>99.57 ns</td><td>9976 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>LZMACompressor</td><td>Medium (10 KB)</td><td>741 bytes (7.45 %)</td><td>1,704,514.4 ns</td><td>503,922.41 ns</td><td>27,621.69 ns</td><td>1534304 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>LZMACompressor</td><td>Medium (10 KB)</td><td>741 bytes (7.45 %)</td><td>2,003,206.1 ns</td><td>336,327.31 ns</td><td>18,435.23 ns</td><td>1643063 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>LZMACompressor</td><td>Medium (10 KB)</td><td>741 bytes (7.45 %)</td><td>166,793.4 ns</td><td>12,005.02 ns</td><td>658.04 ns</td><td>108712 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>SnappierCompressor</td><td>Medium (10 KB)</td><td>1,289 bytes (12.95 %)</td><td>2,112.9 ns</td><td>233.94 ns</td><td>12.82 ns</td><td>1408 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>SnappierCompressor</td><td>Medium (10 KB)</td><td>1,289 bytes (12.95 %)</td><td>3,985.9 ns</td><td>2,908.86 ns</td><td>159.44 ns</td><td>11464 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>SnappierCompressor</td><td>Medium (10 KB)</td><td>1,289 bytes (12.95 %)</td><td>1,481.7 ns</td><td>1,591.58 ns</td><td>87.24 ns</td><td>10056 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Medium (10 KB)</td><td>1,270 bytes (12.76 %)</td><td>3,182.2 ns</td><td>2,805.21 ns</td><td>153.76 ns</td><td>12968 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Medium (10 KB)</td><td>1,270 bytes (12.76 %)</td><td>4,714.5 ns</td><td>882.82 ns</td><td>48.39 ns</td><td>22944 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Medium (10 KB)</td><td>1,270 bytes (12.76 %)</td><td>1,820.5 ns</td><td>1,237.62 ns</td><td>67.84 ns</td><td>9976 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZLibCompressor</td><td>Medium (10 KB)</td><td>881 bytes (8.85 %)</td><td>24,238.3 ns</td><td>9,271.99 ns</td><td>508.23 ns</td><td>1496 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZLibCompressor</td><td>Medium (10 KB)</td><td>881 bytes (8.85 %)</td><td>37,213.2 ns</td><td>6,129.93 ns</td><td>336.00 ns</td><td>11912 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZLibCompressor</td><td>Medium (10 KB)</td><td>881 bytes (8.85 %)</td><td>10,502.1 ns</td><td>1,251.86 ns</td><td>68.62 ns</td><td>10416 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Medium (10 KB)</td><td>860 bytes (8.64 %)</td><td>6,038.1 ns</td><td>1,985.44 ns</td><td>108.83 ns</td><td>968 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Medium (10 KB)</td><td>860 bytes (8.64 %)</td><td>10,297.6 ns</td><td>1,381.01 ns</td><td>75.70 ns</td><td>11016 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Medium (10 KB)</td><td>860 bytes (8.64 %)</td><td>3,154.2 ns</td><td>2,455.11 ns</td><td>134.57 ns</td><td>10048 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Medium (10 KB)</td><td>860 bytes (8.64 %)</td><td>5,457.6 ns</td><td>1,443.05 ns</td><td>79.10 ns</td><td>10992 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Medium (10 KB)</td><td>860 bytes (8.64 %)</td><td>8,087.7 ns</td><td>6,289.35 ns</td><td>344.74 ns</td><td>20992 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Medium (10 KB)</td><td>860 bytes (8.64 %)</td><td>1,854.3 ns</td><td>326.63 ns</td><td>17.90 ns</td><td>10000 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>BrotliCompressor</td><td>Small (2 KB)</td><td>1,478 bytes (73.53 %)</td><td>14,897.0 ns</td><td>958.03 ns</td><td>52.51 ns</td><td>6208 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>BrotliCompressor</td><td>Small (2 KB)</td><td>1,478 bytes (73.53 %)</td><td>26,236.6 ns</td><td>4,612.26 ns</td><td>252.81 ns</td><td>8480 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>BrotliCompressor</td><td>Small (2 KB)</td><td>1,478 bytes (73.53 %)</td><td>9,793.4 ns</td><td>4,004.95 ns</td><td>219.52 ns</td><td>2296 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,478 bytes (73.53 %)</td><td>36,634.8 ns</td><td>4,711.83 ns</td><td>258.27 ns</td><td>73072 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,478 bytes (73.53 %)</td><td>69,709.7 ns</td><td>18,028.61 ns</td><td>988.21 ns</td><td>144472 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>BrotliNETCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,478 bytes (73.53 %)</td><td>28,248.4 ns</td><td>12,634.81 ns</td><td>692.56 ns</td><td>71456 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>DeflateCompressor</td><td>Small (2 KB)</td><td>1,386 bytes (68.96 %)</td><td>29,076.7 ns</td><td>8,098.72 ns</td><td>443.92 ns</td><td>1696 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>DeflateCompressor</td><td>Small (2 KB)</td><td>1,386 bytes (68.96 %)</td><td>38,641.7 ns</td><td>2,296.65 ns</td><td>125.89 ns</td><td>4136 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>DeflateCompressor</td><td>Small (2 KB)</td><td>1,386 bytes (68.96 %)</td><td>8,120.8 ns</td><td>214.30 ns</td><td>11.75 ns</td><td>2448 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>GZipCompressor</td><td>Small (2 KB)</td><td>1,404 bytes (69.85 %)</td><td>30,290.9 ns</td><td>4,055.66 ns</td><td>222.30 ns</td><td>2024 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>GZipCompressor</td><td>Small (2 KB)</td><td>1,404 bytes (69.85 %)</td><td>38,509.5 ns</td><td>2,650.33 ns</td><td>145.27 ns</td><td>4496 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>GZipCompressor</td><td>Small (2 KB)</td><td>1,404 bytes (69.85 %)</td><td>8,277.6 ns</td><td>1,733.82 ns</td><td>95.04 ns</td><td>2480 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>LZ4Compressor</td><td>Small (2 KB)</td><td>1,747 bytes (86.92 %)</td><td>4,743.6 ns</td><td>1,147.29 ns</td><td>62.89 ns</td><td>1776 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>LZ4Compressor</td><td>Small (2 KB)</td><td>1,747 bytes (86.92 %)</td><td>5,751.4 ns</td><td>2,088.99 ns</td><td>114.50 ns</td><td>3816 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>LZ4Compressor</td><td>Small (2 KB)</td><td>1,747 bytes (86.92 %)</td><td>400.8 ns</td><td>389.75 ns</td><td>21.36 ns</td><td>2040 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>LZMACompressor</td><td>Small (2 KB)</td><td>1,342 bytes (66.77 %)</td><td>1,440,037.3 ns</td><td>189,301.34 ns</td><td>10,376.25 ns</td><td>1536455 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>LZMACompressor</td><td>Small (2 KB)</td><td>1,342 bytes (66.77 %)</td><td>1,762,095.6 ns</td><td>145,642.86 ns</td><td>7,983.18 ns</td><td>1637552 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>LZMACompressor</td><td>Small (2 KB)</td><td>1,342 bytes (66.77 %)</td><td>252,763.9 ns</td><td>55,314.51 ns</td><td>3,031.97 ns</td><td>100777 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>SnappierCompressor</td><td>Small (2 KB)</td><td>1,813 bytes (90.20 %)</td><td>1,860.0 ns</td><td>285.50 ns</td><td>15.65 ns</td><td>1928 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>SnappierCompressor</td><td>Small (2 KB)</td><td>1,813 bytes (90.20 %)</td><td>2,422.3 ns</td><td>26.24 ns</td><td>1.44 ns</td><td>4040 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>SnappierCompressor</td><td>Small (2 KB)</td><td>1,813 bytes (90.20 %)</td><td>509.5 ns</td><td>394.79 ns</td><td>21.64 ns</td><td>2120 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,770 bytes (88.06 %)</td><td>3,007.6 ns</td><td>944.49 ns</td><td>51.77 ns</td><td>4200 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,770 bytes (88.06 %)</td><td>3,688.9 ns</td><td>911.49 ns</td><td>49.96 ns</td><td>6240 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>SnappyCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,770 bytes (88.06 %)</td><td>721.8 ns</td><td>257.13 ns</td><td>14.09 ns</td><td>2040 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZLibCompressor</td><td>Small (2 KB)</td><td>1,392 bytes (69.25 %)</td><td>28,604.7 ns</td><td>2,302.67 ns</td><td>126.22 ns</td><td>2000 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZLibCompressor</td><td>Small (2 KB)</td><td>1,392 bytes (69.25 %)</td><td>41,262.1 ns</td><td>20,487.52 ns</td><td>1,122.99 ns</td><td>4488 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZLibCompressor</td><td>Small (2 KB)</td><td>1,392 bytes (69.25 %)</td><td>8,675.1 ns</td><td>1,365.39 ns</td><td>74.84 ns</td><td>2480 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,687 bytes (83.93 %)</td><td>6,494.3 ns</td><td>1,470.17 ns</td><td>80.59 ns</td><td>1792 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,687 bytes (83.93 %)</td><td>9,495.3 ns</td><td>977.90 ns</td><td>53.60 ns</td><td>3904 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZstdCompressor (deprecated)</td><td>Small (2 KB)</td><td>1,687 bytes (83.93 %)</td><td>2,323.2 ns</td><td>211.97 ns</td><td>11.62 ns</td><td>2112 B</td>
+</tr><tr><td>Compress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Small (2 KB)</td><td>1,687 bytes (83.93 %)</td><td>5,380.4 ns</td><td>184.18 ns</td><td>10.10 ns</td><td>3848 B</td>
+</tr><tr><td>CompressAndDecompress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Small (2 KB)</td><td>1,687 bytes (83.93 %)</td><td>6,919.8 ns</td><td>1,439.68 ns</td><td>78.91 ns</td><td>5912 B</td>
+</tr><tr><td>Decompress</td><td>Binary</td><td>ZstdSharpCompressor</td><td>Small (2 KB)</td><td>1,687 bytes (83.93 %)</td><td>1,250.1 ns</td><td>549.46 ns</td><td>30.12 ns</td><td>2064 B</td>
+</tr></tbody></table>
+</body>
+</html>
