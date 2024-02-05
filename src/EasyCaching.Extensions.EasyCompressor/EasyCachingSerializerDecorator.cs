@@ -1,5 +1,4 @@
 ﻿using EasyCaching.Core.Serialization;
-using EasyCompressor.Internal;
 using System;
 
 namespace EasyCompressor;
