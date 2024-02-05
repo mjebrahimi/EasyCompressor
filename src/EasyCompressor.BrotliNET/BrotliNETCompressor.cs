@@ -21,30 +21,128 @@ public class BrotliNETCompressor : BaseCompressor
 #pragma warning restore S101 // Types should be named in PascalCase
 {
     /// <summary>
+    /// Provides a default shared (thread-safe) instance.
+    /// </summary>
+    public static BrotliNETCompressor Shared { get; } = new(name: "shared");
+
+    /// <summary>
     /// Quality
     /// </summary>
-    protected readonly uint Quality;
+    public int Quality { get; set; }
 
     /// <summary>
     /// Window
     /// </summary>
-    protected readonly uint Window;
+    public int Window { get; set; }
 
     /// <inheritdoc/>
     public override CompressionMethod Method => CompressionMethod.Brotli;
 
+    #region Constructors
     /// <summary>
-    /// Initializes a new instance
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
     /// </summary>
-    /// <param name="name">Name</param>
-    /// <param name="quality">Quality (Defaults to <c>5</c>)</param>
-    /// <param name="window">Window (Defaults to <c>22</c>)</param>
-    public BrotliNETCompressor(string name = null, uint quality = 5, uint window = 22)
+    public BrotliNETCompressor()
+        : this(name: null)
     {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public BrotliNETCompressor(CompressionLevel compressionLevel)
+        : this(name: null, compressionLevel: compressionLevel)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="quality">Quality between 0 and 11 (Default: to <c>4</c>, The minimum value is 0 (no compression), and the maximum value is 11.)</param>
+    public BrotliNETCompressor(int quality)
+        : this(name: null, quality: quality)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    /// <param name="window">Window between 10 and 24 (Defaults to <c>22</c>, The minimum value is 10, and the maximum value is 24.)</param>
+    public BrotliNETCompressor(CompressionLevel compressionLevel, int window)
+        : this(name: null, compressionLevel: compressionLevel, window: window)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="quality">Quality between 0 and 11 (Default: to <c>4</c>, The minimum value is 0 (no compression), and the maximum value is 11.)</param>
+    /// <param name="window">Window between 10 and 24 (Defaults to <c>22</c>, The minimum value is 10, and the maximum value is 24.)</param>
+    public BrotliNETCompressor(int quality, int window)
+        : this(name: null, quality: quality, window: window)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    public BrotliNETCompressor(string name)
+        : this(name: name, compressionLevel: CompressionLevel.Fastest)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    public BrotliNETCompressor(string name, CompressionLevel compressionLevel)
+        : this(name: name, compressionLevel: compressionLevel, window: BrotliUtils.WindowBits_Default)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="quality">Quality between 0 and 11 (Default: to <c>4</c>, The minimum value is 0 (no compression), and the maximum value is 11.)</param>
+    public BrotliNETCompressor(string name, int quality)
+        : this(name: name, quality: quality, window: BrotliUtils.WindowBits_Default)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="compressionLevel">The compression level. (Defaults to <see cref="CompressionLevel.Fastest"/>)</param>
+    /// <param name="window">Window between 10 and 24 (Defaults to <c>22</c>, The minimum value is 10, and the maximum value is 24.)</param>
+    public BrotliNETCompressor(string name, CompressionLevel compressionLevel, int window)
+        : this(name: name, quality: BrotliUtils.GetQualityFromCompressionLevel(compressionLevel), window: window)
+    {
+    }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BrotliNETCompressor"/> class.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <param name="quality">Quality between 0 and 11 (Default: to <c>4</c>, The minimum value is 0 (no compression), and the maximum value is 11.)</param>
+    /// <param name="window">Window between 10 and 24 (Defaults to <c>22</c>, The minimum value is 10, and the maximum value is 24.)</param>
+    public BrotliNETCompressor(string name, int quality, int window)
+    {
+#pragma warning disable S3236 // Caller information arguments should not be provided explicitly
+        BrotliUtils.ThrowIfQualityIsNotValid(quality, nameof(quality));
+        BrotliUtils.ThrowIfWindowIsNotValid(window, nameof(window));
+#pragma warning restore S3236 // Caller information arguments should not be provided explicitly
+
         Name = name;
         Quality = quality;
         Window = window;
     }
+    #endregion
 
     /// <inheritdoc/>
     protected override byte[] BaseCompress(byte[] bytes)
@@ -52,8 +150,8 @@ public class BrotliNETCompressor : BaseCompressor
         using var outputStream = new MemoryStream();
         using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOpen: true))
         {
-            brotliStream.SetQuality(Quality);
-            brotliStream.SetWindow(Window);
+            brotliStream.SetQuality((uint)Quality);
+            brotliStream.SetWindow((uint)Window);
             brotliStream.WriteAllBytes(bytes);
 
             // Disposing the compressor also flushes the buffers to the inner stream
@@ -77,8 +175,8 @@ public class BrotliNETCompressor : BaseCompressor
     {
         using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOpen: true))
         {
-            brotliStream.SetQuality(Quality);
-            brotliStream.SetWindow(Window);
+            brotliStream.SetQuality((uint)Quality);
+            brotliStream.SetWindow((uint)Window);
             inputStream.CopyTo(brotliStream); //Don't pass buffer size
 
             //brotliStream.Flush(); //It's not necessary based on my experiments
@@ -106,8 +204,8 @@ public class BrotliNETCompressor : BaseCompressor
 #endif
         using (var brotliStream = new Brotli.BrotliStream(outputStream, CompressionMode.Compress, leaveOpen: true))
         {
-            brotliStream.SetQuality(Quality);
-            brotliStream.SetWindow(Window);
+            brotliStream.SetQuality((uint)Quality);
+            brotliStream.SetWindow((uint)Window);
             await inputStream.CopyToAsync(brotliStream, cancellationToken).ConfigureAwait(false); //Don't pass buffer size
 
             //await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It adds some extra bytes but it's not necessary based on my experiments
@@ -128,5 +226,11 @@ public class BrotliNETCompressor : BaseCompressor
             //await brotliStream.FlushAsync(cancellationToken).ConfigureAwait(false); //Flush only works when compressing (not when decompressing)
         }
         await outputStream.FlushAsync(cancellationToken).ConfigureAwait(false); //It's needed because of FileStream internal buffering
+    }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        return Name ?? $"{GetType().Name}(Quality:{Quality}, Window:{Window})";
     }
 }
