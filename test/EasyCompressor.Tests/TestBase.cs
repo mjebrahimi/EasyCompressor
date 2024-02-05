@@ -25,6 +25,7 @@ public class TestBase(ICompressor compressor)
 #pragma warning disable CS0618 // Type or member is obsolete
             yield return new TestFixtureData(new GZipCompressor()).SetArgDisplayNames(" GZip ");
             yield return new TestFixtureData(new DeflateCompressor()).SetArgDisplayNames(" Deflate ");
+            yield return new TestFixtureData(new ZLibCompressor()).SetArgDisplayNames(" ZLib ");
             yield return new TestFixtureData(new BrotliCompressor()).SetArgDisplayNames(" Brotli ");
             yield return new TestFixtureData(new BrotliNETCompressor()).SetArgDisplayNames(" BrotliNET ");
             yield return new TestFixtureData(new LZ4Compressor() { BinaryCompressionMode = LZ4BinaryCompressionMode.LegacyCompatible }).SetArgDisplayNames(" LZ4-LegacyCompatible ");

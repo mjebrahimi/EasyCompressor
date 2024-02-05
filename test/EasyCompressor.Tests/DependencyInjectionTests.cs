@@ -126,6 +126,7 @@ public class DependencyInjectionTests
 #pragma warning disable CS0618 // Type or member is obsolete
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddGZipCompressor(name)), typeof(GZipCompressor)).SetArgDisplayNames(" GZip ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddDeflateCompressor(name)), typeof(DeflateCompressor)).SetArgDisplayNames(" Deflate ");
+            yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZLibCompressor(name)), typeof(ZLibCompressor)).SetArgDisplayNames(" ZLib ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddBrotliCompressor(name)), typeof(BrotliCompressor)).SetArgDisplayNames(" Brotli ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddBrotliNETCompressor(name)), typeof(BrotliNETCompressor)).SetArgDisplayNames(" BrotliNET ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddLZ4Compressor(name)), typeof(LZ4Compressor)).SetArgDisplayNames(" LZ4 ");
