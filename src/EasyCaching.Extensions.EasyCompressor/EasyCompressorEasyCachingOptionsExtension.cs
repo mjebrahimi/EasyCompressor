@@ -1,75 +1,73 @@
-﻿using EasyCaching.Core.Configurations;
+﻿using EasyCaching.Core;
+using EasyCaching.Core.Configurations;
 using EasyCaching.Core.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("EasyCompressor.Tests")]
 
 namespace EasyCompressor;
 
-internal class EasyCompressorEasyCachingOptionsExtension : IEasyCachingOptionsExtension
+internal class EasyCompressorEasyCachingOptionsExtension(string serializerName = null, string compressorName = null) : IEasyCachingOptionsExtension
 {
-    private static readonly Dictionary<string, string> _dictonary = new(StringComparer.OrdinalIgnoreCase) { { "binary", null } };
+    private bool single;
 
-    public EasyCompressorEasyCachingOptionsExtension()
-    {
-    }
-
-    public EasyCompressorEasyCachingOptionsExtension(string serializerName, string compressorName)
-    {
-        //Workaround for default BinaryFormatter serializer
-        _dictonary["binary"] = compressorName;
-        _dictonary[serializerName] = compressorName;
-    }
-
+    /// <inheritdoc/>
+    /// <exception cref="EasyCaching.Core.EasyCachingNotFoundException">Can not find any EasyCachingSerializer that is not assigned to a Compressor. Make sure to call WithCompressor() method after adding a serializer to the EasyCachingOptions, not before.</exception>
     public void AddServices(IServiceCollection services)
     {
-        var descriptors = services.Where(p =>
-            p.ServiceType == typeof(IEasyCachingSerializer) &&
-            p.ImplementationFactory?.Target.GetType().ReflectedType != typeof(EasyCompressorEasyCachingOptionsExtension)).ToList();
+        var easyCachingSerializerType = typeof(IEasyCachingSerializer);
+        var easyCompressorEasyCachingOptionsExtensionType = typeof(EasyCompressorEasyCachingOptionsExtension);
 
-        if (descriptors.Count == 0)
-            throw new InvalidOperationException("This operation must be called after serializer added.");
+        var descriptors = services.Where(p =>
+            p.ServiceType == easyCachingSerializerType &&
+            p.ImplementationFactory?.Target.GetType().ReflectedType != easyCompressorEasyCachingOptionsExtensionType).ToArray();
+
+        if (descriptors.Length == 0)
+            throw new EasyCachingNotFoundException("Can not find any EasyCachingSerializer that is not assigned to a Compressor. Make sure to call WithCompressor() method after adding a serializer to the EasyCachingOptions, not before.");
+
+        single = descriptors.Length == 1;
 
         foreach (var descriptor in descriptors)
         {
-            //descriptor.ImplementationType == typeof(DefaultBinaryFormatterSerializer)
-
             services.Remove(descriptor);
 
             switch (descriptor.Lifetime)
             {
                 case ServiceLifetime.Singleton:
-                    services.AddSingleton<IEasyCachingSerializer>(provider => DecoratorFactory(descriptor, provider));
+                    services.AddSingleton(provider => DecoratorFactory(descriptor, provider));
                     break;
                 case ServiceLifetime.Scoped:
-                    services.AddScoped<IEasyCachingSerializer>(provider => DecoratorFactory(descriptor, provider));
+                    services.AddScoped(provider => DecoratorFactory(descriptor, provider));
                     break;
                 case ServiceLifetime.Transient:
-                    services.AddTransient<IEasyCachingSerializer>(provider => DecoratorFactory(descriptor, provider));
+                    services.AddTransient(provider => DecoratorFactory(descriptor, provider));
                     break;
             }
         }
     }
 
-    private static EasyCachingSerializerDecorator DecoratorFactory(ServiceDescriptor descriptor, IServiceProvider provider)
+    private IEasyCachingSerializer DecoratorFactory(ServiceDescriptor descriptor, IServiceProvider provider)
     {
         IEasyCachingSerializer serializer;
 
-        if (descriptor.ImplementationInstance != null)
-        {
+        if (descriptor.ImplementationInstance is not null)
             serializer = (IEasyCachingSerializer)descriptor.ImplementationInstance;
-        }
-        else if (descriptor.ImplementationType != null)
-        {
+        else if (descriptor.ImplementationType is not null)
             serializer = (IEasyCachingSerializer)ActivatorUtilities.GetServiceOrCreateInstance(provider, descriptor.ImplementationType);
-        }
-        else //has Factory
-        {
+        else
             serializer = (IEasyCachingSerializer)descriptor.ImplementationFactory(provider);
+
+        if (serializerName?.Equals(serializer.Name, StringComparison.OrdinalIgnoreCase) is false)
+        {
+            if (single)
+                throw new EasyCachingNotFoundException($"Can not find a matched Serializer instance with name '{serializerName}'.");
+            else
+                return serializer;
         }
 
-        _dictonary.TryGetValue(serializer.Name, out var compressorName);
         var compressor = provider.GetRequiredService<ICompressorProvider>().GetCompressor(compressorName);
 
         return new EasyCachingSerializerDecorator(compressor, serializer);

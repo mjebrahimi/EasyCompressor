@@ -6,9 +6,9 @@
 public interface ICompressorProvider
 {
     /// <summary>
-    /// The compressor by name.
+    /// Gets the compressor by name.
     /// </summary>
-    /// <param name="name">Name.</param>
+    /// <param name="name">The name.</param>
     /// <returns>The compressor.</returns>
     ICompressor GetCompressor(string name);
 }
