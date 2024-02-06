@@ -17,8 +17,7 @@ public class DependencyInjectionTests
     {
         ServiceCollection = new ServiceCollection();
 
-        //TODO: add compressor with null as name and test ICompressorProvider
-        //TODO: write test for EasyCaching.Extensions.EasyCompressor
+        addService(ServiceCollection, null);
         addService(ServiceCollection, "duplicate-name");
         addService(ServiceCollection, "duplicate-name");
         addService(ServiceCollection, "my-compressor");
@@ -31,7 +30,7 @@ public class DependencyInjectionTests
     [Test]
     public void Service_Count_ShouldBe_Four()
     {
-        Assert.That(ServiceCollection.Count, Is.EqualTo(4));
+        Assert.That(ServiceCollection.Count, Is.EqualTo(5));
     }
 
     [Test]
@@ -45,11 +44,11 @@ public class DependencyInjectionTests
     public void ICompressor_Count_ShouldBe_Tree()
     {
         var count = ServiceCollection.Count(p => p.ServiceType == typeof(ICompressor));
-        Assert.That(count, Is.EqualTo(3));
+        Assert.That(count, Is.EqualTo(4));
     }
 
     [Test]
-    public void ICompressor_Should_Registred_As_Singleton()
+    public void ICompressor_Should_Registered_As_Singleton()
     {
         var list = ServiceCollection.Where(p => p.ServiceType == typeof(ICompressor)).ToList();
 
@@ -61,7 +60,7 @@ public class DependencyInjectionTests
     }
 
     [Test]
-    public void ICompressorProvider_Should_Registred_As_Singleton()
+    public void ICompressorProvider_Should_Registered_As_Singleton()
     {
         var serviceDescriptor = ServiceCollection.SingleOrDefault(p => p.ServiceType == typeof(ICompressorProvider));
 
@@ -100,13 +99,24 @@ public class DependencyInjectionTests
     }
 
     [Test]
+    public void GetCompressor_Null_Should_Throws_Works()
+    {
+        var compressorProvider = ServiceProvider.GetService<ICompressorProvider>();
+
+        var compressor = compressorProvider.GetCompressor(null);
+
+        Assert.That(compressor, Is.Not.Null);
+        Assert.That(compressor.Name, Is.EqualTo(null));
+    }
+
+    [Test]
     public void GetCompressor_NotExistName_Should_Throws_ArgumentException()
     {
         var compressorProvider = ServiceProvider.GetService<ICompressorProvider>();
 
         void action() => compressorProvider.GetCompressor("not-exist-name");
 
-        Assert.Throws<ArgumentException>(action);
+        Assert.That(action, Throws.TypeOf<ArgumentException>().And.Message.EqualTo("Can not find a matched compressor with name 'not-exist-name'. (Parameter 'name')"));
     }
 
     [Test]
@@ -116,7 +126,7 @@ public class DependencyInjectionTests
 
         void action() => compressorProvider.GetCompressor("duplicate-name");
 
-        Assert.Throws<ArgumentException>(action);
+        Assert.That(action, Throws.TypeOf<ArgumentException>().And.Message.EqualTo("There is more than one compressor with this name 'duplicate-name'. (Parameter 'name')"));
     }
 
     public static IEnumerable GetTestItems

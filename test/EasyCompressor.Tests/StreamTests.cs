@@ -168,32 +168,32 @@ public class StreamTests(ICompressor compressor) : TestBase(compressor)
     }
 
     #region CreateDumpFile
-    private static void CreateDumpFile(string filePath, long fileSize)
-    {
-        using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
-        CreateDumpFile(fileStream, fileSize);
-    }
+    //private static void CreateDumpFile(string filePath, long fileSize)
+    //{
+    //    using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
+    //    CreateDumpFile(fileStream, fileSize);
+    //}
 
-    private static void CreateDumpFile(FileStream fileStream, long fileSize)
-    {
-        const int maxArraySize = 2_147_483_591;
-        if (fileSize <= maxArraySize)
-        {
-            byte[] buffer = new byte[fileSize];
-            fileStream.Write(buffer);
-        }
-        else
-        {
-            //TODO
-            long currentFileSize = 0;
-            while (currentFileSize < fileSize)
-            {
-                byte[] buffer = new byte[1024];
-                fileStream.Write(buffer);
-                currentFileSize += buffer.Length;
-            }
-        }
-        fileStream.FlushAsync();
-    }
+    //private static void CreateDumpFile(FileStream fileStream, long fileSize)
+    //{
+    //    const int maxArraySize = 2_147_483_591;
+    //    if (fileSize <= maxArraySize)
+    //    {
+    //        byte[] buffer = new byte[fileSize];
+    //        fileStream.Write(buffer);
+    //    }
+    //    else
+    //    {
+    //        //improve implementation
+    //        long currentFileSize = 0;
+    //        while (currentFileSize < fileSize)
+    //        {
+    //            byte[] buffer = new byte[1024];
+    //            fileStream.Write(buffer);
+    //            currentFileSize += buffer.Length;
+    //        }
+    //    }
+    //    fileStream.FlushAsync();
+    //}
     #endregion
 }
