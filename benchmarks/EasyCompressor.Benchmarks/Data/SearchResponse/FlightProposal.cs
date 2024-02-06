@@ -37,7 +37,7 @@ namespace EasyCompressor.Benchmarks.Models
         public List<FlightPrice> Prices { get; set; }
 
         [DataMember(Order = 10)]
-        public List<FlightGroup> FlightGroups { get; set; } = new List<FlightGroup>();
+        public List<FlightGroup> FlightGroups { get; set; } = [];
 
         [DataMember(Order = 11)]
         public bool IsMultiDestination { get; set; }
@@ -48,8 +48,7 @@ namespace EasyCompressor.Benchmarks.Models
             get => FlightGroups?.FirstOrDefault();
             set
             {
-                if (FlightGroups == null)
-                    FlightGroups = new List<FlightGroup>();
+                FlightGroups ??= [];
                 if (FlightGroups.Count == 0)
                     FlightGroups.Add(value);
             }
@@ -66,8 +65,7 @@ namespace EasyCompressor.Benchmarks.Models
             }
             set
             {
-                if (FlightGroups == null)
-                    FlightGroups = new List<FlightGroup>();
+                FlightGroups ??= [];
                 if (FlightGroups.Count == 1 && value != null)
                     FlightGroups.Add(value);
             }
@@ -116,7 +114,7 @@ namespace EasyCompressor.Benchmarks.Models
         [DataMember(Order = 22)]
         public bool IsRefundable
         {
-            get => AncillaryService != null && AncillaryService.FreeCancelation || _isRefundable;
+            get => AncillaryService?.FreeCancelation == true || _isRefundable;
             set => _isRefundable = value;
         }
 

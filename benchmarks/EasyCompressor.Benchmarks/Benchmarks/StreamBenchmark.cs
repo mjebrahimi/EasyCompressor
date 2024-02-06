@@ -9,6 +9,7 @@ public class StreamBenchmark : BaseBenchmark
 {
     public override string CompressionType => "Stream";
 
+#pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
     public void Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
@@ -44,4 +45,5 @@ public class StreamBenchmark : BaseBenchmark
 
         Compressor.Decompress(inputStream2, outputStream2);
     }
+#pragma warning restore IDE0060, RCS1163 // Remove unused parameter
 }

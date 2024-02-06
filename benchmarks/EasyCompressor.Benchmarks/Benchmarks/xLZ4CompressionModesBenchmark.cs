@@ -91,6 +91,7 @@ public class xLZ4CompressionModesBenchmark
         }
     }
 
+#pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     #region LegacyCompatible
     [ArgumentsSource(nameof(GetArgumentsLegacyCompatible))]
     [Benchmark(Description = "Compress"), BenchmarkCategory("LegacyCompatible")]
@@ -298,16 +299,11 @@ public class xLZ4CompressionModesBenchmark
     //#pragma warning restore RCS1261 // Resource can be disposed asynchronously
     //    #endregion
     #endregion
+#pragma warning restore IDE0060, RCS1163 // Remove unused parameter
 
-    public class CompressedArg
+    public class CompressedArg(byte[] originalBytes, byte[] compressedBytes)
     {
-        public CompressedArg(byte[] originalBytes, byte[] compressedBytes)
-        {
-            OriginalBytes = originalBytes;
-            CompressedBytes = compressedBytes;
-        }
-
-        public byte[] OriginalBytes { get; }
-        public byte[] CompressedBytes { get; }
+        public byte[] OriginalBytes { get; } = originalBytes;
+        public byte[] CompressedBytes { get; } = compressedBytes;
     }
 }

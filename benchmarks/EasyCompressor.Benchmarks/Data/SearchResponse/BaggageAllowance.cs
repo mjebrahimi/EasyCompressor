@@ -42,11 +42,11 @@ namespace EasyCompressor.Benchmarks.Models
                 if (BaggageAllowanceAmount == 0)
                     return "بدون بار";
 
-                if (BaggageUnit.ToLower() == "k" || BaggageUnit.ToLower() == "kg")
-                    return BaggageAllowanceAmount + " " + "کیلوگرم";
+                if (string.Equals(BaggageUnit, "k", System.StringComparison.OrdinalIgnoreCase) || string.Equals(BaggageUnit, "kg", System.StringComparison.OrdinalIgnoreCase))
+                    return $"{BaggageAllowanceAmount} کیلوگرم";
 
                 if (BaggageUnit?.ToLower() == "p" || BaggageUnit?.ToLower() == "pc" || BaggageUnit?.ToLower() == "piece")
-                    return BaggageAllowanceAmount + " " + "بسته" + " " + "(هر بسته " + BaggagePieceAmount + " کیلوگرم)";
+                    return $"{BaggageAllowanceAmount} بسته (هر بسته {BaggagePieceAmount} کیلوگرم)";
 
                 return "تماس با پشتیبان";
             }

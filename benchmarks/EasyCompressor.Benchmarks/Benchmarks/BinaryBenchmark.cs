@@ -8,6 +8,7 @@ public class BinaryBenchmark : BaseBenchmark
 {
     public override string CompressionType => "Binary";
 
+#pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
     public byte[] Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
@@ -29,4 +30,5 @@ public class BinaryBenchmark : BaseBenchmark
         var compressedBytes = Compressor.Compress(Compressed.OriginalBytes);
         return Compressor.Decompress(compressedBytes);
     }
+#pragma warning restore IDE0060, RCS1163 // Remove unused parameter
 }

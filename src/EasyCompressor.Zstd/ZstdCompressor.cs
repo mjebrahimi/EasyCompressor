@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ZstdNet;
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together")]
+
 namespace EasyCompressor;
 
 /// <summary>

@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Ignore Spelling: Uknown
+
+using System;
 using System.Runtime.Serialization;
 
 namespace EasyCompressor.Benchmarks.Models
@@ -31,8 +33,10 @@ namespace EasyCompressor.Benchmarks.Models
             {
                 try
                 {
+#pragma warning disable S6580 // Use a format provider when parsing date and time
                     var d = DateTime.Parse(DepartureDate + " " + DepartureTime);
                     var a = DateTime.Parse(ArrivalDate + " " + ArrivalTime);
+#pragma warning restore S6580 // Use a format provider when parsing date and time
                     return (int)a.Subtract(d).TotalMinutes;
                 }
                 catch

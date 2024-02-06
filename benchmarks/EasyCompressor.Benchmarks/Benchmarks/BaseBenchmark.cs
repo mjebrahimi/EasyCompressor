@@ -148,7 +148,6 @@ public abstract class BaseBenchmark
         //new ZstdCompressor(level: 21),
         //new ZstdCompressor(level: 22),
 
-
         //new ZstdSharpCompressor(level: -131072), -- No Compression
         //new ZstdSharpCompressor(level: -22),
         //new ZstdSharpCompressor(level: -21),
@@ -268,7 +267,7 @@ class CustomConfig : ManualConfig
         Orderer = new CustomOerderer();
         SummaryStyle = DefaultConfig.Instance.SummaryStyle.WithMaxParameterColumnWidth(100);
     }
-    private class CustomOerderer : IOrderer
+    private sealed class CustomOerderer : IOrderer
     {
         public IEnumerable<BenchmarkCase> GetExecutionOrder(ImmutableArray<BenchmarkCase> benchmarksCase, IEnumerable<BenchmarkLogicalGroupRule> order = null)
             => benchmarksCase;
@@ -338,17 +337,19 @@ class CustomConfig : ManualConfig
     //}
     #endregion
 
+#pragma warning disable S3398 // "private" methods called only by inner classes should be moved to those classes
     private static string GetCompressorName(string compressor)
+#pragma warning restore S3398 // "private" methods called only by inner classes should be moved to those classes
     {
         var index = compressor.IndexOf('-');
-        return index >= 0 ? compressor.Substring(0, index) : compressor;
+        return index >= 0 ? compressor[..index] : compressor;
     }
 }
 
 /*
-TODO:
-fix sorting issue - LZMACompressor - BrotliNETCompressor - LZ4Compressor, ...
-test zstd with 21 and brotli with 0
+2DO:
+fix sorting issue for LZMACompressor, BrotliNETCompressor, LZ4Compressor, and ...
+test compressors with highest and lowest compression level.
 
 NOTE:
 ========================================== BrotliCompressor ==========================================

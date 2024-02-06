@@ -21,7 +21,9 @@ using System.Threading.Tasks;
 //return;
 #endregion
 
+#pragma warning disable S1481 // Unused local variables should be removed
 var benchmarkInfo = BenchmarkAutoRunner.SwitcherRun(typeof(Program).Assembly).GetBenchmarkInfo().ToArray();
+#pragma warning restore S1481 // Unused local variables should be removed
 
 DirectoryHelper.MoveBenchmarkArtifactsToProjectDirectory();
 
@@ -30,6 +32,7 @@ DirectoryHelper.MoveBenchmarkArtifactsToProjectDirectory();
 #endregion
 
 #region Visualizer Customization
+#pragma warning disable CS8321 // Local function is declared but never used
 static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
 {
     if (benchmarkInfo is not { Length: > 0 })
@@ -59,7 +62,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             HtmlWrapMode = HtmlDocumentWrapMode.RichDataTables,
         };
 
-        options.Title = $"Benchmark of different LZ4 Compressors";
+        options.Title = "Benchmark of different LZ4 Compressors";
         options.StatisticColumns = ["Mean", "Allocated"];
         await lz4Benchmark.JoinReportsAndSaveAsHtmlAndImageAsync(
             htmlPath: DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-LZ4.html"),
@@ -117,4 +120,5 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             options: options);
     }
 }
+#pragma warning restore CS8321 // Local function is declared but never used
 #endregion

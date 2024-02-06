@@ -2,6 +2,8 @@
 using System;
 using System.Runtime.Serialization;
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "VSSpell001:Spell Check")]
+
 namespace EasyCompressor.Tests;
 
 [Serializable]

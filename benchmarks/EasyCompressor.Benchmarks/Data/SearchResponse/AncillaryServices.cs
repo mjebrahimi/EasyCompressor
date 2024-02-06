@@ -28,9 +28,7 @@ namespace EasyCompressor.Benchmarks.Models
         {
             get
             {
-                if (FreeTransfer || LowCost || Insurance || Sponsored || FreeCancelation)
-                    return true;
-                return false;
+                return FreeTransfer || LowCost || Insurance || Sponsored || FreeCancelation;
             }
         }
     }

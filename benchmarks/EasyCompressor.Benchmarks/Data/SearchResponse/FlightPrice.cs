@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Ignore Spelling: Commision Pax
+
+using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -15,20 +17,15 @@ namespace EasyCompressor.Benchmarks.Models
         {
             get
             {
-                switch (PaxType)
+                return PaxType switch
                 {
-                    case FlightAgeType.Adult:
-                        return "بزرگسال";
-
-                    case FlightAgeType.Child:
-                        return "کودک";
-
-                    case FlightAgeType.Infant:
-                        return "نوزاد";
-
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
+                    FlightAgeType.Adult => "بزرگسال",
+                    FlightAgeType.Child => "کودک",
+                    FlightAgeType.Infant => "نوزاد",
+#pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one
+                    _ => throw new ArgumentOutOfRangeException(),
+#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one
+                };
             }
         }
 
@@ -65,9 +62,11 @@ namespace EasyCompressor.Benchmarks.Models
             get
             {
                 if (!TaxIsIncluded)
-                    return Convert.ToInt64((CommissionIsPercent ? Commission / 100 * (LeavingPrice + ReturningPrice) : Commission));
+                    return Convert.ToInt64(CommissionIsPercent ? Commission / 100 * (LeavingPrice + ReturningPrice) : Commission);
 
-                return Convert.ToInt64((CommissionIsPercent ? Commission / 100 * (LeavingPrice - Tax + (ReturningPrice == 0 ? ReturningPrice : ReturningPrice - Tax)) : Commission));
+#pragma warning disable S3358 // Ternary operators should not be nested
+                return Convert.ToInt64(CommissionIsPercent ? Commission / 100 * (LeavingPrice - Tax + (ReturningPrice == 0 ? ReturningPrice : ReturningPrice - Tax)) : Commission);
+#pragma warning restore S3358 // Ternary operators should not be nested
             }
         }
 
@@ -215,10 +214,12 @@ namespace EasyCompressor.Benchmarks.Models
             var returnValue = "";
             foreach (FlightPrice item in flightPrices)
             {
+#pragma warning disable S1643 // Strings should not be concatenated using '+' in a loop
                 if (returnValue != "")
                     returnValue += "-";
 
                 returnValue += item.ToString();
+#pragma warning restore S1643 // Strings should not be concatenated using '+' in a loop
             }
 
             return returnValue;

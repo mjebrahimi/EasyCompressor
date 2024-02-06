@@ -87,7 +87,7 @@ namespace EasyCompressor.Benchmarks.Models
         public int StopDurationTotalMin { get; set; }
 
         [DataMember(Order = 27)]
-        public List<BaggageAllowance> Baggage { get; set; } = new List<BaggageAllowance>();
+        public List<BaggageAllowance> Baggage { get; set; } = [];
 
         [DataMember(Order = 28)]
         public bool UnknownBaggage { get; set; }
@@ -99,28 +99,16 @@ namespace EasyCompressor.Benchmarks.Models
         public int FreeSeat { get; set; }
 
         [DataMember(Order = 31)]
-        public List<TechnicalStop> TechnicalStop { get; set; } = new List<TechnicalStop>();
+        public List<TechnicalStop> TechnicalStop { get; set; } = [];
 
         [DataMember(Order = 32)]
         public bool AirportChange { get; set; }
 
         [IgnoreDataMember]
-        public bool IsTrain
-        {
-            get => Aircraft != null && (Aircraft.ToUpper() == "TRS" || Aircraft.ToUpper() == "TRN");
-            set
-            {
-            }
-        }
+        public bool IsTrain => Aircraft != null && (string.Equals(Aircraft, "TRS", StringComparison.OrdinalIgnoreCase) || string.Equals(Aircraft, "TRN", StringComparison.OrdinalIgnoreCase));
 
         [IgnoreDataMember]
-        public bool IsBus
-        {
-            get => Aircraft != null && Aircraft.ToUpper() == "BUS";
-            set
-            {
-            }
-        }
+        public bool IsBus => Aircraft != null && string.Equals(Aircraft, "BUS", StringComparison.OrdinalIgnoreCase);
 
         [DataMember(Order = 33)]
         public string CabinClass { get; set; }
@@ -129,12 +117,13 @@ namespace EasyCompressor.Benchmarks.Models
         {
             var mergedFlightNumber = "";
 
-            flightDetails = (flightDetails).GroupBy(x => new
+            flightDetails = flightDetails.GroupBy(x => new
             {
                 x.AirlineCode,
                 x.FlightNumber
             }).Select(m => m.First()).ToList();
 
+#pragma warning disable S1643 // Strings should not be concatenated using '+' in a loop
             foreach (Flight item in flightDetails)
             {
                 if (!string.IsNullOrEmpty(mergedFlightNumber))
@@ -142,6 +131,7 @@ namespace EasyCompressor.Benchmarks.Models
 
                 mergedFlightNumber += item.FlightNumber;
             }
+#pragma warning restore S1643 // Strings should not be concatenated using '+' in a loop
 
             return mergedFlightNumber;
         }

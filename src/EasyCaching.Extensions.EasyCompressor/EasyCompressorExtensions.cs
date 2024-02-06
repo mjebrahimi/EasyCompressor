@@ -75,23 +75,28 @@ public static class EasyCompressorExtensions
         }
         catch
         {
+#pragma warning disable S1168 // Empty arrays and collections should be returned instead of null
             return null;
+#pragma warning restore S1168 // Empty arrays and collections should be returned instead of null
         }
     }
 
     private static T GetField<T>(this object obj, string name)
     {
         //Set the flags so that private and public fields from instances will be found
+#pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
         const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+#pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
         var field = obj.GetType().GetField(name, bindingFlags);
         return (T)field?.GetValue(obj);
     }
 
-
     private static T GetProperty<T>(this object obj, string name)
     {
         //Set the flags so that private and public fields from instances will be found
+#pragma warning disable S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
         const BindingFlags bindingFlags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+#pragma warning restore S3011 // Reflection should not be used to increase accessibility of classes, methods, or fields
         var field = obj.GetType().GetProperty(name, bindingFlags);
         return (T)field?.GetValue(obj);
     }

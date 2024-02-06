@@ -5,12 +5,14 @@ using System.Threading.Tasks;
 
 namespace EasyCompressor.Benchmarks;
 
-#pragma warning disable RCS1261 // Resource can be disposed asynchronously
 [Display(Name = "Benchmark of StreamAsync Compressors", GroupName = "Benchmark of StreamAsync Compressors")]
 public class StreamAsyncBenchmark : BaseBenchmark
 {
     public override string CompressionType => "StreamAsync";
 
+#pragma warning disable RCS1261 // Resource can be disposed asynchronously
+#pragma warning disable AMNF0001 // Awaitable (Asynchronous) methods should be suffixed with 'Async'
+#pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
     public async Task Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
@@ -46,5 +48,7 @@ public class StreamAsyncBenchmark : BaseBenchmark
 
         await Compressor.DecompressAsync(inputStream2, outputStream2).ConfigureAwait(false);
     }
-}
+#pragma warning restore IDE0060, RCS1163 // Remove unused parameter
+#pragma warning restore AMNF0001 // Awaitable (Asynchronous) methods should be suffixed with 'Async'
 #pragma warning restore RCS1261 // Resource can be disposed asynchronously
+}

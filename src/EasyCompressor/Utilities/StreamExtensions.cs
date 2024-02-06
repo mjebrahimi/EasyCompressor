@@ -115,14 +115,17 @@ public static class StreamExtensions
     /// </summary>
     /// <param name="stream">The stream.</param>
     /// <param name="bytes">The bytes.</param>
+#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
+    public static void WriteAllBytes(this Stream stream, ReadOnlySpan<byte> bytes)
+    {
+        stream.Write(bytes);
+    }
+#else
     public static void WriteAllBytes(this Stream stream, byte[] bytes)
     {
-#if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-        stream.Write((ReadOnlySpan<byte>)bytes);
-#else
         stream.Write(bytes, 0, bytes.Length);
-#endif
     }
+#endif
 
     /// <summary>
     /// Writes all bytes asynchronously.
@@ -130,16 +133,18 @@ public static class StreamExtensions
     /// <param name="stream">The stream.</param>
     /// <param name="bytes">The bytes.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns></returns>
-#pragma warning disable AsyncFixer01 // Unnecessary async/await usage
-    public static async Task WriteAllBytesAsync(this Stream stream, byte[] bytes, CancellationToken cancellationToken = default)
-    {
 #if NETSTANDARD2_1_OR_GREATER || NETCOREAPP2_1_OR_GREATER
-        await stream.WriteAsync((ReadOnlyMemory<byte>)bytes, cancellationToken);
-#else
-        await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
-#endif
+    public static ValueTask WriteAllBytesAsync(this Stream stream, ReadOnlyMemory<byte> bytes, CancellationToken cancellationToken = default)
+    {
+        return stream.WriteAsync(bytes, cancellationToken);
     }
+#else
+    public static Task WriteAllBytesAsync(this Stream stream, byte[] bytes, CancellationToken cancellationToken = default)
+    {
+        return stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
+    }
+#endif
+#pragma warning disable AsyncFixer01 // Unnecessary async/await usage
 #pragma warning restore AsyncFixer01 // Unnecessary async/await usage
     #endregion
 
