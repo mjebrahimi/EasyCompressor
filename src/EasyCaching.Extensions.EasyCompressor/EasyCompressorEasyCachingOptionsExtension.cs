@@ -37,28 +37,28 @@ internal class EasyCompressorEasyCachingOptionsExtension(string serializerName =
             switch (descriptor.Lifetime)
             {
                 case ServiceLifetime.Singleton:
-                    services.AddSingleton(provider => DecoratorFactory(descriptor, provider));
+                    services.AddSingleton(serviceProvider => DecoratorFactory(descriptor, serviceProvider));
                     break;
                 case ServiceLifetime.Scoped:
-                    services.AddScoped(provider => DecoratorFactory(descriptor, provider));
+                    services.AddScoped(serviceProvider => DecoratorFactory(descriptor, serviceProvider));
                     break;
                 case ServiceLifetime.Transient:
-                    services.AddTransient(provider => DecoratorFactory(descriptor, provider));
+                    services.AddTransient(serviceProvider => DecoratorFactory(descriptor, serviceProvider));
                     break;
             }
         }
     }
 
-    private IEasyCachingSerializer DecoratorFactory(ServiceDescriptor descriptor, IServiceProvider provider)
+    private IEasyCachingSerializer DecoratorFactory(ServiceDescriptor descriptor, IServiceProvider serviceProvider)
     {
         IEasyCachingSerializer serializer;
 
         if (descriptor.ImplementationInstance is not null)
             serializer = (IEasyCachingSerializer)descriptor.ImplementationInstance;
         else if (descriptor.ImplementationType is not null)
-            serializer = (IEasyCachingSerializer)ActivatorUtilities.GetServiceOrCreateInstance(provider, descriptor.ImplementationType);
+            serializer = (IEasyCachingSerializer)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, descriptor.ImplementationType);
         else
-            serializer = (IEasyCachingSerializer)descriptor.ImplementationFactory(provider);
+            serializer = (IEasyCachingSerializer)descriptor.ImplementationFactory(serviceProvider);
 
         if (serializerName?.Equals(serializer.Name, StringComparison.OrdinalIgnoreCase) is false)
         {
@@ -68,7 +68,7 @@ internal class EasyCompressorEasyCachingOptionsExtension(string serializerName =
                 return serializer;
         }
 
-        var compressor = provider.GetRequiredService<ICompressorProvider>().GetCompressor(compressorName);
+        var compressor = serviceProvider.GetRequiredService<ICompressorProvider>().GetCompressor(compressorName);
 
         return new EasyCachingSerializerDecorator(compressor, serializer);
     }
