@@ -6,7 +6,9 @@ namespace EasyCompressor;
 /// <summary>
 /// ArgumentOutOfRangeException
 /// </summary>
+#pragma warning disable S2166 // Classes named like "Exception" should extend "Exception" or a subclass
 internal static class ArgumentOutOfRangeException
+#pragma warning restore S2166 // Classes named like "Exception" should extend "Exception" or a subclass
 {
     /// <summary>Throws an <see cref="ArgumentOutOfRangeException"/> if <paramref name="value"/> is less than <paramref name="other"/>.</summary>
     /// <param name="value">The argument to validate as greater than or equal than <paramref name="other"/>.</param>

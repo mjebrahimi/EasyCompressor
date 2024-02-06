@@ -7,14 +7,20 @@ namespace EasyCompressor;
 /// <summary>
 /// Default compressor provider
 /// </summary>
-/// <remarks>
-/// Initializes a new instance of <see cref="DefaultCompressorProvider"/>
-/// </remarks>
-/// <param name="compressors">compressors</param>
 /// <seealso cref="ICompressorProvider" />
-public class DefaultCompressorProvider(IEnumerable<ICompressor> compressors) : ICompressorProvider
+public class DefaultCompressorProvider : ICompressorProvider
 {
-    private readonly List<ICompressor> _compressors = compressors.NotNull(nameof(compressors)).ToList(); //TODO: not null or empty
+    private readonly List<ICompressor> _compressors;
+
+    /// <summary>
+    /// Initializes a new instance of <see cref="DefaultCompressorProvider"/>
+    /// </summary>
+    /// <param name="compressors">compressors</param>
+    public DefaultCompressorProvider(IEnumerable<ICompressor> compressors)
+    {
+        Guard.ThrowIfNullOrEmpty(compressors, nameof(compressors));
+        _compressors = compressors.ToList();
+    }
 
     /// <inheritdoc/>
     public ICompressor GetCompressor(string name)

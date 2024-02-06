@@ -1,20 +1,31 @@
 ﻿using EasyCaching.Core.Serialization;
 using System;
 
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Minor Code Smell", "S3236")]
+
 namespace EasyCompressor;
 
 /// <summary>
 /// EasyCaching serializer decorator
 /// </summary>
-/// <remarks>
-/// Initializes a new instance
-/// </remarks>
-/// <param name="compressor">Compressor</param>
-/// <param name="easyCachingSerializer">EasyCaching serializer</param>
-public class EasyCachingSerializerDecorator(ICompressor compressor, IEasyCachingSerializer easyCachingSerializer) : IEasyCachingSerializer
+public class EasyCachingSerializerDecorator : IEasyCachingSerializer
 {
-    private readonly ICompressor _compressor = compressor.NotNull(nameof(compressor));
-    private readonly IEasyCachingSerializer _easyCachingSerializer = easyCachingSerializer.NotNull(nameof(easyCachingSerializer));
+    private readonly ICompressor _compressor;
+    private readonly IEasyCachingSerializer _easyCachingSerializer;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EasyCachingSerializerDecorator"/> class.
+    /// </summary>
+    /// <param name="compressor">The compressor.</param>
+    /// <param name="easyCachingSerializer">The easy caching serializer.</param>
+    public EasyCachingSerializerDecorator(ICompressor compressor, IEasyCachingSerializer easyCachingSerializer)
+    {
+        Guard.ThrowIfNull(compressor, nameof(compressor));
+        Guard.ThrowIfNull(easyCachingSerializer, nameof(easyCachingSerializer));
+
+        _compressor = compressor;
+        _easyCachingSerializer = easyCachingSerializer;
+    }
 
     /// <inheritdoc/>
     public string Name => _easyCachingSerializer.Name;

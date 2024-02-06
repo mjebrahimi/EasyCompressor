@@ -23,46 +23,44 @@ public interface ICompressor
     /// Compress bytes
     /// </summary>
     /// <param name="bytes">Bytes</param>
-    /// <returns>Return compressed bytes</returns>
+    /// <returns>Returns compressed bytes</returns>
     byte[] Compress(byte[] bytes);
 
     /// <summary>
     /// Decompress bytes
     /// </summary>
     /// <param name="compressedBytes">Compressed bytes</param>
-    /// <returns>Return uncompressed bytes</returns>
+    /// <returns>Returns uncompressed bytes</returns>
     byte[] Decompress(byte[] compressedBytes);
 
     /// <summary>
-    /// Compress input stream to output stream
+    /// Compress input stream into output stream
     /// </summary>
     /// <param name="inputStream">Input stream</param>
     /// <param name="outputStream">Output stream</param>
     void Compress(Stream inputStream, Stream outputStream);
 
     /// <summary>
-    /// Decompress input stream to output stream
+    /// Decompress input stream into output stream
     /// </summary>
     /// <param name="inputStream">Input stream</param>
     /// <param name="outputStream">Output stream</param>
     void Decompress(Stream inputStream, Stream outputStream);
 
     /// <summary>
-    /// Compress input stream to output stream
+    /// Compress input stream into output stream
     /// </summary>
     /// <param name="inputStream">Input stream</param>
     /// <param name="outputStream">Output stream</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Task</returns>
     Task CompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Decompress input stream to output stream
+    /// Decompress input stream into output stream
     /// </summary>
     /// <param name="inputStream">Input stream</param>
     /// <param name="outputStream">Output stream</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    /// <returns>Task</returns>
     Task DecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
 }
 
@@ -85,14 +83,14 @@ public interface ICompressor
 //    /// Compress bytes
 //    /// </summary>
 //    /// <param name="bytes">Bytes</param>
-//    /// <returns>Return compressed bytes</returns>
+//    /// <returns>Returns compressed bytes</returns>
 //    byte[] Compress(byte[] bytes);
 
 //    /// <summary>
 //    /// Decompress bytes
 //    /// </summary>
 //    /// <param name="compressedBytes">Compressed bytes</param>
-//    /// <returns>Return uncompressed bytes</returns>
+//    /// <returns>Returns uncompressed bytes</returns>
 //    byte[] Decompress(byte[] compressedBytes);
 //}
 
@@ -131,7 +129,6 @@ public interface ICompressor
 //    /// <param name="inputStream">Input stream</param>
 //    /// <param name="outputStream">Output stream</param>
 //    /// <param name="cancellationToken">Cancellation token</param>
-//    /// <returns>Task</returns>
 //    Task CompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
 
 //    /// <summary>
@@ -140,6 +137,5 @@ public interface ICompressor
 //    /// <param name="inputStream">Input stream</param>
 //    /// <param name="outputStream">Output stream</param>
 //    /// <param name="cancellationToken">Cancellation token</param>
-//    /// <returns>Task</returns>
 //    Task DecompressAsync(Stream inputStream, Stream outputStream, CancellationToken cancellationToken = default);
 //}
