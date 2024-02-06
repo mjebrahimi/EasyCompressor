@@ -86,7 +86,7 @@ public static class LZMAProperties
     /// <returns></returns>
     public static DictionarySize GetDictionarySize(this LZMACompressionLevel compressionLevel)
     {
-        return (compressionLevel) switch
+        return compressionLevel switch
         {
             LZMACompressionLevel.UltraFast => DictionarySize.Smallest_64KB,
             LZMACompressionLevel.Fastest => DictionarySize.VerySmall_256KB,
