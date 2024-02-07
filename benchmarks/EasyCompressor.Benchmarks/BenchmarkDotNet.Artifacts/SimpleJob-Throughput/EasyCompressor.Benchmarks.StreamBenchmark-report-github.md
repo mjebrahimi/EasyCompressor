@@ -9,7 +9,7 @@ AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
 RunStrategy=Throughput  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+CompressedArg  
 
 ```
-| Method                | Type   | Compressor                       | Data           | CompressionRatio      | Mean           | Error        | StdDev       | Allocated |
+| Method                | Type   | Compressor                       | Data           | CompressedSize        | Mean           | Error        | StdDev       | Allocated |
 |---------------------- |------- |--------------------------------- |--------------- |---------------------- |---------------:|-------------:|-------------:|----------:|
 | **Compress**              | **Stream** | **BrotliCompressor**                 | **Large (20 KB)**  | **3,650 bytes (17.66 %)** |    **37,288.3 ns** |    **469.28 ns** |    **438.96 ns** |   **11264 B** |
 | CompressAndDecompress | Stream | BrotliCompressor                 | Large (20 KB)  | 3,650 bytes (17.66 %) |    69,576.9 ns |    687.24 ns |    642.84 ns |   35907 B |

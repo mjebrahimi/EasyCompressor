@@ -1,14 +1,20 @@
 ﻿using BenchmarkDotNetVisualizer;
 using BenchmarkDotNetVisualizer.Utilities;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 #region Create images from html files
-//var reportsDir = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\SimpleJob-Throughput");
-//foreach (var fileName in Directory.GetFiles(reportsDir, searchPattern: "*.html"))
+//var path = @"C:\Users\mjebrahimi\Desktop\Projects\EasyCompressor\benchmarks\EasyCompressor.Benchmarks\BenchmarkDotNet.Artifacts\ShortRunJob\EasyCompressor.Benchmarks.HighestCompressionBenchmark-report-github.md";
+//var benchmarkInfoX = BenchmarkInfo.CreateFromFile(path);
+//await VisualizeBenchmarks([benchmarkInfoX]);
+//return;
+
+//var reportsDir = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\ShortRunJob");
+//foreach (var fileName in System.IO.Directory.GetFiles(reportsDir, searchPattern: "*.html"))
 //{
 //    var imgPath = fileName.Replace(".html", ".png");
-//    var html = File.ReadAllText(fileName);
+//    var html = System.IO.File.ReadAllText(fileName);
 //    await HtmlHelper.RenderHtmlToImageAsync(html, imgPath);
 //}
 //return;
@@ -37,6 +43,23 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
 {
     if (benchmarkInfo is not { Length: > 0 })
         return;
+
+    var highestCompressionBenchmark = benchmarkInfo.SingleOrDefault(p => p.DisplayName == "EasyCompressor.Benchmarks.HighestCompressionBenchmark");
+    if (highestCompressionBenchmark is not null)
+    {
+        var htmlPath = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-HighestCompression.html");
+        var imagePath = DirectoryHelper.GetPathRelativeToProjectDirectory("Reports\\Benchmark-HighestCompression.png");
+        await highestCompressionBenchmark.SaveAsHtmlAndImageAsync(htmlPath, imagePath, new ReportHtmlOptions
+        {
+            Title = "Benchmark of Compressors for Highest Compression (Smallest Size)",
+            GroupByColumns = ["Data"],
+            HighlightGroups = true,
+            SortByColumns = ["CompressedSize"],
+            SpectrumColumns = ["CompressedSize", "Mean", "Allocated"],
+            DividerMode = RenderTableDividerMode.EmptyDividerRow,
+            HtmlWrapMode = HtmlDocumentWrapMode.Simple
+        });
+    }
 
     var lz4Benchmark = benchmarkInfo.SingleOrDefault(p => p.DisplayName == "EasyCompressor.Benchmarks.xLZ4CompressionModesBenchmark");
     if (lz4Benchmark is not null)
@@ -70,7 +93,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             options: options);
     }
 
-    foreach (var benchmark in benchmarkInfo.Where(p => p.DisplayName != "EasyCompressor.Benchmarks.xLZ4CompressionModesBenchmark"))
+    foreach (var benchmark in benchmarkInfo.Where(p => Regex.Match(p.DisplayName, @"EasyCompressor.Benchmarks\.(Binary|Stream|StreamAsync)Benchmark").Success))
     {
         var title = benchmark.Table.First().GetProperty("Type").ToString().RemoveMarkdownBold();
 
@@ -80,7 +103,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             return max * 2;
         };
 
-        benchmark.Table = benchmark.Table.SplitByGroupAndSpectrumColumns(["Data"], ["CompressionRatio"], boldEntireRowOfLowestValue: true);
+        benchmark.Table = benchmark.Table.SplitByGroupAndSpectrumColumns(["Data"], ["CompressedSize"], boldEntireRowOfLowestValue: true);
 
         var options = new JoinReportHtmlOptions()
         {
@@ -91,7 +114,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             StatisticColumns = null!, //Set per case
             ColumnsOrder = ["Compress", "Decompress", "CompressAndDecompress"],
             SpectrumStatisticColumn = true,
-            OtherColumnsToSelect = ["CompressionRatio"],
+            OtherColumnsToSelect = ["CompressedSize"],
             HighlightGroups = true,
             DividerMode = RenderTableDividerMode.SeparateTables,
             HtmlWrapMode = HtmlDocumentWrapMode.RichDataTables,

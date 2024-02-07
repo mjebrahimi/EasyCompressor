@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Benchmark of Compressors for Highest Compression (Smallest Size)</title>
+<style type="text/css">
+    body { font-family: system-ui; padding: 0 30px 30px 30px; width: min-content; display: inline-block; }
+    h1, h2 { border-bottom: solid 1px #D8DEE4;}
+    h1, h2, h3 { padding-bottom: 0.3em; }
+    table { border-collapse: collapse !important; margin-top: 3px !important; width: 100%; display: inline-table; margin-bottom: 20px !important; }
+    td, th { padding: 6px 13px; border: 1px solid #CCC; text-align: right; white-space: nowrap; }
+    tr { background-color: #FFF !important; border-top: 1px solid #CCC; }
+    tr:nth-child(even):not(.divider) { background: #F8F8F8 !important; }
+    tr.divider { border: 0; font-size: 10px; }
+    tr.divider td { padding: 0; border: 0; }
+    pre { background: #EFEFEF; padding: 0 1em; }
+    thead th { background-color: #EFEFEF; }
+    tbody tr:not(.divider):hover { background-color: #EFEFEF !important; border: 2px solid #ADADAD; }
+    .powered-by { text-align: center; margin-bottom: -20px !important; font-weight: bold; }
+</style>
+</head>
+<body>
+<h1>Benchmark of Compressors for Highest Compression (Smallest Size)</h1>
+<pre>
+<code>
+BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3085/23H2/2023Update/SunValley3)
+AMD Ryzen 7 5800H with Radeon Graphics, 1 CPU, 16 logical and 8 physical cores
+.NET SDK 8.0.101
+  [Host]   : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+  ShortRun : .NET 8.0.1 (8.0.123.58001), X64 RyuJIT AVX2
+
+Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+CompressedArg
+</code>
+</pre>
+<h2>EasyCompressor.Benchmarks.HighestCompressionBenchmark</h2>
+<table>
+<thead>
+<tr>
+<th>Compressor</th><th>Data</th><th>CompressedSize</th><th>Mean</th><th>Allocated</th></tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><strong>LZMACompressor(Level:Ultra, DictionarySize:VeryLarge_64MB)</strong></td>
+<td style="text-align: left; background-color: #FFCCFF"><strong>Large (20 KB)</strong></td>
+<td style="background-color: #99FF99"><strong>2,606 bytes (12.61 %)</strong></td>
+<td style="background-color: #FF9999"><strong>84,938.393 us</strong></td>
+<td style="background-color: #FF9999"><strong>705300365 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliCompressor(Level:SmallestSize)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #A4FF99">2,679 bytes (12.96 %)</td>
+<td style="background-color: #EFFF99">36,070.549 us</td>
+<td style="background-color: #99FF99"><strong>2981 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdSharpCompressor(Level:22)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #C0FF99">2,886 bytes (13.96 %)</td>
+<td style="background-color: #99FF99"><strong>14,575.178 us</strong></td>
+<td style="background-color: #99FF99">23793 B</td>
+</tr>
+<tr class="divider">
+<td colspan="5">&nbsp;</td>
+</tr>
+<tr class="divider">
+<td colspan="5"></td>
+</tr>
+<tr>
+<td style="text-align: left"><strong>BrotliCompressor(Level:SmallestSize)</strong></td>
+<td style="text-align: left; background-color: #CCFFFF"><strong>Medium (10 KB)</strong></td>
+<td style="background-color: #99FF99"><strong>652 bytes (6.55 %)</strong></td>
+<td style="background-color: #A0FF99"><strong>2,240.902 us</strong></td>
+<td style="background-color: #99FF99"><strong>877 B</strong></td>
+</tr>
+<tr>
+<td style="text-align: left">LZMACompressor(Level:Ultra, DictionarySize:VeryLarge_64MB)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #C7FF99">738 bytes (7.42 %)</td>
+<td style="background-color: #FF9999">62,333.740 us</td>
+<td style="background-color: #FF9999">705292309 B</td>
+</tr>
+<tr>
+<td style="text-align: left">ZstdSharpCompressor(Level:22)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #CDFF99">749 bytes (7.53 %)</td>
+<td style="background-color: #99FF99"><strong>1,147.036 us</strong></td>
+<td style="background-color: #99FF99">10882 B</td>
+</tr>
+</tbody>
+</table>
+
+<div class="powered-by">Powered by <a href="https://github.com/mjebrahimi/BenchmarkDotNetVisualizer">https://github.com/mjebrahimi/BenchmarkDotNetVisualizer</a></div>
+</body>
+</html>

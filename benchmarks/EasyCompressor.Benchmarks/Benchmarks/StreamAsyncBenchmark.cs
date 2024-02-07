@@ -15,7 +15,7 @@ public class StreamAsyncBenchmark : BaseBenchmark
 #pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public async Task Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public async Task Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressedSize)
     {
         using var inputStream = new MemoryStream(Compressed.OriginalBytes);
         using var outputStream = new MemoryStream();
@@ -25,7 +25,7 @@ public class StreamAsyncBenchmark : BaseBenchmark
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public async Task Decompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public async Task Decompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressedSize)
     {
         using var inputStream = new MemoryStream(Compressed.CompressedBytes);
         using var outputStream = new MemoryStream();
@@ -35,7 +35,7 @@ public class StreamAsyncBenchmark : BaseBenchmark
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public async Task CompressAndDecompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public async Task CompressAndDecompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressedSize)
     {
         using var inputStream = new MemoryStream(Compressed.OriginalBytes);
         using var outputStream = new MemoryStream();

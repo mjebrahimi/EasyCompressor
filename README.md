@@ -8,6 +8,19 @@ An **Easy-to-Use** and **Optimized** compression library for .NET that unified m
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
+## Usage
+
+- Compress your BLOB data for archiving or saving storage
+- Compress your cache objects for saving memory
+
+## Features
+
+- Supports and implements **many compression algorithms**.
+- Supports **async/await and CancellationToken**.
+- Supports working with **multiple compressors with specified names**
+- Supports **Stream** as most as possible (*depending on the underlying* library)
+- Compress/Decompress between **byte[], Stream, StreamReader and StreamWriter**.
+
 ## Nuget Packages
 
 
@@ -25,61 +38,187 @@ Along with a great [**Performance Benchmark**](#benchmarks) between different co
 
 **Note :**
 
-`LZ4`, `GZip`, `Deflate`, `Brotli`, and `LZMA` are **cross-platform** because these are complete implementations with C#.  (also `BrotliNet` too because this is a wrapper of *brotli* native library for win/linux/osx)
+All of these packages are **cross-platform** except `EasyCompressor.Zstd` and `EasyCompressor.Snappy` which are **not cross-platform** because their underlying library are just a wrapper around the native dlls only for windows.
 
-`Zstd` and `Snappy` are **not cross-platform**, because they are just a wrapper of the native library for windows.
-
-## Features
-
-- Supports and implements **many compression algorithms**.
-- Supports **async/await and CancellationToken**.
-- Supports woking with **multiple compressors with specified names**
-- Supports **Stream** as most as possible (*depending on the underlying* library)
-- Compress/Decompress between **byte[], Stream, StreamReader and StreamWriter**.
 
 ## Get Started
 
 ### 1. Install Package
 
-```ini
+```bash
 PM> Install-Package EasyCompressor.LZ4
+
+PM> # Install-Package EasyCompressor (for Brotli, GZip, Deflate, ZLib)
+PM> # Install-Package EasyCompressor.Snappier
+PM> # Install-Package EasyCompressor.ZstdSharp
+PM> # Install-Package EasyCompressor.LZMA
+PM> # Install-Package EasyCompressor.Zstd (deprecated)
+PM> # Install-Package EasyCompressor.Snappy (deprecated)
+PM> # Install-Package EasyCompressor.BrotliNET (deprecated)
 ```
 
-### 2. Add Services
+### 2. Using New Instance or the Shared Instance
+
+```csharp
+public class YourClass
+{
+    private readonly ICompressor _compressor;
+
+    public YourClass()
+    {
+        //--------------------------------------- New Instance ---------------------------------------
+        _compressor = new LZ4Compressor();            //package : EasyCompressor.LZ4
+
+        //_compressor = new ZstdSharpCompressor();    //package : EasyCompressor.Snappier
+        //_compressor = new BrotliCompressor();       //package : EasyCompressor
+        //_compressor = new GZipCompressor();         //package : EasyCompressor
+        //_compressor = new DeflateCompressor();      //package : EasyCompressor
+        //_compressor = new ZLibCompressor();         //package : EasyCompressor
+        //_compressor = new LZMACompressor();         //package : EasyCompressor.LZMA
+        //_compressor = new ZstdCompressor();         //package : EasyCompressor.Zstd (deprecated)
+        //_compressor = new SnappyCompressor();       //package : EasyCompressor.Snappy (deprecated)
+        //_compressor = new BrotliNETCompressor();    //package : EasyCompressor.BrotliNET (deprecated)
+
+
+        //--------------------------------------- Shared Instance ---------------------------------------
+        _compressor = LZ4Compressor.Shared;            //package : EasyCompressor.LZ4
+
+        //_compressor = ZstdSharpCompressor.Shared;    //package : EasyCompressor.Snappier
+        //_compressor = BrotliCompressor.Shared;       //package : EasyCompressor
+        //_compressor = GZipCompressor.Shared;         //package : EasyCompressor
+        //_compressor = DeflateCompressor.Shared;      //package : EasyCompressor
+        //_compressor = ZLibCompressor.Shared;         //package : EasyCompressor
+        //_compressor = LZMACompressor.Shared;         //package : EasyCompressor.LZMA
+        //_compressor = ZstdCompressor.Shared;         //package : EasyCompressor.Zstd (deprecated)
+        //_compressor = SnappyCompressor.Shared;       //package : EasyCompressor.Snappy (deprecated)
+        //_compressor = BrotliNETCompressor.Shared;    //package : EasyCompressor.BrotliNET (deprecated)
+    }
+
+    static static void ProcessData(byte[] bytes)
+    {
+        // Compress your original byte[] and return compressed byte[]
+        var compressedBytes = _compressor.Compress(bytes);
+
+        // Decompress compressed byte[] and return uncompressed byte[]
+        var uncompressedBytes = _compressor.Decompress(compressedBytes);
+    }
+
+    public static void ProcessStream(Stream input, stream output)
+    {
+        // Read input stream and Compress into output stream
+        _compressor.Compress(input, output);
+
+        // Read input stream and Decompress into output stream
+        _compressor.Decompress(input, output);
+    }
+}
+```
+
+### 3. Using Dependency Injection
+
+#### Add Services
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
 {
     //...
-    services.AddLZ4Compressor();
+    services.AddLZ4Compressor();            //package : EasyCompressor.LZ4
 
-    //or services.AddGZipCompressor();      package : EasyCompressor
-    //or services.AddDeflateCompressor();   package : EasyCompressor
-    //or services.AddBrotliCompressor();    package : EasyCompressor
-    //or services.AddBrotliNetCompressor(); package : EasyCompressor.BrotliNET
-    //or services.AddZstdCompressor();      package : EasyCompressor.Zstd
-    //or services.AddLZMACompressor();      package : EasyCompressor.LZMA
-    //or services.AddSnappyCompressor();    package : EasyCompressor.Snappy
+    //services.AddSnappierCompressor();     //package : EasyCompressor.Snappier
+    //services.AddZstdSharpCompressor();    //package : EasyCompressor.ZstdSharp
+    //services.AddBrotliCompressor();       //package : EasyCompressor
+    //services.AddGZipCompressor();         //package : EasyCompressor
+    //services.AddDeflateCompressor();      //package : EasyCompressor
+    //services.AddZLibCompressor();         //package : EasyCompressor
+    //services.AddLZMACompressor();         //package : EasyCompressor.LZMA
+    //services.AddZstdCompressor();         //package : EasyCompressor.Zstd (deprecated)
+    //services.AddSnappyCompressor();       //package : EasyCompressor.Snappy (deprecated)
+    //services.AddBrotliNETCompressor();    //package : EasyCompressor.BrotliNET (deprecated)
 }
 ```
 
-### 3. Use it
+#### Inject/Resolve it and use it
 
 ```csharp
 using EasyCompressor;
 
-// Inject (ICompressor compressor)
+public class YourClass
+{
+    private readonly ICompressor _compressor;
 
-// Compress
-var compressedBytes = compressor.Compress(inputBytes);
+    public YourClass(ICompressor compressor) //Inject using dependency injection
+    {
+        _compressor = compressor;
+        //Or resolve it using IServiceProvider
+        //_compressor = serviceProvider.GetService<ICompressor>()
+    }
 
-// Decompress
-var uncompressedBytes = compressor.Decompress(compressedBytes);
+    public void ProcessData(byte[] bytes)
+    {
+        // Compress your original byte[] and return compressed byte[]
+        var compressedBytes = _compressor.Compress(bytes);
+
+        // Decompress compressed byte[] and return uncompressed byte[]
+        var uncompressedBytes = _compressor.Decompress(compressedBytes);
+    }
+
+    public void ProcessStream(Stream input, stream output)
+    {
+        // Read input stream and Compress into output stream
+        _compressor.Compress(input, output);
+
+        // Read input stream and Decompress into output stream
+        _compressor.Decompress(input, output);
+    }
+}
+```
+
+### 4. Using Named Instances
+
+#### Register Named compressors
+
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    //...
+    services.AddLZ4Compressor("lz4");                 //package : EasyCompressor.LZ4
+    services.AddSnappierCompressor("snappier");       //package : EasyCompressor.Snappier
+    services.AddZstdSharpCompressor("zstdsharp");     //package : EasyCompressor.ZstdSharp
+
+    //services.AddBrotliCompressor("brotli");         //package : EasyCompressor
+    //services.AddGZipCompressor("gzip");             //package : EasyCompressor
+    //services.AddDeflateCompressor("deflate");       //package : EasyCompressor
+    //services.AddZLibCompressor("zlib");             //package : EasyCompressor
+    //services.AddLZMACompressor("lzma");             //package : EasyCompressor.LZMA
+    //services.AddZstdCompressor("zstd");             //package : EasyCompressor.Zstd (deprecated)
+    //services.AddSnappyCompressor("snappy");         //package : EasyCompressor.Snappy (deprecated)
+    //services.AddBrotliNETCompressor("brotlinet");   //package : EasyCompressor.BrotliNET (deprecated)
+}
+```
+
+#### Resolve it using ICompressorProvider
+
+```csharp
+using EasyCompressor;
+
+public class YourClass
+{
+    private readonly ICompressor _lz4Compressor;
+    private readonly ICompressor _snappierCompressor;
+    private readonly ICompressor _zstdsharpCompressor;
+
+    public YourClass(ICompressorProvider compressorProvider)
+    {
+        _lz4Compressor = compressorProvider.GetCompressor("lz4");
+        _snappierCompressor = compressorProvider.GetCompressor("snappier");
+        _zstdsharpCompressor = compressor.GetCompressor("zstdsharp");
+    }
+}
 ```
 
 ## Benchmarks
 
-### Tips and Results
+<!-- ### Tips and Results
 
 **Original data size is:**
 - **89,535 bytes (about ≈ 90 KB)** (binary serialized output of a json file by messagepack).
@@ -105,16 +244,51 @@ var uncompressedBytes = compressor.Decompress(compressedBytes);
 
 **Moderated:**
 - GZip
-- Deflate
+- Deflate -->
 
-Compression Ratio : higher is better
 ![Benchmark](Benchmark.png)
+
+### Other Benchmarks
+
+#### Using Binary Data (byte[])
+
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.png))
+
+#### Using Stream Data
+
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.png))
+
+#### Using Stream Data (Async)
+
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.png))
+
+### Key Results and Conclusion
+
+#### Best Compressors based on Overall Performance (Speed and Memory Usage) in each case
+
+| Operation    | Binary    | Stream     | StreamAsync
+| ------------ | --------- | ---------- | -----------
+| **Compress**     | SnappierCompressor<br/>LZ4Compressor<br/>ZstdSharpCompressor | SnappierCompressor<br/>LZ4Compressor<br/>BrotliCompressor | LZ4Compressor<br/>BrotliCompressor<br/>---
+| **Decompress**   | LZ4Compressor<br/>SnappierCompressor<br/>ZstdSharpCompressor | SnappierCompressor<br/>LZ4Compressor<br/>ZstdSharpCompressor | ZstdSharpCompressor<br/>LZ4Compressor<br/>---
+
+#### Best Compressors based on Highest compression (Smallest size)
+
+1. BrotliCompressor (smaller in medium/small data with **moderate** speed and memory usage)
+2. LZMACompressor (smaller in large data but **very slow** and memory inefficient)
+3. ZstdSharpCompressor (**fastest** meanwhile with acceptable/good enough level of compression)
+
+![Benchmark](docs/Benchmark-HighestCompression.png)
 
 ## Contributing
 
-Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you find a BUG or have a Suggestion or Question. If you want to develop this project :
+Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
 
-1. Fork it!
+**Or if you want to develop this project :**
+
+1. Fork it
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
@@ -122,8 +296,8 @@ Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if yo
 
 ## Give a Star! ⭐️
 
-If you find this repository useful, please give it a star. Thanks!
+If you find this repository useful and like it, why not give it a star? if not, never mind! :)
 
 ## License
 
-EasyCompressor is Copyright © 2020 [Mohammd Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).
+Copyright © 2020 [Mohammd Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).

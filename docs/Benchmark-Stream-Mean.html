@@ -2,7 +2,7 @@
 <html lang='en'>
 <head>
 <meta charset='utf-8' />
-<title>Benchmark of StreamAsync Compressors in terms of Execution Time</title>
+<title>Benchmark of Stream Compressors in terms of Execution Time</title>
 <style type="text/css">
     body { font-family: system-ui; padding: 0 30px 30px 30px; width: min-content; display: inline-block; }
     h1, h2 { border-bottom: solid 1px #D8DEE4;}
@@ -27,7 +27,7 @@
 </style>
 </head>
 <body>
-<h1>Benchmark of StreamAsync Compressors in terms of Execution Time</h1>
+<h1>Benchmark of Stream Compressors in terms of Execution Time</h1>
 <pre>
 <code>
 BenchmarkDotNet v0.13.12, Windows 11 (10.0.22631.3085/23H2/2023Update/SunValley3)
@@ -43,96 +43,96 @@ RunStrategy=Throughput  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+Compr
 <table>
 <thead>
 <tr>
-<th>Compressor</th><th>CompressionRatio</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+<th>Compressor</th><th>CompressedSize</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align: left">SnappierCompressor</td>
+<td style="background-color: #ECFF99">4,751 bytes (22.98 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
+<td style="background-color: #99FF99"><strong>11,229.2 ns</strong></td>
+<td style="background-color: #99FF99"><s>179.9 ns</s> <em>(doubtful)</em></td>
+<td style="background-color: #99FF99"><strong>21,340.3 ns</strong></td>
+</tr>
 <tr>
 <td style="text-align: left">SnappyCompressor <em>(deprecated)</em></td>
 <td style="background-color: #ECFF99">4,755 bytes (23.00 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #99FF99"><strong>14,644.8 ns</strong></td>
-<td style="background-color: #C0FF99"><strong>8,574.4 ns</strong></td>
-<td style="background-color: #99FF99"><strong>23,656.0 ns</strong></td>
+<td style="background-color: #A2FF99">14,232.6 ns</td>
+<td style="background-color: #B5FF99"><strong>8,482.6 ns</strong></td>
+<td style="background-color: #9DFF99">23,820.1 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">LZ4Compressor</td>
 <td style="background-color: #E1FF99">4,386 bytes (21.22 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #9AFF99">16,010.6 ns</td>
-<td style="background-color: #CAFF99">11,154.2 ns</td>
-<td style="background-color: #9CFF99">27,745.1 ns</td>
+<td style="background-color: #A6FF99">15,462.2 ns</td>
+<td style="background-color: #B9FF99">9,990.1 ns</td>
+<td style="background-color: #A1FF99">26,186.9 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZstdCompressor <em>(deprecated)</em></td>
 <td style="background-color: #C2FF99">3,622 bytes (17.52 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #A1FF99">24,120.7 ns</td>
-<td style="background-color: #CBFF99">11,361.8 ns</td>
-<td style="background-color: #A4FF99">36,962.8 ns</td>
+<td style="background-color: #BDFF99">23,591.6 ns</td>
+<td style="background-color: #C0FF99">12,366.1 ns</td>
+<td style="background-color: #B2FF99">36,313.6 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">BrotliCompressor</td>
 <td style="background-color: #C3FF99">3,650 bytes (17.66 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #ADFF99">37,848.9 ns</td>
-<td style="background-color: #F9FF99">30,131.8 ns</td>
-<td style="background-color: #BDFF99">70,597.4 ns</td>
+<td style="background-color: #DBFF99">37,288.3 ns</td>
+<td style="background-color: #F1FF99">35,637.1 ns</td>
+<td style="background-color: #DDFF99">69,576.9 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">BrotliNETCompressor <em>(deprecated)</em></td>
 <td style="background-color: #C3FF99">3,650 bytes (17.66 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #BFFF99">60,426.2 ns</td>
-<td style="background-color: #FFFF99">38,928.8 ns</td>
-<td style="background-color: #DBFF99">122,280.9 ns</td>
+<td style="background-color: #FBFF99">62,551.4 ns</td>
+<td style="background-color: #FFFF99">56,781.3 ns</td>
+<td style="background-color: #FEFF99">124,482.6 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">DeflateCompressor</td>
 <td style="background-color: #BFFF99">3,573 bytes (17.28 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #C1FF99">63,622.2 ns</td>
-<td style="background-color: #E5FF99">19,362.8 ns</td>
-<td style="background-color: #C8FF99">87,821.8 ns</td>
+<td style="background-color: #FBFF99">63,045.6 ns</td>
+<td style="background-color: #D2FF99">19,309.3 ns</td>
+<td style="background-color: #EDFF99">86,950.5 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">GZipCompressor</td>
 <td style="background-color: #C1FF99">3,591 bytes (17.37 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #C2FF99">64,580.8 ns</td>
-<td style="background-color: #E8FF99">20,610.5 ns</td>
-<td style="background-color: #C9FF99">90,733.8 ns</td>
+<td style="background-color: #FBFF99">63,096.4 ns</td>
+<td style="background-color: #D4FF99">20,294.2 ns</td>
+<td style="background-color: #EEFF99">89,466.2 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZstdSharpCompressor</td>
 <td style="background-color: #C2FF99">3,622 bytes (17.52 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #C2FF99">65,526.4 ns</td>
-<td style="background-color: #CBFF99">11,459.7 ns</td>
-<td style="background-color: #C8FF99">88,174.1 ns</td>
+<td style="background-color: #FDFF99">66,929.0 ns</td>
+<td style="background-color: #BDFF99">11,373.7 ns</td>
+<td style="background-color: #ECFF99">86,125.6 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZLibCompressor</td>
 <td style="background-color: #C0FF99">3,579 bytes (17.31 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #C5FF99">69,111.9 ns</td>
-<td style="background-color: #F3FF99">25,603.6 ns</td>
-<td style="background-color: #CFFF99">99,154.5 ns</td>
-</tr>
-<tr>
-<td style="text-align: left">SnappierCompressor</td>
-<td style="background-color: #ECFF99">4,751 bytes (22.98 %)</td>
-<td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #FFFF99">228,411.8 ns</td>
-<td style="background-color: #99FF99"><s>282.1 ns</s> <em>(doubtful)</em></td>
-<td style="background-color: #FFFF99">253,606.3 ns</td>
+<td style="background-color: #FEFF99">69,395.4 ns</td>
+<td style="background-color: #DFFF99">25,182.5 ns</td>
+<td style="background-color: #F4FF99">98,318.9 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">LZMACompressor</td>
 <td style="background-color: #99FF99">2,866 bytes (13.86 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Large (20 KB)</td>
-<td style="background-color: #FF9999">3,971,263.3 ns</td>
-<td style="background-color: #FF9999">579,658.3 ns</td>
-<td style="background-color: #FF9999">4,643,702.3 ns</td>
+<td style="background-color: #FF9999">3,944,462.3 ns</td>
+<td style="background-color: #FF9999">577,074.0 ns</td>
+<td style="background-color: #FF9999">4,629,848.5 ns</td>
 </tr>
 </tbody>
 </table>
@@ -140,96 +140,96 @@ RunStrategy=Throughput  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+Compr
 <table>
 <thead>
 <tr>
-<th>Compressor</th><th>CompressionRatio</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+<th>Compressor</th><th>CompressedSize</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align: left">SnappierCompressor</td>
+<td style="background-color: #EEFF99">1,289 bytes (12.95 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #99FF99"><strong>3,374.3 ns</strong></td>
+<td style="background-color: #99FF99"><s>144.3 ns</s> <em>(doubtful)</em></td>
+<td style="background-color: #99FF99"><strong>6,977.1 ns</strong></td>
+</tr>
 <tr>
 <td style="text-align: left">LZ4Compressor</td>
 <td style="background-color: #BEFF99">928 bytes (9.33 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #99FF99"><strong>4,228.8 ns</strong></td>
-<td style="background-color: #BCFF99">4,579.8 ns</td>
-<td style="background-color: #9BFF99">9,767.7 ns</td>
+<td style="background-color: #9BFF99">3,797.7 ns</td>
+<td style="background-color: #A9FF99"><strong>3,650.1 ns</strong></td>
+<td style="background-color: #9AFF99">7,462.2 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">SnappyCompressor <em>(deprecated)</em></td>
 <td style="background-color: #EDFF99">1,270 bytes (12.76 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #99FF99">4,463.6 ns</td>
-<td style="background-color: #ABFF99"><strong>2,409.3 ns</strong></td>
-<td style="background-color: #99FF99"><strong>7,299.5 ns</strong></td>
+<td style="background-color: #9BFF99">3,920.1 ns</td>
+<td style="background-color: #A3FF99">2,292.9 ns</td>
+<td style="background-color: #99FF99">7,132.6 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZstdCompressor <em>(deprecated)</em></td>
 <td style="background-color: #B1FF99">860 bytes (8.64 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #9CFF99">8,001.1 ns</td>
-<td style="background-color: #B9FF99">4,100.2 ns</td>
-<td style="background-color: #9DFF99">12,634.0 ns</td>
+<td style="background-color: #ADFF99">7,834.4 ns</td>
+<td style="background-color: #ABFF99">3,996.9 ns</td>
+<td style="background-color: #A9FF99">12,956.2 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">BrotliCompressor</td>
 <td style="background-color: #A4FF99">794 bytes (7.98 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #9FFF99">11,557.1 ns</td>
-<td style="background-color: #F7FF99">16,380.9 ns</td>
-<td style="background-color: #AAFF99">29,384.2 ns</td>
+<td style="background-color: #BBFF99">11,254.7 ns</td>
+<td style="background-color: #D8FF99">16,131.3 ns</td>
+<td style="background-color: #CCFF99">28,776.0 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">DeflateCompressor</td>
 <td style="background-color: #B4FF99">875 bytes (8.79 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #A8FF99">21,555.7 ns</td>
-<td style="background-color: #D1FF99">7,762.2 ns</td>
-<td style="background-color: #ACFF99">31,896.0 ns</td>
-</tr>
-<tr>
-<td style="text-align: left">BrotliNETCompressor <em>(deprecated)</em></td>
-<td style="background-color: #A4FF99">794 bytes (7.98 %)</td>
-<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #A8FF99">21,560.9 ns</td>
-<td style="background-color: #FFFF99">22,569.1 ns</td>
-<td style="background-color: #BEFF99">58,671.1 ns</td>
+<td style="background-color: #DDFF99">21,339.8 ns</td>
+<td style="background-color: #B9FF99">7,505.3 ns</td>
+<td style="background-color: #D1FF99">31,271.5 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">GZipCompressor</td>
 <td style="background-color: #B8FF99">893 bytes (8.97 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #A9FF99">22,367.1 ns</td>
-<td style="background-color: #D5FF99">8,376.4 ns</td>
-<td style="background-color: #ADFF99">32,976.6 ns</td>
+<td style="background-color: #DFFF99">22,039.9 ns</td>
+<td style="background-color: #BCFF99">8,099.5 ns</td>
+<td style="background-color: #D3FF99">32,445.5 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZLibCompressor</td>
 <td style="background-color: #B5FF99">881 bytes (8.85 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #AAFF99">24,375.6 ns</td>
-<td style="background-color: #E1FF99">10,504.6 ns</td>
-<td style="background-color: #AFFF99">37,014.9 ns</td>
+<td style="background-color: #E6FF99">24,684.7 ns</td>
+<td style="background-color: #C5FF99">10,353.8 ns</td>
+<td style="background-color: #DBFF99">36,706.6 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliNETCompressor <em>(deprecated)</em></td>
+<td style="background-color: #A4FF99">794 bytes (7.98 %)</td>
+<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
+<td style="background-color: #F5FF99">32,210.3 ns</td>
+<td style="background-color: #FFFF99">41,843.5 ns</td>
+<td style="background-color: #FFFF99">77,189.0 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZstdSharpCompressor</td>
 <td style="background-color: #B1FF99">860 bytes (8.64 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #B9FF99">43,693.7 ns</td>
-<td style="background-color: #ADFF99">2,539.8 ns</td>
-<td style="background-color: #B9FF99">51,139.5 ns</td>
-</tr>
-<tr>
-<td style="text-align: left">SnappierCompressor</td>
-<td style="background-color: #EEFF99">1,289 bytes (12.95 %)</td>
-<td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #FFFF99">229,299.3 ns</td>
-<td style="background-color: #99FF99"><s>261.9 ns</s> <em>(doubtful)</em></td>
-<td style="background-color: #FFFF99">255,903.0 ns</td>
+<td style="background-color: #FFFF99">43,586.1 ns</td>
+<td style="background-color: #A5FF99">2,769.5 ns</td>
+<td style="background-color: #E8FF99">45,999.0 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">LZMACompressor</td>
 <td style="background-color: #99FF99">741 bytes (7.45 %)</td>
 <td style="text-align: left; background-color: #CCFFFF">Medium (10 KB)</td>
-<td style="background-color: #FF9999">1,680,814.5 ns</td>
-<td style="background-color: #FF9999">172,353.0 ns</td>
-<td style="background-color: #FF9999">1,876,086.2 ns</td>
+<td style="background-color: #FF9999">1,688,751.6 ns</td>
+<td style="background-color: #FF9999">170,925.8 ns</td>
+<td style="background-color: #FF9999">1,910,325.4 ns</td>
 </tr>
 </tbody>
 </table>
@@ -237,96 +237,96 @@ RunStrategy=Throughput  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+Compr
 <table>
 <thead>
 <tr>
-<th>Compressor</th><th>CompressionRatio</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
+<th>Compressor</th><th>CompressedSize</th><th>Data</th><th>Compress</th><th>Decompress</th><th>CompressAndDecompress</th></tr>
 </thead>
 <tbody>
+<tr>
+<td style="text-align: left">SnappierCompressor</td>
+<td style="background-color: #DCFF99">1,812 bytes (90.15 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #99FF99"><strong>2,262.7 ns</strong></td>
+<td style="background-color: #99FF99"><s>152.3 ns</s> <em>(doubtful)</em></td>
+<td style="background-color: #99FF99"><strong>3,332.0 ns</strong></td>
+</tr>
 <tr>
 <td style="text-align: left">SnappyCompressor <em>(deprecated)</em></td>
 <td style="background-color: #D8FF99">1,772 bytes (88.16 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #99FF99"><strong>3,431.3 ns</strong></td>
-<td style="background-color: #A4FF99"><strong>1,071.3 ns</strong></td>
-<td style="background-color: #99FF99"><strong>4,590.8 ns</strong></td>
+<td style="background-color: #9FFF99">3,450.4 ns</td>
+<td style="background-color: #9FFF99"><strong>923.7 ns</strong></td>
+<td style="background-color: #9DFF99">4,626.0 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">LZ4Compressor</td>
 <td style="background-color: #D7FF99">1,768 bytes (87.96 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #9DFF99">6,084.0 ns</td>
-<td style="background-color: #B3FF99">2,347.1 ns</td>
-<td style="background-color: #9DFF99">8,759.5 ns</td>
+<td style="background-color: #AAFF99">5,687.4 ns</td>
+<td style="background-color: #A1FF99">1,313.5 ns</td>
+<td style="background-color: #A5FF99">7,533.8 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZstdCompressor <em>(deprecated)</em></td>
 <td style="background-color: #CEFF99">1,687 bytes (83.93 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #9EFF99">7,193.7 ns</td>
-<td style="background-color: #B9FF99">2,879.3 ns</td>
-<td style="background-color: #9FFF99">10,878.5 ns</td>
+<td style="background-color: #B1FF99">7,053.6 ns</td>
+<td style="background-color: #ADFF99">2,862.8 ns</td>
+<td style="background-color: #ADFF99">10,509.3 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">BrotliCompressor</td>
 <td style="background-color: #B3FF99">1,494 bytes (74.33 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #A8FF99">14,793.3 ns</td>
-<td style="background-color: #F2FF99">9,933.5 ns</td>
-<td style="background-color: #AFFF99">25,898.0 ns</td>
-</tr>
-<tr>
-<td style="text-align: left">BrotliNETCompressor <em>(deprecated)</em></td>
-<td style="background-color: #B3FF99">1,494 bytes (74.33 %)</td>
-<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #B7FF99">26,960.8 ns</td>
-<td style="background-color: #FFFF99">15,195.7 ns</td>
-<td style="background-color: #C6FF99">52,526.5 ns</td>
+<td style="background-color: #D0FF99">14,842.8 ns</td>
+<td style="background-color: #D6FF99">9,901.3 ns</td>
+<td style="background-color: #D0FF99">25,478.5 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">DeflateCompressor</td>
 <td style="background-color: #A2FF99">1,392 bytes (69.25 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #B9FF99">29,095.4 ns</td>
-<td style="background-color: #E9FF99">8,278.8 ns</td>
-<td style="background-color: #BBFF99">38,987.3 ns</td>
+<td style="background-color: #F4FF99">28,266.5 ns</td>
+<td style="background-color: #CCFF99">8,036.9 ns</td>
+<td style="background-color: #E6FF99">38,084.5 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">GZipCompressor</td>
 <td style="background-color: #A5FF99">1,410 bytes (70.15 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #BAFF99">29,584.2 ns</td>
-<td style="background-color: #E9FF99">8,341.8 ns</td>
-<td style="background-color: #BBFF99">39,802.9 ns</td>
+<td style="background-color: #F5FF99">29,020.2 ns</td>
+<td style="background-color: #CDFF99">8,236.0 ns</td>
+<td style="background-color: #E8FF99">39,296.3 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZLibCompressor</td>
 <td style="background-color: #A3FF99">1,398 bytes (69.55 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #BBFF99">29,807.0 ns</td>
-<td style="background-color: #EBFF99">8,654.5 ns</td>
-<td style="background-color: #BBFF99">40,293.0 ns</td>
+<td style="background-color: #F6FF99">29,594.6 ns</td>
+<td style="background-color: #CFFF99">8,566.0 ns</td>
+<td style="background-color: #E7FF99">39,190.3 ns</td>
+</tr>
+<tr>
+<td style="text-align: left">BrotliNETCompressor <em>(deprecated)</em></td>
+<td style="background-color: #B3FF99">1,494 bytes (74.33 %)</td>
+<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
+<td style="background-color: #FDFF99">36,592.2 ns</td>
+<td style="background-color: #FFFF99">26,640.5 ns</td>
+<td style="background-color: #FFFF99">70,276.6 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">ZstdSharpCompressor</td>
 <td style="background-color: #CEFF99">1,687 bytes (83.93 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #C7FF99">41,063.8 ns</td>
-<td style="background-color: #AEFF99">1,880.7 ns</td>
-<td style="background-color: #BCFF99">41,129.0 ns</td>
-</tr>
-<tr>
-<td style="text-align: left">SnappierCompressor</td>
-<td style="background-color: #DCFF99">1,812 bytes (90.15 %)</td>
-<td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #FFFF99">147,274.3 ns</td>
-<td style="background-color: #99FF99"><s>248.1 ns</s> <em>(doubtful)</em></td>
-<td style="background-color: #FFFF99">192,026.9 ns</td>
+<td style="background-color: #FFFF99">39,942.6 ns</td>
+<td style="background-color: #A3FF99">1,565.4 ns</td>
+<td style="background-color: #EDFF99">43,245.3 ns</td>
 </tr>
 <tr>
 <td style="text-align: left">LZMACompressor</td>
 <td style="background-color: #99FF99">1,337 bytes (66.52 %)</td>
 <td style="text-align: left; background-color: #FFCCFF">Small (2 KB)</td>
-<td style="background-color: #FF9999">1,444,927.8 ns</td>
-<td style="background-color: #FF9999">240,482.2 ns</td>
-<td style="background-color: #FF9999">1,745,869.1 ns</td>
+<td style="background-color: #FF9999">1,452,452.3 ns</td>
+<td style="background-color: #FF9999">241,164.4 ns</td>
+<td style="background-color: #FF9999">1,758,383.2 ns</td>
 </tr>
 </tbody>
 </table>

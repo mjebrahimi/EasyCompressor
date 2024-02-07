@@ -10,7 +10,7 @@ Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3  Compressed=EasyCompressor.Benchmarks.BaseBenchmark+CompressedArg  
 
 ```
-| Method                | Type   | Compressor                       | Data           | CompressionRatio      | Mean           | Error         | StdDev       | Allocated |
+| Method                | Type   | Compressor                       | Data           | CompressedSize        | Mean           | Error         | StdDev       | Allocated |
 |---------------------- |------- |--------------------------------- |--------------- |---------------------- |---------------:|--------------:|-------------:|----------:|
 | **Compress**              | **Stream** | **BrotliCompressor**                 | **Large (20 KB)**  | **3,650 bytes (17.66 %)** |    **38,054.0 ns** |   **3,018.77 ns** |    **165.47 ns** |   **11264 B** |
 | CompressAndDecompress | Stream | BrotliCompressor                 | Large (20 KB)  | 3,650 bytes (17.66 %) |    69,676.0 ns |   6,761.57 ns |    370.62 ns |   35906 B |

@@ -4,9 +4,9 @@ using System.Diagnostics;
 
 namespace EasyCompressor.Benchmarks;
 
-public class SmallestSizeCompressionTest
+public static class SmallestSizeCompressionTest
 {
-    public void Test()
+    public static void Test()
     {
         var large = SearchResponse.GetDataBinary();
         var medium = SpotifyAlbumArray.GetDataBinary();
@@ -16,9 +16,12 @@ public class SmallestSizeCompressionTest
         var brotli = new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
         var zstd = new ZstdSharpCompressor(ZstdCompressionLevel.SmallestSize);
         var lz4 = new LZ4Compressor(K4os.Compression.LZ4.LZ4Level.L12_MAX);
+        var gzip = new GZipCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
+        var deflate = new DeflateCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
+        var zlib = new ZLibCompressor(System.IO.Compression.CompressionLevel.SmallestSize);
 
         byte[][] data = [small, medium, large];
-        BaseCompressor[] compressors = [lzma, brotli, zstd, lz4];
+        BaseCompressor[] compressors = [lzma, brotli, zstd, lz4, gzip, deflate, zlib];
 
         var stopwatch = new Stopwatch();
         foreach (var bytes in data)
@@ -34,6 +37,7 @@ public class SmallestSizeCompressionTest
                 stopwatch.Stop();
                 Console.WriteLine($"{bytes.Length}\t\tDecompress\t\t{decompressed.Length}\t\t{stopwatch.ElapsedMilliseconds}\t\t{compressor}");
             }
+            Console.WriteLine();
         }
     }
 }
@@ -131,5 +135,56 @@ public class SmallestSizeCompressionTest
 //    public Task SetAsync_Normal()
 //    {
 //        return easyCachingProviderNormal.SetAsync("cacheKey", bytes, TimeSpan.FromMinutes(30));
+//    }
+//}
+
+//#if RELEASE
+////[ShortRunJob]
+//[SimpleJob(BenchmarkDotNet.Engines.RunStrategy.Throughput)]
+//#else
+//[MarkdownExporterAttribute.GitHub]
+//#endif
+//[MemoryDiagnoser]
+//public class MyBench
+//{
+//    private static readonly byte[] bytes = SearchResponse.GetDataBinary();
+//    private static readonly byte[] compressedBytes = new SnappierCompressor().Compress(bytes);
+
+//    [Benchmark]
+//    public void Write()
+//    {
+//        var path = Path.GetTempFileName();
+//        //File.WriteAllBytes(path, bytes);
+//        using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.DeleteOnClose);
+//        fileStream.WriteAllBytes(bytes);
+//    }
+
+//    [Benchmark]
+//    public void Write_Compressed()
+//    {
+//        var path = Path.GetTempFileName();
+//        //File.WriteAllBytes(path, compressedBytes);
+//        using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.DeleteOnClose);
+//        fileStream.WriteAllBytes(compressedBytes);
+//    }
+
+//    [Benchmark]
+//    public void WriteFlush()
+//    {
+//        var path = Path.GetTempFileName();
+//        //File.WriteAllBytes(path, bytes);
+//        using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.DeleteOnClose);
+//        fileStream.WriteAllBytes(bytes);
+//        fileStream.Flush(true);
+//    }
+
+//    [Benchmark]
+//    public void WriteFlush_Compressed()
+//    {
+//        var path = Path.GetTempFileName();
+//        //File.WriteAllBytes(path, compressedBytes);
+//        using var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 4096, FileOptions.DeleteOnClose);
+//        fileStream.WriteAllBytes(compressedBytes);
+//        fileStream.Flush(true);
 //    }
 //}

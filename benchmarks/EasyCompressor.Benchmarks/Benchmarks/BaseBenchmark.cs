@@ -40,7 +40,7 @@ public abstract class BaseBenchmark
         ];
     }
 
-    private static readonly BaseCompressor[] Compressors =
+    public static BaseCompressor[] Compressors { get; set; } =
     [
         #region Compression Level/Ratio Benchmarks
         //new GZipCompressor(level: CompressionLevel.NoCompression),
@@ -311,7 +311,7 @@ class CustomConfig : ManualConfig
     //               benchmarkCase.Parameters["Data"].ToString(),
     //               GetCompressorName(benchmarkCase.Parameters["Compressor"].ToString()),
     //               benchmarkCase.Descriptor.WorkloadMethodDisplayInfo,
-    //               benchmarkCase.Parameters["CompressionRatio"].ToString().ExtractNumber() descending,
+    //               benchmarkCase.Parameters["CompressedSize"].ToString().ExtractNumber() descending,
     //               benchmarkCase.Parameters["Compressor"].ToString() descending,
     //               string.Join('_', benchmarkCase.Descriptor.Categories),
     //               summary[benchmarkCase]?.ResultStatistics?.Mean ?? 0

@@ -12,7 +12,7 @@ public class StreamBenchmark : BaseBenchmark
 #pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public void Compress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressedSize)
     {
         using var inputStream = new MemoryStream(Compressed.OriginalBytes);
         using var outputStream = new MemoryStream();
@@ -22,7 +22,7 @@ public class StreamBenchmark : BaseBenchmark
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void Decompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public void Decompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressedSize)
     {
         using var inputStream = new MemoryStream(Compressed.CompressedBytes);
         using var outputStream = new MemoryStream();
@@ -32,7 +32,7 @@ public class StreamBenchmark : BaseBenchmark
 
     [Benchmark]
     [ArgumentsSource(nameof(GetArguments))]
-    public void CompressAndDecompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressionRatio)
+    public void CompressAndDecompress(BaseCompressor Compressor, string Data, CompressedArg Compressed, string CompressedSize)
     {
         using var inputStream = new MemoryStream(Compressed.OriginalBytes);
         using var outputStream = new MemoryStream();

@@ -3,10 +3,20 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EasyCompressor.Benchmarks;
 
-[Display(Name = "Benchmark of Binary Compressors", GroupName = "Benchmark of Binary Compressors")]
-public class BinaryBenchmark : BaseBenchmark
+[Display(Name = "Benchmark of Compressors for Highest Compression (Smallest Size)", GroupName = "Highest Compression (Smallest Size)")]
+public class HighestCompressionBenchmark : BaseBenchmark
 {
     public override string CompressionType => "Binary";
+
+    public HighestCompressionBenchmark()
+    {
+        Compressors =
+        [
+            new BrotliCompressor(System.IO.Compression.CompressionLevel.SmallestSize),
+            new LZMACompressor(LZMACompressionLevel.Ultra, DictionarySize.VeryLarge_64MB),
+            new ZstdSharpCompressor(ZstdCompressionLevel.SmallestSize),
+        ];
+    }
 
 #pragma warning disable IDE0060, RCS1163 // Remove unused parameter
     [Benchmark]
