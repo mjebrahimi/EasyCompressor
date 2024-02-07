@@ -1,10 +1,12 @@
+<!-- ![Benchmark](src/EasyCompressor.png)  -->
+
 [![NuGet Badge](https://buildstats.info/nuget/EasyCompressor)](https://www.nuget.org/packages/EasyCompressor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/mjebrahimi/EasyCompressor/workflows/.NET/badge.svg)](https://github.com/mjebrahimi/EasyCompressor)
 
 # EasyCompressor
 
-An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
+<img src="src/EasyCompressor.png" width="128" align="left"/> An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
