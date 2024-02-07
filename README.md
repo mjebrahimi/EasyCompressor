@@ -5,6 +5,7 @@
 # EasyCompressor
 
 An **Easy-to-Use** and **Optimized** compression library for .NET that unified many compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
+
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
 ## Nuget Packages
