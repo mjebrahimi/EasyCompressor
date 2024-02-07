@@ -4,7 +4,8 @@
 
 # EasyCompressor
 
-A compression library that implements many compression algorithms such as **LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate**. It helps you to **improve performance by reducing Memory Usage and Network Traffic** for caching.
+An **Easy-to-Use** and **Optimized** compression library for .NET that unified many compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
+Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
 ## Nuget Packages
 
