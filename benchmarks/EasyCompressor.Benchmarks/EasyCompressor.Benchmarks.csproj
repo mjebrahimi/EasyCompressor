@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EasyCaching.Disk" Version="1.9.2" />
+    <PackageReference Include="EasyCaching.InMemory" Version="1.9.2" />
+    <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.9.2" />
+    <PackageReference Include="EasyCaching.Serialization.Protobuf" Version="1.9.2" />
+    <PackageReference Include="EasyCaching.Serialization.Json" Version="1.9.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
     <PackageReference Include="BenchmarkDotNetVisualizer" Version="1.0.5" />
     <PackageReference Include="protobuf-net" Version="3.2.30" />
@@ -17,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\EasyCaching.Extensions.EasyCompressor\EasyCaching.Extensions.EasyCompressor.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.BrotliNET\EasyCompressor.BrotliNET.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.LZ4\EasyCompressor.LZ4.csproj" />
     <ProjectReference Include="..\..\src\EasyCompressor.LZMA\EasyCompressor.LZMA.csproj" />
