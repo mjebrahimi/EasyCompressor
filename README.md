@@ -4,19 +4,24 @@
 
 # EasyCompressor
 
-A compression library that implements many compression algorithms such as **LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate**. It helps you to **improve performance by reducing Memory Usage and Network Traffic** for caching.
+An **Easy-to-Use** and **Optimized** compression library for .NET that unified many compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
+
+Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
 ## Nuget Packages
 
-| Package Name |  Version  |  Description
-| ------------ |  -------  |  -----------
-| [EasyCompressor](https://www.nuget.org/packages/EasyCompressor/) | ![](https://img.shields.io/nuget/v/EasyCompressor.svg) | Contains GZip, Deflate and (*Brotli available only in .NETCore2.1, .NETStandard2.1 and above*)
-| [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) | ![](https://img.shields.io/nuget/v/EasyCompressor.BrotliNET.svg) | Contains Brotli using [Brotli.NET](https://www.nuget.org/packages/Brotli.NET/) (*for erlier than .NETCore2.1, .NETStandard2.1*)
-| [EasyCompressor.LZ4](https://www.nuget.org/packages/EasyCompressor.LZ4/) | ![](https://img.shields.io/nuget/v/EasyCompressor.LZ4.svg) | Contains LZ4 using [K4os.Compression.LZ4](https://www.nuget.org/packages/K4os.Compression.LZ4/)
-| [EasyCompressor.LZMA](https://www.nuget.org/packages/EasyCompressor.LZMA/) | ![](https://img.shields.io/nuget/v/EasyCompressor.LZMA.svg) | Contains LZMA using [LZMA-SDK](https://www.nuget.org/packages/LZMA-SDK/)
-| [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Snappy.svg) | Contains Snappy using [Snappy.Standard](https://www.nuget.org/packages/Snappy.Standard/)
-| [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/) | ![](https://img.shields.io/nuget/v/EasyCompressor.Zstd.svg) | Contains Zstd (ZStandard) using [ZstdNet](https://www.nuget.org/packages/ZstdNet/)
-| [EasyCaching.Extensions.EasyCompressor](https://www.nuget.org/packages/EasyCaching.Extensions.EasyCompressor/) | ![](https://img.shields.io/nuget/v/EasyCaching.Extensions.EasyCompressor.svg) | This integrates [EasyCaching](https://github.com/dotnetcore/EasyCaching) with EasyCompressor. ([How to use](https://github.com/mjebrahimi/EasyCompressor/tree/master/src/EasyCaching.Extensions.EasyCompressor/README.md))
+
+| Package      | Description
+| ------------ | ----------------------
+| [EasyCompressor](https://www.nuget.org/packages/EasyCompressor/) | Including Algorithms :<br/>- Brotli *(**Highest** compression ratio - the **Smallest** size) (**Only** available in .NETCoreApp2.1, .NETStandard2.1 and above)*<br/>- GZip<br/>- Deflate<br/>- ZLib *(**Only** available in .NET6.0 and above)*
+| [EasyCompressor.LZ4](https://www.nuget.org/packages/EasyCompressor.LZ4/)⭐️ | Algorithm: LZ4<br/>Extremely Fast (**Recommended** - see [Benchmarks](#benchmarks))
+| [EasyCompressor.Snappier](https://www.nuget.org/packages/EasyCompressor.Snappier/)⭐️ | Algorithm: Snappy<br/>Extremely Fast (**Recommended** - see [Benchmarks](#benchmarks))
+| [EasyCompressor.ZstdSharp](https://www.nuget.org/packages/EasyCompressor.ZstdSharp/)⭐️ | Algorithm: Zstd (Zstandard)<br/>Extremely Fast (**Recommended** - see [Benchmarks](#benchmarks))
+| [EasyCompressor.LZMA](https://www.nuget.org/packages/EasyCompressor.LZMA/) | Algorithm: LZMA<br/>High compression ratio (small size) but very Slow (**Not recommended** - see [Benchmarks](#benchmarks))
+| [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/) *(deprecated)* | Instead, use [EasyCompressor.ZstdSharp](https://www.nuget.org/packages/EasyCompressor.ZstdSharp/).
+| [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) *(deprecated)* | Instead, use [EasyCompressor.Snappier](https://www.nuget.org/packages/EasyCompressor.Snappier/)
+| [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) *(deprecated)* | Instead, use BrotliCompressor in [EasyCompressor](https://www.nuget.org/packages/EasyCompressor/) itself (base package)<br/>*(Use **only** if your project targets .NETFramework462 and above or .NETCoreApp2.0)*
+| [EasyCaching.Extensions.EasyCompressor](https://www.nuget.org/packages/EasyCaching.Extensions.EasyCompressor/)⭐️ | A **winning combination** by integrating with [EasyCaching](https://github.com/dotnetcore/EasyCaching) to compress your **cache data**. (Recommended)<br/>See [How to use](https://github.com/mjebrahimi/EasyCompressor/tree/master/src/EasyCaching.Extensions.EasyCompressor/README.md)
 
 **Note :**
 
@@ -72,7 +77,7 @@ var compressedBytes = compressor.Compress(inputBytes);
 var uncompressedBytes = compressor.Decompress(compressedBytes);
 ```
 
-## Benchmark
+## Benchmarks
 
 ### Tips and Results
 
