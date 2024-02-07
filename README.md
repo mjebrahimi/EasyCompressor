@@ -4,22 +4,39 @@
 
 # EasyCompressor
 
-An **Easy-to-Use** and **Optimized** compression library for .NET that unified many compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
+An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
+This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage**. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
+
 ## Usage
 
-- Compress your BLOB data for archiving or saving storage
-- Compress your cache objects for saving memory
+- Compress your **BLOB** data for **Archiving** and Saving the **Storage** (on average from **30% to 90%**)
+- Compress your **Caching** objects for **Saving** the **Memory Usage**  (it also has a nice integration with [EasyCaching](https://github.com/dotnetcore/EasyCaching))
+- **Reduce** the **Bandwidth Usage** of your network by reducing the volume of data sent or received. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
+- **Improve** the **Performance** of your **I/O Operations** such as **Reading/Writing Files** and **Service-to-Service Communication**. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
 
 ## Features
 
-- Supports and implements **many compression algorithms**.
-- Supports **async/await and CancellationToken**.
-- Supports working with **multiple compressors with specified names**
-- Supports **Stream** as most as possible (*depending on the underlying* library)
-- Compress/Decompress between **byte[], Stream, StreamReader and StreamWriter**.
+- Offers a range of compression algorithms, including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**.
+- Support for **async/await** operations with support of **CancellationToken**.
+- **Stream** operations are fully supported.
+- **Optimized** and implemented with a focus on performance.
+
+### Note
+
+The **default** comparison levels are carefully configured based on extensive benchmarking to ensure the **highest level of efficiency** and **speed** at a **reasonable compression ratio**.
+
+### Improving Data Transfer Speed by Sending/Receiving Less
+
+Compression/Decompression has its own overhead but it reduces the size of your data, which can potentially result in faster transfer times, even when accounting for the additional time required for compression and decompression.
+
+When a file is compressed, it becomes smaller in size, which means it requires less bandwidth to transfer. If the compression ratio is significant, the reduced file size can compensate for the extra time needed for compression and decompression.
+
+For example, let's say you have an uncompressed file that takes 10 seconds to transfer. If you compress this file using a fast compressor like Snappy, the compression time might be around 1 second. However, the compressed file size is significantly smaller, let's say it's only 20% of the original size. Now, when you transfer the compressed file, it will only take 2 seconds (20% of the original transfer time). In this scenario, the total time (compression time + transfer time) would be 3 seconds (1 second for compression + 2 seconds for transfer), which is less than the original 10 seconds it would have taken to transfer the uncompressed file.
+
+It's important to note that the actual time savings will depend on various factors, such as the compression ratio achieved, the speed of the compression and decompression algorithms, the network bandwidth, and other system-specific considerations. However, with fast compressors like Snappy and significant compression ratios, it is possible to achieve overall time savings when transferring compressed files compared to transferring uncompressed files.
 
 ## Nuget Packages
 
