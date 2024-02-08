@@ -11,7 +11,8 @@
 		<Company>Mohammad Javad Ebrahimi</Company>
 		<Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
 		<Description>
-			An Easy-to-Use and Optimized compression library for .NET that unified several compression algorithms including LZ4, Snappy, Zstd, LZMA, Brotli, GZip, ZLib, and Deflate. This library aids in Improving Performance by Reducing Memory Usage and Bandwidth Usage.
+An Easy-to-Use and Optimized compression library for .NET that unified several compression algorithms including LZ4, Snappy, Zstd, LZMA, Brotli, GZip, ZLib, and Deflate.
+This library aids in Improving Performance by Reducing Memory Usage and Bandwidth Usage.
 		</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>Compression Decompression Compress Decompress Compressor Zstd ZStandard ZstdSharp LZMA LZ4 Snappy Snappier Brotli GZip ZLib Deflate </PackageTags>
