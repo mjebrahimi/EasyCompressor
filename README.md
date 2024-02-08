@@ -32,13 +32,13 @@ The **default** comparison levels are carefully configured based on extensive be
 
 ### Improving Data Transfer Speed by Sending/Receiving Less
 
-Compression/Decompression has its own overhead but it reduces the size of your data, which can potentially result in faster transfer times, even when accounting for the additional time required for compression and decompression.
+Compression/Decompression has overhead but it reduces the size of your data, which can potentially result in faster transfer times, even when accounting for the additional time required for compression and decompression.
 
 When a file is compressed, it becomes smaller in size, which means it requires less bandwidth to transfer. If the compression ratio is significant, the reduced file size can compensate for the extra time needed for compression and decompression.
 
-For example, let's say you have an uncompressed file that takes 10 seconds to transfer. If you compress this file using a fast compressor like Snappy, the compression time might be around 1 second. However, the compressed file size is significantly smaller, let's say it's only 20% of the original size. Now, when you transfer the compressed file, it will only take 2 seconds (20% of the original transfer time). In this scenario, the total time (compression time + transfer time) would be 3 seconds (1 second for compression + 2 seconds for transfer), which is less than the original 10 seconds it would have taken to transfer the uncompressed file.
+For example, let's say you have an uncompressed file that takes 10 seconds to transfer. If you compress this file using a fast compressor like LZ4, Snappy, or Zstd, the compression time might be around 1 second. However, the compressed file size is significantly smaller, let's say it's only 20% of the original size. Now, when you transfer the compressed file, it will only take 2 seconds (20% of the original transfer time). In this scenario, the total time (compression time + transfer time) would be 3 seconds (1 second for compression + 2 seconds for transfer), which is less than the original 10 seconds it would have taken to transfer the uncompressed file.
 
-It's important to note that the actual time savings will depend on various factors, such as the compression ratio achieved, the speed of the compression and decompression algorithms, the network bandwidth, and other system-specific considerations. However, with fast compressors like Snappy and significant compression ratios, it is possible to achieve overall time savings when transferring compressed files compared to transferring uncompressed files.
+It's important to note that the actual time savings will depend on various factors, such as the compression ratio achieved, the speed of the compression and decompression algorithms, the network bandwidth, and other system-specific considerations. However, with fast compressors like LZ4, Snappy, or Zstd and significant compression ratios, it is possible to achieve overall time savings when transferring compressed files compared to transferring uncompressed files.
 
 ## Nuget Packages
 
