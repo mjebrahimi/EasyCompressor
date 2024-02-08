@@ -315,6 +315,17 @@ Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if yo
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request
 
+## Todo
+
+Open an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [discussion](https://github.com/mjebrahimi/EasyCompressor/discussions/new/choose) and tell me which integration or feature you like the most.
+
+- [ ] Write integrations with **Binary Serializer** libraries such as [MessagePack](https://www.nuget.org/packages/MessagePack), [MsgPack.Cli](https://www.nuget.org/packages/MsgPack.Cli), [MemoryPack](https://www.nuget.org/packages/MemoryPack), [Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf), [protobuf-net](https://www.nuget.org/packages/protobuf-net). (and maybe [Bond.CSharp](https://www.nuget.org/packages/Bond.CSharp) and [Hyperion](https://www.nuget.org/packages/Hyperion))
+- [ ] Write integrations with **Redis client** libraries such as [StackExchange.Redis](https://www.nuget.org/packages/StackExchange.Redis), [ServiceStack.Redis](https://www.nuget.org/packages/ServiceStack.Redis), [CSRedisCore](https://www.nuget.org/packages/CSRedisCore), [FreeRedis](https://www.nuget.org/packages/FreeRedis).
+- [ ] Write integrations with **Caching** libraries such as [Microsoft.Extensions.Caching.*](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/), [LazyCache](https://www.nuget.org/packages/LazyCache), and [EnyimMemcachedCore](https://www.nuget.org/packages/EnyimMemcachedCore). (and maybe [CachingFramework.Redis](https://www.nuget.org/packages/CachingFramework.Redis), [CacheManager.Core](https://www.nuget.org/packages/CacheManager.Core))
+- [ ] Write integrations with **Message Broker** libraries such as [RabbitMQ.Client](https://www.nuget.org/packages/RabbitMQ.Client), [Azure.Messaging.ServiceBus](https://www.nuget.org/packages/Azure.Messaging.ServiceBus), [Confluent.Kafka](https://www.nuget.org/packages/Confluent.Kafka), [EasyNetQ](https://www.nuget.org/packages/EasyNetQ), [NetMQ](https://www.nuget.org/packages/NetMQ), [NATS.Client](https://www.nuget.org/packages/NATS.Client), [Apache.NMS](https://www.nuget.org/packages/Apache.NMS). (and maybe [RawRabbit](https://www.nuget.org/packages/RawRabbit), [kafka-sharp](https://www.nuget.org/packages/kafka-sharp), [Microsoft.Azure.ServiceBus](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus)).
+- [ ] Write integrations with **Service Bus** libraries such as [MassTransit](https://www.nuget.org/packages/MassTransit), [NServiceBus](https://www.nuget.org/packages/NServiceBus), [Rebus](https://www.nuget.org/packages/Rebus), and [DotNetCore.CAP](https://www.nuget.org/packages/DotNetCore.CAP).
+- [ ] Write integrations with other libraries such as [Polly.Caching.Distributed](https://www.nuget.org/packages/Polly.Caching.Distributed)
+
 ## Give a Star! ⭐️
 
 If you find this repository useful and like it, why not give it a star? if not, never mind! :)
