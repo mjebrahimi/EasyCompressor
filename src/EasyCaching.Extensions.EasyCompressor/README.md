@@ -4,7 +4,7 @@
 
 # EasyCaching.Extensions.EasyCompressor
 
-<img src="/src/EasyCompressor.png" width="100" height="100" align="left"/>A nice integration between [EasyCaching](https://github.com/dotnetcore/EasyCaching) and [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
+<img src="https://raw.githubusercontent.com/mjebrahimi/EasyCompressor/master/src/EasyCompressor.png" width="100" height="100" align="left"/>A nice integration between [EasyCaching](https://github.com/dotnetcore/EasyCaching) and [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
 
 This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage** by compressing your cache data, especially for distributed cache (such as Redis).
 
@@ -82,7 +82,7 @@ You can see the benchmark of compressors [here](https://github.com/mjebrahimi/Ea
 
 ## Contributing
 
-Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
+Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [discussion](https://github.com/mjebrahimi/EasyCompressor/discussions/new/choose) if you found a **BUG** or have a **Suggestion** or **Question**.
 
 **Or if you want to develop this project:**
 

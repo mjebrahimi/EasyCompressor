@@ -4,7 +4,7 @@
 
 # EasyCompressor
 
-<img src="src/EasyCompressor.png" width="100" height="100" align="left"/> An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**.
+<img src="https://raw.githubusercontent.com/mjebrahimi/EasyCompressor/master/src/EasyCompressor.png" width="100" height="100" align="left"/> An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**.
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
@@ -276,7 +276,7 @@ public class YourClass
 - GZip
 - Deflate -->
 
-![Benchmark](Benchmark.png)
+![Benchmark](https://raw.githubusercontent.com/mjebrahimi/EasyCompressor/master/Benchmark.png)
 
 ### Other Benchmarks
 
@@ -310,7 +310,7 @@ public class YourClass
 2. LZMACompressor (smaller in large data but **very slow** and memory inefficient)
 3. ZstdSharpCompressor (**fastest** meanwhile with acceptable/good enough level of compression)
 
-![Benchmark](docs/Benchmark-HighestCompression.png)
+![Benchmark](https://raw.githubusercontent.com/mjebrahimi/EasyCompressor/master/docs/Benchmark-HighestCompression.png)
 
 #### BenchmarkDotNetVisualizer🌈
 
@@ -342,7 +342,7 @@ All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://gith
 	StreamCompatible which is compatible with Stream's output. (NOT compatible with other modes neither LegacyCompatible nor Optimal modes)
 	It's slower than other modes but moderate in memory allocation. (Slow_GCModerated)
 
-**Full Changelog**: https://github.com/mjebrahimi/EasyCompressor/compare/1.4.0...2.0.0
+**Full Changelog**: https://github.com/mjebrahimi/EasyCompressor/compare/1.4.0...2.0.1
 
 ## Todo
 
@@ -357,7 +357,7 @@ Open an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [dis
 
 ## Contributing
 
-Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
+Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [discussion](https://github.com/mjebrahimi/EasyCompressor/discussions/new/choose) if you found a **BUG** or have a **Suggestion** or **Question**.
 
 **Or if you want to develop this project:**
 
