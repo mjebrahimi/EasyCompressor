@@ -303,6 +303,10 @@ public class YourClass
 
 ![Benchmark](docs/Benchmark-HighestCompression.png)
 
+#### BenchmarkDotNetVisualizer🌈
+
+All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://github.com/mjebrahimi/BenchmarkDotNetVisualizer).
+
 ## Contributing
 
 Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
