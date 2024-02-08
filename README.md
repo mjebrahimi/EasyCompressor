@@ -10,14 +10,14 @@
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
-This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage**. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
+This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage**. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
 
 ## Usage
 
 - Compress your **BLOB** data for **Archiving** and Saving the **Storage** (on average from **30% to 90%**)
 - Compress your **Caching** objects for **Saving** the **Memory Usage**  (it also has a nice integration with [EasyCaching](https://github.com/dotnetcore/EasyCaching))
-- **Reduce** the **Bandwidth Usage** of your network by reducing the volume of data sent or received. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
-- **Improve** the **Performance** of your **I/O Operations** such as **Reading/Writing Files** and **Service-to-Service Communication**. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
+- **Reduce** the **Bandwidth Usage** of your network by reducing the volume of data sent or received. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
+- **Improve** the **Performance** of your **I/O Operations** like **Service-to-Service Communication**. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
 
 ## Features
 
