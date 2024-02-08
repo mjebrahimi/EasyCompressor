@@ -5,6 +5,7 @@
     <PackageId>EasyCompressor.BrotliNET</PackageId>
     <Title>EasyCompressor.BrotliNET</Title>
     <Product>EasyCompressor.BrotliNET</Product>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

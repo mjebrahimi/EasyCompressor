@@ -196,22 +196,20 @@ public abstract class BaseBenchmark
         //new ZstdSharpCompressor(level: 22),
         #endregion
 
-#pragma warning disable CS0618 // Type or member is obsolete
         new GZipCompressor(name: "GZipCompressor"),
         new DeflateCompressor(name: "DeflateCompressor"),
         new ZLibCompressor(name: "ZLibCompressor"),
         new BrotliCompressor(name: "BrotliCompressor"),
-        new BrotliNETCompressor(name: "BrotliNETCompressor (deprecated)"),
+        //new BrotliNETCompressor(name: "BrotliNETCompressor (deprecated)"),
         new LZ4Compressor(name: "LZ4Compressor"),
         //new LZ4Compressor(name: "LZ4Compressor-LegacyCompatible", binaryCompressionMode: LZ4BinaryCompressionMode.LegacyCompatible),
         //new LZ4Compressor(name: "LZ4Compressor-StreamCompatible", binaryCompressionMode: LZ4BinaryCompressionMode.StreamCompatible),
         //new LZ4Compressor(name: "LZ4Compressor-Optimal", binaryCompressionMode: LZ4BinaryCompressionMode.Optimal),
         new LZMACompressor(name: "LZMACompressor"),
-        new SnappyCompressor(name: "SnappyCompressor (deprecated)"),
+        //new SnappyCompressor(name: "SnappyCompressor (deprecated)"),
         new SnappierCompressor(name: "SnappierCompressor"),
-        new ZstdCompressor(name: "ZstdCompressor (deprecated)"),
+        //new ZstdCompressor(name: "ZstdCompressor (deprecated)"),
         new ZstdSharpCompressor(name: "ZstdSharpCompressor"),
-#pragma warning restore CS0618 // Type or member is obsolete
     ];
 
     public string[] GetCompressionType => [CompressionType];

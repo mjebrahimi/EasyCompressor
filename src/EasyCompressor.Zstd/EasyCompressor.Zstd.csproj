@@ -5,6 +5,7 @@
     <PackageId>EasyCompressor.Zstd</PackageId>
     <Title>EasyCompressor.Zstd</Title>
     <Product>EasyCompressor.Zstd</Product>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>

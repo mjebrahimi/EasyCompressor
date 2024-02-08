@@ -133,19 +133,17 @@ public class DependencyInjectionTests
     {
         get
         {
-#pragma warning disable CS0618 // Type or member is obsolete
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddGZipCompressor(name)), typeof(GZipCompressor)).SetArgDisplayNames(" GZip ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddDeflateCompressor(name)), typeof(DeflateCompressor)).SetArgDisplayNames(" Deflate ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZLibCompressor(name)), typeof(ZLibCompressor)).SetArgDisplayNames(" ZLib ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddBrotliCompressor(name)), typeof(BrotliCompressor)).SetArgDisplayNames(" Brotli ");
-            yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddBrotliNETCompressor(name)), typeof(BrotliNETCompressor)).SetArgDisplayNames(" BrotliNET ");
+            //yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddBrotliNETCompressor(name)), typeof(BrotliNETCompressor)).SetArgDisplayNames(" BrotliNET ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddLZ4Compressor(name)), typeof(LZ4Compressor)).SetArgDisplayNames(" LZ4 ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddLZMACompressor(name)), typeof(LZMACompressor)).SetArgDisplayNames(" LZMA ");
-            yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddSnappyCompressor(name)), typeof(SnappyCompressor)).SetArgDisplayNames(" Snappy ");
+            //yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddSnappyCompressor(name)), typeof(SnappyCompressor)).SetArgDisplayNames(" Snappy ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddSnappierCompressor(name)), typeof(SnappierCompressor)).SetArgDisplayNames(" Snappier ");
-            yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZstdCompressor(name)), typeof(ZstdCompressor)).SetArgDisplayNames(" Zstd ");
+            //yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZstdCompressor(name)), typeof(ZstdCompressor)).SetArgDisplayNames(" Zstd ");
             yield return new TestFixtureData(new Action<IServiceCollection, string>((services, name) => services.AddZstdSharpCompressor(name)), typeof(ZstdSharpCompressor)).SetArgDisplayNames(" ZstdSharp ");
-#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 }
