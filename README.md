@@ -10,6 +10,19 @@ Along with a great [**Performance Benchmark**](#benchmarks) between different co
 
 This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage**. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
 
+- [Usage](#usage)
+- [Features](#features)
+- [Nuget Packages](#nuget-packages)
+- [Get Started](#get-started)
+    - [Using New Instance or the Shared Instance](#2-using-new-instance-or-the-shared-instance)
+    - [Using Dependency Injection](#3-using-dependency-injection)
+    - [Using Named Instances](#4-using-named-instances)
+- [Benchmarks](#benchmarks)
+    - [Best Compressors based on Overall Performance (Speed and Memory Allocation) in each case](#best-compressors-based-on-overall-performance-speed-and-memory-allocation-in-each-case)
+    - [Best Compressors based on Highest compression (Smallest size)](#best-compressors-based-on-highest-compression-smallest-size)
+- [What's Changed from v1.4.0 to v2.0.0](#whats-changed-from-v140-to-v200)
+- [Todo](#todo)
+
 ## Usage
 
 - Compress your **BLOB** data for **Archiving** and Saving the **Storage** (on average from **30% to 90%**)
@@ -302,6 +315,34 @@ public class YourClass
 #### BenchmarkDotNetVisualizer🌈
 
 All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://github.com/mjebrahimi/BenchmarkDotNetVisualizer).
+
+## What's Changed from v1.4.0 to v2.0.0
+
+* Many **improvements** were made including **performance optimizations** and **bug fixes**.
+* Two new compressors added: [EasyCompressor.Snappier](https://www.nuget.org/packages/EasyCompressor.Snappier/) and [EasyCompressor.ZstdSharp](https://www.nuget.org/packages/EasyCompressor.ZstdSharp/)
+* A great [Performance Benchmark](https://github.com/mjebrahimi/EasyCompressor#benchmarks) between different compression algorithms added.
+* **Shared instances** added to each compressor for Ease-of-Use `LZ4Compressor.Shared.Compress(bytes);`
+* **EasyCompressor.Zstd** bug fixed and the lastest version of **zstd.dll (v1.5.5)** where included to the package.
+* These packages deprecated: [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/), [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) and [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) because their development has been stopped and newer and better packages have replaced them.
+* The **default compression levels** have changed and are carefully configured based on extensive benchmarking to ensure the **highest level of efficiency** and **speed** at a **reasonable compression ratio**.
+* **Three new LZ4 binary compression modes** added:
+
+	- **LZ4BinaryCompressionMode.Optimal (new Default mode)**
+	Default compression mode. (NOT compatible with other modes neither LegacyCompatible nor StreamCompatible modes)
+	But it's fast and most efficient in memory allocation. (Best Performance overall - Fast_GCEfficient)
+	It applies only to binary Compress/Decompress and does not affect Stream/Stream[Async] methods.
+	
+	- **LZ4BinaryCompressionMode.LegacyCompatible (legacy Default mode)**
+	Legacy compatibility with old/legacy versions. (NOT compatible with other modes neither StreamCompatible nor Optimal modes)
+	It's the fastest mode (a bit faster than Optimal) but less efficient in memory allocation. (Fast_GCInefficient)
+	It prepends 4 bytes to the beginning of the array to define the original array length.
+	It applies only to binary Compress/Decompress and does not affect Stream/Stream[Async] methods.
+	
+	- **LZ4BinaryCompressionMode.StreamCompatible**
+	StreamCompatible which is compatible with Stream's output. (NOT compatible with other modes neither LegacyCompatible nor Optimal modes)
+	It's slower than other modes but moderate in memory allocation. (Slow_GCModerated)
+
+**Full Changelog**: https://github.com/mjebrahimi/EasyCompressor/compare/1.4.0...2.0.0
 
 ## Contributing
 
