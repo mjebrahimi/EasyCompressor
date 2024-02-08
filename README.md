@@ -322,7 +322,7 @@ All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://gith
 * A great [Performance Benchmark](https://github.com/mjebrahimi/EasyCompressor#benchmarks) between different compression algorithms added.
 * Two new compressors added: [EasyCompressor.Snappier](https://www.nuget.org/packages/EasyCompressor.Snappier/) and [EasyCompressor.ZstdSharp](https://www.nuget.org/packages/EasyCompressor.ZstdSharp/)
 * **Shared instances** added to each compressor for Ease-of-Use `LZ4Compressor.Shared.Compress(bytes);`
-* **EasyCompressor.Zstd** bug fixed and the lastest version of **zstd.dll (v1.5.5)** was included to the package.
+* **EasyCompressor.Zstd** bug fixed and the latest version of **zstd.dll (v1.5.5)** was included in the package.
 * These packages **deprecated**: [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/), [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) and [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) because their development has been stopped and newer and better packages have replaced them.
 * The **default compression levels** have changed and are carefully configured based on extensive benchmarking to ensure the **highest level of efficiency** and **speed** at a **reasonable compression ratio**.
 * **Three new LZ4 binary compression modes** added:
