@@ -38,13 +38,13 @@ services.AddLZ4Compressor();
 
 services.AddEasyCaching(options =>
 {
-	options.UseRedis(config =>
-	{
-		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
-		config.SerializerName = "msgpack";
-	})
-	.WithMessagePack("msgpack")
-	.WithCompressor();
+    options.UseRedis(config =>
+    {
+        config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+        config.SerializerName = "msgpack";
+    })
+    .WithMessagePack("msgpack")
+    .WithCompressor();
 });
 ```
 
@@ -58,21 +58,21 @@ services.AddSnappierCompressor("snappier");
 
 services.AddEasyCaching(options =>
 {
-	options.UseRedis(config =>
-	{
-		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
-		config.SerializerName = "msgpack";
-	}, "redis1")
-	.WithMessagePack("msgpack")
-	.WithCompressor("msgpack", "lz4");
+    options.UseRedis(config =>
+    {
+        config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+        config.SerializerName = "msgpack";
+    }, "redis1")
+    .WithMessagePack("msgpack")
+    .WithCompressor("msgpack", "lz4");
 
-	options.UseRedis(config =>
-	{
-		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
-		config.SerializerName = "protobuf";
-	}, "redis2")
-	.WithProtobuf("protobuf")
-	.WithCompressor("protobuf", "snappier");
+    options.UseRedis(config =>
+    {
+        config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+        config.SerializerName = "protobuf";
+    }, "redis2")
+    .WithProtobuf("protobuf")
+    .WithCompressor("protobuf", "snappier");
 });
 ```
 
