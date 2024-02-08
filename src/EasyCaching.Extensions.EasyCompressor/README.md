@@ -4,7 +4,7 @@
 
 # EasyCaching.Extensions.EasyCompressor
 
-<img src="https://raw.githubusercontent.com/mjebrahimi/EasyCompressor/master/src/EasyCompressor.png" width="100" height="100" align="left"/>A nice integration between [EasyCaching](https://github.com/dotnetcore/EasyCaching) and [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
+<img src="/src/EasyCompressor.png" width="100" height="100" align="left"/>A nice integration between [EasyCaching](https://github.com/dotnetcore/EasyCaching) and [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
 
 This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage** by compressing your cache data, especially for distributed cache (such as Redis).
 
