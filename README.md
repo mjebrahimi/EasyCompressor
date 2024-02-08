@@ -319,11 +319,11 @@ All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://gith
 ## What's Changed from v1.4.0 to v2.0.0
 
 * Many **improvements** were made including **performance optimizations** and **bug fixes**.
-* Two new compressors added: [EasyCompressor.Snappier](https://www.nuget.org/packages/EasyCompressor.Snappier/) and [EasyCompressor.ZstdSharp](https://www.nuget.org/packages/EasyCompressor.ZstdSharp/)
 * A great [Performance Benchmark](https://github.com/mjebrahimi/EasyCompressor#benchmarks) between different compression algorithms added.
+* Two new compressors added: [EasyCompressor.Snappier](https://www.nuget.org/packages/EasyCompressor.Snappier/) and [EasyCompressor.ZstdSharp](https://www.nuget.org/packages/EasyCompressor.ZstdSharp/)
 * **Shared instances** added to each compressor for Ease-of-Use `LZ4Compressor.Shared.Compress(bytes);`
 * **EasyCompressor.Zstd** bug fixed and the lastest version of **zstd.dll (v1.5.5)** where included to the package.
-* These packages deprecated: [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/), [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) and [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) because their development has been stopped and newer and better packages have replaced them.
+* These packages **deprecated**: [EasyCompressor.Zstd](https://www.nuget.org/packages/EasyCompressor.Zstd/), [EasyCompressor.Snappy](https://www.nuget.org/packages/EasyCompressor.Snappy/) and [EasyCompressor.BrotliNET](https://www.nuget.org/packages/EasyCompressor.BrotliNET/) because their development has been stopped and newer and better packages have replaced them.
 * The **default compression levels** have changed and are carefully configured based on extensive benchmarking to ensure the **highest level of efficiency** and **speed** at a **reasonable compression ratio**.
 * **Three new LZ4 binary compression modes** added:
 
@@ -344,6 +344,17 @@ All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://gith
 
 **Full Changelog**: https://github.com/mjebrahimi/EasyCompressor/compare/1.4.0...2.0.0
 
+## Todo
+
+Open an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [discussion](https://github.com/mjebrahimi/EasyCompressor/discussions/new/choose) and tell me which integration or feature you like the most.
+
+- [ ] Write integrations with **Binary Serializer** libraries such as [MessagePack](https://www.nuget.org/packages/MessagePack), [MsgPack.Cli](https://www.nuget.org/packages/MsgPack.Cli), [MemoryPack](https://www.nuget.org/packages/MemoryPack), [Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf), [protobuf-net](https://www.nuget.org/packages/protobuf-net). (and maybe [Bond.CSharp](https://www.nuget.org/packages/Bond.CSharp) and [Hyperion](https://www.nuget.org/packages/Hyperion))
+- [ ] Write integrations with **Redis client** libraries such as [StackExchange.Redis](https://www.nuget.org/packages/StackExchange.Redis), [ServiceStack.Redis](https://www.nuget.org/packages/ServiceStack.Redis), [CSRedisCore](https://www.nuget.org/packages/CSRedisCore), [FreeRedis](https://www.nuget.org/packages/FreeRedis).
+- [ ] Write integrations with **Caching** libraries such as [Microsoft.Extensions.Caching.*](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/), [LazyCache](https://www.nuget.org/packages/LazyCache), and [EnyimMemcachedCore](https://www.nuget.org/packages/EnyimMemcachedCore). (and maybe [CachingFramework.Redis](https://www.nuget.org/packages/CachingFramework.Redis), [CacheManager.Core](https://www.nuget.org/packages/CacheManager.Core))
+- [ ] Write integrations with **Message Broker** libraries such as [RabbitMQ.Client](https://www.nuget.org/packages/RabbitMQ.Client), [Azure.Messaging.ServiceBus](https://www.nuget.org/packages/Azure.Messaging.ServiceBus), [Confluent.Kafka](https://www.nuget.org/packages/Confluent.Kafka), [EasyNetQ](https://www.nuget.org/packages/EasyNetQ), [NetMQ](https://www.nuget.org/packages/NetMQ), [NATS.Client](https://www.nuget.org/packages/NATS.Client), [Apache.NMS](https://www.nuget.org/packages/Apache.NMS). (and maybe [RawRabbit](https://www.nuget.org/packages/RawRabbit), [kafka-sharp](https://www.nuget.org/packages/kafka-sharp), [Microsoft.Azure.ServiceBus](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus)).
+- [ ] Write integrations with **Service Bus** libraries such as [MassTransit](https://www.nuget.org/packages/MassTransit), [NServiceBus](https://www.nuget.org/packages/NServiceBus), [Rebus](https://www.nuget.org/packages/Rebus), and [DotNetCore.CAP](https://www.nuget.org/packages/DotNetCore.CAP).
+- [ ] Write integrations with other libraries such as [Polly.Caching.Distributed](https://www.nuget.org/packages/Polly.Caching.Distributed)
+
 ## Contributing
 
 Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
@@ -355,17 +366,6 @@ Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if yo
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request
-
-## Todo
-
-Open an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [discussion](https://github.com/mjebrahimi/EasyCompressor/discussions/new/choose) and tell me which integration or feature you like the most.
-
-- [ ] Write integrations with **Binary Serializer** libraries such as [MessagePack](https://www.nuget.org/packages/MessagePack), [MsgPack.Cli](https://www.nuget.org/packages/MsgPack.Cli), [MemoryPack](https://www.nuget.org/packages/MemoryPack), [Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf), [protobuf-net](https://www.nuget.org/packages/protobuf-net). (and maybe [Bond.CSharp](https://www.nuget.org/packages/Bond.CSharp) and [Hyperion](https://www.nuget.org/packages/Hyperion))
-- [ ] Write integrations with **Redis client** libraries such as [StackExchange.Redis](https://www.nuget.org/packages/StackExchange.Redis), [ServiceStack.Redis](https://www.nuget.org/packages/ServiceStack.Redis), [CSRedisCore](https://www.nuget.org/packages/CSRedisCore), [FreeRedis](https://www.nuget.org/packages/FreeRedis).
-- [ ] Write integrations with **Caching** libraries such as [Microsoft.Extensions.Caching.*](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/), [LazyCache](https://www.nuget.org/packages/LazyCache), and [EnyimMemcachedCore](https://www.nuget.org/packages/EnyimMemcachedCore). (and maybe [CachingFramework.Redis](https://www.nuget.org/packages/CachingFramework.Redis), [CacheManager.Core](https://www.nuget.org/packages/CacheManager.Core))
-- [ ] Write integrations with **Message Broker** libraries such as [RabbitMQ.Client](https://www.nuget.org/packages/RabbitMQ.Client), [Azure.Messaging.ServiceBus](https://www.nuget.org/packages/Azure.Messaging.ServiceBus), [Confluent.Kafka](https://www.nuget.org/packages/Confluent.Kafka), [EasyNetQ](https://www.nuget.org/packages/EasyNetQ), [NetMQ](https://www.nuget.org/packages/NetMQ), [NATS.Client](https://www.nuget.org/packages/NATS.Client), [Apache.NMS](https://www.nuget.org/packages/Apache.NMS). (and maybe [RawRabbit](https://www.nuget.org/packages/RawRabbit), [kafka-sharp](https://www.nuget.org/packages/kafka-sharp), [Microsoft.Azure.ServiceBus](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus)).
-- [ ] Write integrations with **Service Bus** libraries such as [MassTransit](https://www.nuget.org/packages/MassTransit), [NServiceBus](https://www.nuget.org/packages/NServiceBus), [Rebus](https://www.nuget.org/packages/Rebus), and [DotNetCore.CAP](https://www.nuget.org/packages/DotNetCore.CAP).
-- [ ] Write integrations with other libraries such as [Polly.Caching.Distributed](https://www.nuget.org/packages/Polly.Caching.Distributed)
 
 ## Give a Star! ⭐️
 
