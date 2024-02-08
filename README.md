@@ -20,7 +20,7 @@ This library aids in **Improving Performance** by **Reducing Memory Usage** and 
 - [Benchmarks](#benchmarks)
     - [Best Compressors based on Overall Performance (Speed and Memory Allocation) in each case](#best-compressors-based-on-overall-performance-speed-and-memory-allocation-in-each-case)
     - [Best Compressors based on Highest compression (Smallest size)](#best-compressors-based-on-highest-compression-smallest-size)
-- [What's Changed from v1.4.0 to v2.0.0](#whats-changed-from-v140-to-v200)
+- [What's Changed from v1.4.0 to v2.0.1](#whats-changed-from-v140-to-v201)
 - [Todo](#todo)
 
 ## Usage
@@ -316,7 +316,7 @@ public class YourClass
 
 All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://github.com/mjebrahimi/BenchmarkDotNetVisualizer).
 
-## What's Changed from v1.4.0 to v2.0.0
+## What's Changed from v1.4.0 to v2.0.1
 
 * Many **improvements** were made including **performance optimizations** and **bug fixes**.
 * A great [Performance Benchmark](https://github.com/mjebrahimi/EasyCompressor#benchmarks) between different compression algorithms added.
