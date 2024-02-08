@@ -20,7 +20,7 @@ This library aids in **Improving Performance** by **Reducing Memory Usage** and 
 - [Benchmarks](#benchmarks)
     - [Best Compressors based on Overall Performance (Speed and Memory Allocation) in each case](#best-compressors-based-on-overall-performance-speed-and-memory-allocation-in-each-case)
     - [Best Compressors based on Highest compression (Smallest size)](#best-compressors-based-on-highest-compression-smallest-size)
-- [What's Changed from v1.4.0 to v2.0.1](#whats-changed-from-v140-to-v201)
+- [What's Changed from v1.4.0 to v2.0.2](#whats-changed-from-v140-to-v202)
 - [Todo](#todo)
 
 ## Usage
@@ -316,7 +316,7 @@ public class YourClass
 
 All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://github.com/mjebrahimi/BenchmarkDotNetVisualizer).
 
-## What's Changed from v1.4.0 to v2.0.1
+## What's Changed from v1.4.0 to v2.0.2
 
 * Many **improvements** were made including **performance optimizations** and **bug fixes**.
 * A great [Performance Benchmark](https://github.com/mjebrahimi/EasyCompressor#benchmarks) between different compression algorithms added.
@@ -342,7 +342,7 @@ All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://gith
 	StreamCompatible which is compatible with Stream's output. (NOT compatible with other modes neither LegacyCompatible nor Optimal modes)
 	It's slower than other modes but moderate in memory allocation. (Slow_GCModerated)
 
-**Full Changelog**: https://github.com/mjebrahimi/EasyCompressor/compare/1.4.0...2.0.1
+**Full Changelog**: https://github.com/mjebrahimi/EasyCompressor/compare/1.4.0...2.0.2
 
 ## Todo
 
