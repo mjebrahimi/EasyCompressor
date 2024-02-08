@@ -271,24 +271,24 @@ public class YourClass
 
 ### Other Benchmarks
 
-#### Using Binary Data (byte[])
+#### Compressing/Decompressing Binary Data (byte[])
 
-- 📊Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.png))
-- 📊Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.png))
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.png))
 
-#### Using Stream Data
+#### Compressing/Decompressing Stream Data
 
-- 📊Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.png))
-- 📊Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.png))
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.png))
 
-#### Using Stream Data (Async)
+#### Compressing/Decompressing Stream Data (Async)
 
-- 📊Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.png))
-- 📊Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.png))
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.png))
 
 ### Key Results and Conclusion
 
-#### Best Compressors based on Overall Performance (Speed and Memory Usage) in each case
+#### Best Compressors based on Overall Performance (Speed and Memory Allocation) in each case
 
 | Operation    | Binary    | Stream     | StreamAsync
 | ------------ | --------- | ---------- | -----------
@@ -307,7 +307,7 @@ public class YourClass
 
 Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
 
-**Or if you want to develop this project :**
+**Or if you want to develop this project:**
 
 1. Fork it
 2. Create your feature branch: `git checkout -b my-new-feature`
