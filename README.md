@@ -4,7 +4,7 @@
 
 # EasyCompressor
 
-<img src="/src/EasyCompressor.png" width="100" height="100" align="left"/> An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**.
+<img src="/src/EasyCompressor.png" width="100" height="100" align="left"/>An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**.
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
