@@ -6,15 +6,15 @@
     <Title>EasyCaching.Extensions.EasyCompressor</Title>
     <Product>EasyCaching.Extensions.EasyCompressor</Product>
     <Description>
-      A compressor upon EasyCaching serializers using EasyCompressor.
+        A nice integration between EasyCaching and EasyCompressor.
 
-      This library is very useful for compressing cache data especially for distributed cache (such as Redis) to improve performance by reducing memory usage and network traffic and subsequently.
+        This library aids in Improving Performance by Reducing Memory Usage and Bandwidth Usage by compressing your cache data, especially for distributed cache (such as Redis).
 
-      EasyCaching is the best caching abstraction library which supports many providers and serializers.
+        EasyCaching is an Easy-to-Use caching library that offers many features and supports many providers and serializers.
 
-      EasyCompressor is a compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
+        An Easy-to-Use and Optimized compression library for .NET that unified several compression algorithms including LZ4, Snappy, Zstd, LZMA, Brotli, GZip, ZLib, and Deflate.
     </Description>
-    <PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate EasyCaching Cache Caching Memory In-Memory Distributed DistributedCache Serialization MessagePack Json</PackageTags>
+    <PackageTags>Compression Decompression Compress Decompress Compressor Zstd ZStandard ZstdSharp LZMA LZ4 Snappy Snappier Brotli GZip ZLib Deflate EasyCaching Cache Caching Memory In-Memory Distributed DistributedCache Serialization MessagePack Json</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

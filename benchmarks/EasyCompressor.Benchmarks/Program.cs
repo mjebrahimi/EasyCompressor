@@ -93,6 +93,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             options: options);
     }
 
+#pragma warning disable SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
     foreach (var benchmark in benchmarkInfo.Where(p => Regex.Match(p.DisplayName, @"EasyCompressor.Benchmarks\.(Binary|Stream|StreamAsync)Benchmark").Success))
     {
         var title = benchmark.Table.First().GetProperty("Type").ToString().RemoveMarkdownBold();
@@ -142,6 +143,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             imagePath: DirectoryHelper.GetPathRelativeToProjectDirectory($"Reports\\Benchmark-{title}-Allocated.png"),
             options: options);
     }
+#pragma warning restore SYSLIB1045 // Convert to 'GeneratedRegexAttribute'.
 }
 #pragma warning restore CS8321 // Local function is declared but never used
 #endregion

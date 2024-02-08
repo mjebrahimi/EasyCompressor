@@ -4,17 +4,17 @@
 		<LangVersion>12.0</LangVersion>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<Version>1.4.0</Version>
-		<PackageVersion>1.4.0</PackageVersion>
-		<AssemblyVersion>1.4.0</AssemblyVersion>
+		<Version>2.0.0</Version>
+		<PackageVersion>2.0.0</PackageVersion>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
 		<Authors>Mohammad Javad Ebrahimi</Authors>
 		<Company>Mohammad Javad Ebrahimi</Company>
 		<Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
 		<Description>
-			A compression library that implements many compression algorithms such as LZ4, Zstd, LZMA, Snappy, Brotli, GZip, and Deflate. It helps you to improve performance by reducing Memory Usage and Network Traffic for caching.
+			An Easy-to-Use and Optimized compression library for .NET that unified several compression algorithms including LZ4, Snappy, Zstd, LZMA, Brotli, GZip, ZLib, and Deflate. This library aids in Improving Performance by Reducing Memory Usage and Bandwidth Usage.
 		</Description>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageTags>Compression Decompression Compress Decompress Compressor Zstd Zstandard LZMA LZ4 Snappy Brotli GZip Deflate</PackageTags>
+		<PackageTags>Compression Decompression Compress Decompress Compressor Zstd ZStandard ZstdSharp LZMA LZ4 Snappy Snappier Brotli GZip ZLib Deflate </PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/mjebrahimi/EasyCompressor</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/mjebrahimi/EasyCompressor</RepositoryUrl>
