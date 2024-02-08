@@ -4,7 +4,7 @@
 
 # EasyCaching.Extensions.EasyCompressor
 
-<img src="https://raw.githubusercontent.com/mjebrahimi/EasyCompressor/master/src/EasyCompressor.png" width="100" height="100" align="left"/>A nice integration between [EasyCaching](https://github.com/dotnetcore/EasyCaching) and [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
+<img src="/src/EasyCompressor.png" width="100" height="100" align="left"/>A nice integration between [EasyCaching](https://github.com/dotnetcore/EasyCaching) and [EasyCompressor](https://github.com/mjebrahimi/EasyCompressor).
 
 This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage** by compressing your cache data, especially for distributed cache (such as Redis).
 
@@ -38,13 +38,13 @@ services.AddLZ4Compressor();
 
 services.AddEasyCaching(options =>
 {
-	options.UseRedis(config =>
-	{
-		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
-		config.SerializerName = "msgpack";
-	})
-	.WithMessagePack("msgpack")
-	.WithCompressor();
+    options.UseRedis(config =>
+    {
+        config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+        config.SerializerName = "msgpack";
+    })
+    .WithMessagePack("msgpack")
+    .WithCompressor();
 });
 ```
 
@@ -58,21 +58,21 @@ services.AddSnappierCompressor("snappier");
 
 services.AddEasyCaching(options =>
 {
-	options.UseRedis(config =>
-	{
-		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
-		config.SerializerName = "msgpack";
-	}, "redis1")
-	.WithMessagePack("msgpack")
-	.WithCompressor("msgpack", "lz4");
+    options.UseRedis(config =>
+    {
+        config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+        config.SerializerName = "msgpack";
+    }, "redis1")
+    .WithMessagePack("msgpack")
+    .WithCompressor("msgpack", "lz4");
 
-	options.UseRedis(config =>
-	{
-		config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
-		config.SerializerName = "protobuf";
-	}, "redis2")
-	.WithProtobuf("protobuf")
-	.WithCompressor("protobuf", "snappier");
+    options.UseRedis(config =>
+    {
+        config.DBConfig.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+        config.SerializerName = "protobuf";
+    }, "redis2")
+    .WithProtobuf("protobuf")
+    .WithCompressor("protobuf", "snappier");
 });
 ```
 
