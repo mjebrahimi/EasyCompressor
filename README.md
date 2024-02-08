@@ -10,14 +10,14 @@
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
-This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage**. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
+This library aids in **Improving Performance** by **Reducing Memory Usage** and **Bandwidth Usage**. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
 
 ## Usage
 
 - Compress your **BLOB** data for **Archiving** and Saving the **Storage** (on average from **30% to 90%**)
 - Compress your **Caching** objects for **Saving** the **Memory Usage**  (it also has a nice integration with [EasyCaching](https://github.com/dotnetcore/EasyCaching))
-- **Reduce** the **Bandwidth Usage** of your network by reducing the volume of data sent or received. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
-- **Improve** the **Performance** of your **I/O Operations** such as **Reading/Writing Files** and **Service-to-Service Communication**. (see [How?](#improving-data-transfer-speed-by-sendingreceiving-less))
+- **Reduce** the **Bandwidth Usage** of your network by reducing the volume of data sent or received. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
+- **Improve** the **Performance** of your **I/O Operations** like **Service-to-Service Communication**. (see [How](#improving-data-transfer-speed-by-sendingreceiving-less))
 
 ## Features
 
@@ -32,13 +32,13 @@ The **default** comparison levels are carefully configured based on extensive be
 
 ### Improving Data Transfer Speed by Sending/Receiving Less
 
-Compression/Decompression has its own overhead but it reduces the size of your data, which can potentially result in faster transfer times, even when accounting for the additional time required for compression and decompression.
+Compression/Decompression has overhead but it reduces the size of your data, which can potentially result in faster transfer times, even when accounting for the additional time required for compression and decompression.
 
 When a file is compressed, it becomes smaller in size, which means it requires less bandwidth to transfer. If the compression ratio is significant, the reduced file size can compensate for the extra time needed for compression and decompression.
 
-For example, let's say you have an uncompressed file that takes 10 seconds to transfer. If you compress this file using a fast compressor like Snappy, the compression time might be around 1 second. However, the compressed file size is significantly smaller, let's say it's only 20% of the original size. Now, when you transfer the compressed file, it will only take 2 seconds (20% of the original transfer time). In this scenario, the total time (compression time + transfer time) would be 3 seconds (1 second for compression + 2 seconds for transfer), which is less than the original 10 seconds it would have taken to transfer the uncompressed file.
+For example, let's say you have an uncompressed file that takes 10 seconds to transfer. If you compress this file using a fast compressor like LZ4, Snappy, or Zstd, the compression time might be around 1 second. However, the compressed file size is significantly smaller, let's say it's only 20% of the original size. Now, when you transfer the compressed file, it will only take 2 seconds (20% of the original transfer time). In this scenario, the total time (compression time + transfer time) would be 3 seconds (1 second for compression + 2 seconds for transfer), which is less than the original 10 seconds it would have taken to transfer the uncompressed file.
 
-It's important to note that the actual time savings will depend on various factors, such as the compression ratio achieved, the speed of the compression and decompression algorithms, the network bandwidth, and other system-specific considerations. However, with fast compressors like Snappy and significant compression ratios, it is possible to achieve overall time savings when transferring compressed files compared to transferring uncompressed files.
+It's important to note that the actual time savings will depend on various factors, such as the compression ratio achieved, the speed of the compression and decompression algorithms, the network bandwidth, and other system-specific considerations. However, with fast compressors like LZ4, Snappy, or Zstd and significant compression ratios, it is possible to achieve overall time savings when transferring compressed files compared to transferring uncompressed files.
 
 ## Nuget Packages
 
@@ -271,24 +271,24 @@ public class YourClass
 
 ### Other Benchmarks
 
-#### Using Binary Data (byte[])
+#### Compressing/Decompressing Binary Data (byte[])
 
-- 📊Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.png))
-- 📊Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.png))
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Binary-Allocated.png))
 
-#### Using Stream Data
+#### Compressing/Decompressing Stream Data
 
-- 📊Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.png))
-- 📊Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.png))
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-Stream-Allocated.png))
 
-#### Using Stream Data (Async)
+#### Compressing/Decompressing Stream Data (Async)
 
-- 📊Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.png))
-- 📊Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.png))
+- Comparison in terms of **Speed (Mean/Execution Time)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Mean.png))
+- Comparison in terms of **Memory Usage (Allocation Size)** (visit it's [HTML](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.html) or [Image](https://mjebrahimi.github.io/EasyCompressor/docs/Benchmark-StreamAsync-Allocated.png))
 
 ### Key Results and Conclusion
 
-#### Best Compressors based on Overall Performance (Speed and Memory Usage) in each case
+#### Best Compressors based on Overall Performance (Speed and Memory Allocation) in each case
 
 | Operation    | Binary    | Stream     | StreamAsync
 | ------------ | --------- | ---------- | -----------
@@ -303,17 +303,32 @@ public class YourClass
 
 ![Benchmark](docs/Benchmark-HighestCompression.png)
 
+#### BenchmarkDotNetVisualizer🌈
+
+All the benchmarks are visualized using [BenchmarkDotNetVisualizer](https://github.com/mjebrahimi/BenchmarkDotNetVisualizer).
+
 ## Contributing
 
 Create an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) if you found a **BUG** or have a **Suggestion** or **Question**.
 
-**Or if you want to develop this project :**
+**Or if you want to develop this project:**
 
 1. Fork it
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request
+
+## Todo
+
+Open an [issue](https://github.com/mjebrahimi/EasyCompressor/issues/new) or [discussion](https://github.com/mjebrahimi/EasyCompressor/discussions/new/choose) and tell me which integration or feature you like the most.
+
+- [ ] Write integrations with **Binary Serializer** libraries such as [MessagePack](https://www.nuget.org/packages/MessagePack), [MsgPack.Cli](https://www.nuget.org/packages/MsgPack.Cli), [MemoryPack](https://www.nuget.org/packages/MemoryPack), [Google.Protobuf](https://www.nuget.org/packages/Google.Protobuf), [protobuf-net](https://www.nuget.org/packages/protobuf-net). (and maybe [Bond.CSharp](https://www.nuget.org/packages/Bond.CSharp) and [Hyperion](https://www.nuget.org/packages/Hyperion))
+- [ ] Write integrations with **Redis client** libraries such as [StackExchange.Redis](https://www.nuget.org/packages/StackExchange.Redis), [ServiceStack.Redis](https://www.nuget.org/packages/ServiceStack.Redis), [CSRedisCore](https://www.nuget.org/packages/CSRedisCore), [FreeRedis](https://www.nuget.org/packages/FreeRedis).
+- [ ] Write integrations with **Caching** libraries such as [Microsoft.Extensions.Caching.*](https://www.nuget.org/packages/Microsoft.Extensions.Caching.StackExchangeRedis/), [LazyCache](https://www.nuget.org/packages/LazyCache), and [EnyimMemcachedCore](https://www.nuget.org/packages/EnyimMemcachedCore). (and maybe [CachingFramework.Redis](https://www.nuget.org/packages/CachingFramework.Redis), [CacheManager.Core](https://www.nuget.org/packages/CacheManager.Core))
+- [ ] Write integrations with **Message Broker** libraries such as [RabbitMQ.Client](https://www.nuget.org/packages/RabbitMQ.Client), [Azure.Messaging.ServiceBus](https://www.nuget.org/packages/Azure.Messaging.ServiceBus), [Confluent.Kafka](https://www.nuget.org/packages/Confluent.Kafka), [EasyNetQ](https://www.nuget.org/packages/EasyNetQ), [NetMQ](https://www.nuget.org/packages/NetMQ), [NATS.Client](https://www.nuget.org/packages/NATS.Client), [Apache.NMS](https://www.nuget.org/packages/Apache.NMS). (and maybe [RawRabbit](https://www.nuget.org/packages/RawRabbit), [kafka-sharp](https://www.nuget.org/packages/kafka-sharp), [Microsoft.Azure.ServiceBus](https://www.nuget.org/packages/Microsoft.Azure.ServiceBus)).
+- [ ] Write integrations with **Service Bus** libraries such as [MassTransit](https://www.nuget.org/packages/MassTransit), [NServiceBus](https://www.nuget.org/packages/NServiceBus), [Rebus](https://www.nuget.org/packages/Rebus), and [DotNetCore.CAP](https://www.nuget.org/packages/DotNetCore.CAP).
+- [ ] Write integrations with other libraries such as [Polly.Caching.Distributed](https://www.nuget.org/packages/Polly.Caching.Distributed)
 
 ## Give a Star! ⭐️
 
