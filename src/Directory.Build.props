@@ -101,6 +101,6 @@
 
 	<ItemGroup>
 		<None Include="$(MSBuildThisFileDirectory)\EasyCompressor.png" Pack="true" PackagePath="" />
-		<None Include="$(SolutionDir)\README.md" Pack="true" PackagePath="" />
+		<None Include="$(SolutionDir)\README.md" Pack="true" PackagePath="" Condition="$(MSBuildProjectName) != 'EasyCaching.Extensions.EasyCompressor'" />
 	</ItemGroup>
 </Project>
