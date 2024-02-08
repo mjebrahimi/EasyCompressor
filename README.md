@@ -4,7 +4,7 @@
 
 # EasyCompressor
 
-<img src="src/EasyCompressor.png" width="100" height="100" align="left"/> An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**. 
+<img src="src/EasyCompressor.png" width="100" height="100" align="left"/> An **Easy-to-Use** and **Optimized** compression library for .NET that unified several compression algorithms including **LZ4**, **Snappy**, **Zstd**, **LZMA**, **Brotli**, **GZip**, **ZLib**, and **Deflate**.
 
 Along with a great [**Performance Benchmark**](#benchmarks) between different compression algorithms.
 
@@ -40,7 +40,6 @@ It's important to note that the actual time savings will depend on various facto
 
 ## Nuget Packages
 
-
 | Package      | Description
 | ------------ | ----------------------
 | [EasyCompressor](https://www.nuget.org/packages/EasyCompressor/) | Including Algorithms :<br/>- Brotli *(**Highest** compression ratio - the **Smallest** size) (**Only** available in .NETCoreApp2.1, .NETStandard2.1 and above)*<br/>- GZip<br/>- Deflate<br/>- ZLib *(**Only** available in .NET6.0 and above)*
@@ -56,7 +55,6 @@ It's important to note that the actual time savings will depend on various facto
 **Note :**
 
 All of these packages are **cross-platform** except `EasyCompressor.Zstd` and `EasyCompressor.Snappy` which are **not cross-platform** because their underlying library are just a wrapper around the native dlls only for windows.
-
 
 ## Get Started
 
@@ -334,4 +332,4 @@ If you find this repository useful and like it, why not give it a star? if not, 
 
 ## License
 
-Copyright © 2020 [Mohammd Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).
+Copyright © 2020 [Mohammad Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).

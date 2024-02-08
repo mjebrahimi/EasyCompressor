@@ -16,10 +16,15 @@ This library aids in **Improving Performance** by **Reducing Memory Usage** and 
 
 ### 1. Install Package
 
-```ini
+```bash
 PM> Install-Package EasyCaching.Extensions.EasyCompressor
 PM> Install-Package EasyCompressor.LZ4
+
+PM> # Install-Package EasyCompressor.Snappier
+PM> # Install-Package EasyCompressor.ZstdSharp
+PM> # Install-Package EasyCompressor (for Brotli, GZip, Deflate, ZLib)
 ```
+
 
 ### 2. Add Services
 
@@ -93,4 +98,4 @@ If you find this repository useful and like it, why not give it a star? if not, 
 
 ## License
 
-Copyright © 2020 [Mohammd Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).
+Copyright © 2020 [Mohammad Javad Ebrahimi](https://github.com/mjebrahimi) under the [MIT License](https://github.com/mjebrahimi/EasyCompressor/LICENSE).
