@@ -1,6 +1,9 @@
-[![NuGet Badge](https://buildstats.info/nuget/EasyCompressor)](https://www.nuget.org/packages/EasyCompressor)
+[![NuGet](https://img.shields.io/nuget/dt/EasyCompressor?style=flat&logo=nuget&cacheSeconds=1&label=Downloads)](https://www.nuget.org/packages/EasyCompressor)
+[![NuGet](https://img.shields.io/nuget/v/EasyCompressor?label=Version&cacheSeconds=1)](https://www.nuget.org/packages/EasyCompressor)
 [![License: MIT](https://img.shields.io/badge/License-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://github.com/mjebrahimi/EasyCompressor/workflows/.NET/badge.svg)](https://github.com/mjebrahimi/EasyCompressor)
+
+
 
 # EasyCompressor
 
