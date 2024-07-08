@@ -19,7 +19,7 @@
     <PackageReference Include="protobuf-net" Version="3.2.30" />
     <PackageReference Include="MessagePack" Version="2.5.140" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="IronCompress" Version="1.5.1" />
+    <PackageReference Include="IronCompress" Version="1.5.2" />
     <PackageReference Include="Bogus" Version="35.5.1" />
   </ItemGroup>
 
