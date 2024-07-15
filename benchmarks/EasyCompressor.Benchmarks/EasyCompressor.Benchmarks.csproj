@@ -15,7 +15,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 
     <PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
-    <PackageReference Include="BenchmarkDotNetVisualizer" Version="1.0.6" />
+    <PackageReference Include="BenchmarkDotNetVisualizer" Version="1.0.7" />
     <PackageReference Include="protobuf-net" Version="3.2.30" />
     <PackageReference Include="MessagePack" Version="2.5.171" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
