@@ -76,7 +76,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             Title = null!, //Set per case
             MainColumn = "Categories",
             GroupByColumns = ["Size"],
-            PivotProperty = "Method",
+            PivotColumn = "Method",
             StatisticColumns = null!, //Set per case
             ColumnsOrder = ["Compress", "Decompress", "CompressAndDecompress"],
             SpectrumStatisticColumn = true,
@@ -111,7 +111,7 @@ static async Task VisualizeBenchmarks(BenchmarkInfo[] benchmarkInfo)
             Title = null!, //Set per case
             MainColumn = "Compressor",
             GroupByColumns = ["Data"],
-            PivotProperty = "Method",
+            PivotColumn = "Method",
             StatisticColumns = null!, //Set per case
             ColumnsOrder = ["Compress", "Decompress", "CompressAndDecompress"],
             SpectrumStatisticColumn = true,
