@@ -15,7 +15,7 @@
     <PackageReference Include="protobuf-net" Version="3.2.30" />
     <PackageReference Include="MessagePack" Version="2.5.172" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="nunit" Version="4.1.0" />
+    <PackageReference Include="nunit" Version="4.2.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.6.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
