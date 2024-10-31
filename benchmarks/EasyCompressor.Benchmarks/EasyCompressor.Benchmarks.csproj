@@ -16,7 +16,7 @@
 
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
     <PackageReference Include="BenchmarkDotNetVisualizer" Version="2.0.1" />
-    <PackageReference Include="protobuf-net" Version="3.2.30" />
+    <PackageReference Include="protobuf-net" Version="3.2.45" />
     <PackageReference Include="MessagePack" Version="2.5.187" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="IronCompress" Version="1.6.3" />
