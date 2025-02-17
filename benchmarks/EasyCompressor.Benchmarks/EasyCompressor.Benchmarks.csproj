@@ -12,7 +12,7 @@
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.9.2" />
     <PackageReference Include="EasyCaching.Serialization.Protobuf" Version="1.9.2" />
     <PackageReference Include="EasyCaching.Serialization.Json" Version="1.9.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
 
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
     <PackageReference Include="BenchmarkDotNetVisualizer" Version="2.0.1" />
