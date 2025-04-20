@@ -13,7 +13,7 @@ public class TestBase(ICompressor compressor)
     [OneTimeSetUp]
     public void OneTimeSetUp()
     {
-        var json = File.ReadAllText("Data\\spotifyAlbum.json");
+        var json = File.ReadAllText("Data\\SpotifyAlbum.json");
         var spotify = Serializer.FromJson<SpotifyAlbum>(json);
         ObjectBytes = Serializer.SerializeMessagePack(spotify);
     }

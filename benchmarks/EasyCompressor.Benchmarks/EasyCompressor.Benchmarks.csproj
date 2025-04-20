@@ -2,9 +2,19 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\SpotifyAlbum\SpotifyAlbum.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Data\SpotifyAlbum\SpotifyAlbum.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="EasyCaching.Disk" Version="1.9.2" />
@@ -12,15 +22,15 @@
     <PackageReference Include="EasyCaching.Serialization.MessagePack" Version="1.9.2" />
     <PackageReference Include="EasyCaching.Serialization.Protobuf" Version="1.9.2" />
     <PackageReference Include="EasyCaching.Serialization.Json" Version="1.9.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
 
     <PackageReference Include="BenchmarkDotNet" Version="0.14.0" />
-    <PackageReference Include="BenchmarkDotNetVisualizer" Version="2.0.1" />
-    <PackageReference Include="protobuf-net" Version="3.2.45" />
-    <PackageReference Include="MessagePack" Version="3.1.1" />
+    <PackageReference Include="BenchmarkDotNetVisualizer" Version="2.1.0" />
+    <PackageReference Include="protobuf-net" Version="3.2.52" />
+    <PackageReference Include="MessagePack" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="IronCompress" Version="1.6.3" />
-    <PackageReference Include="Bogus" Version="35.6.1" />
+    <PackageReference Include="Bogus" Version="35.6.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,9 +44,6 @@
 
   <ItemGroup>
     <None Update="Data\SearchResponse\SearchResponse.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Data\SpotifyAlbum\SpotifyAlbum.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -15,7 +15,7 @@ An Easy-to-Use and Optimized compression library for .NET that unified several c
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="EasyCaching.Core" Version="[1.9.2,)" />
+    <PackageReference Include="EasyCaching.Core" Version="1.9.2" />
   </ItemGroup>
 
   <ItemGroup>

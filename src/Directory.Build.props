@@ -1,15 +1,15 @@
 <Project>
 	<PropertyGroup>
-		<TargetFrameworks>net462;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0;</TargetFrameworks>
-		<LangVersion>12.0</LangVersion>
+		<TargetFrameworks>net462;netstandard2.0;netstandard2.1;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>disable</Nullable>
-		<Version>2.0.2</Version>
-		<PackageVersion>2.0.2</PackageVersion>
-		<AssemblyVersion>2.0.2</AssemblyVersion>
+		<Version>2.1.0</Version>
+		<PackageVersion>2.1.0</PackageVersion>
+		<AssemblyVersion>2.1.0</AssemblyVersion>
 		<Authors>Mohammad Javad Ebrahimi</Authors>
 		<Company>Mohammad Javad Ebrahimi</Company>
-		<Copyright>Copyright © Mohammad Javad Ebrahimi 2020</Copyright>
+		<Copyright>Copyright © Mohammad Javad Ebrahimi 2025</Copyright>
 		<Description>
 An Easy-to-Use and Optimized compression library for .NET that unified several compression algorithms including LZ4, Snappy, Zstd, LZMA, Brotli, GZip, ZLib, and Deflate.
 This library aids in Improving Performance by Reducing Memory Usage and Bandwidth Usage.
