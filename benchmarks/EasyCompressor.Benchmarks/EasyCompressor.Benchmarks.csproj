@@ -24,7 +24,7 @@
     <PackageReference Include="EasyCaching.Serialization.Json" Version="1.9.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
 
-    <PackageReference Include="BenchmarkDotNet" Version="0.15.2" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.15.5" />
     <PackageReference Include="BenchmarkDotNetVisualizer" Version="2.1.0" />
     <PackageReference Include="protobuf-net" Version="3.2.56" />
     <PackageReference Include="MessagePack" Version="3.1.4" />
